@@ -54,7 +54,7 @@
     background: var(--stoneThree);
     border: 1px solid var(--stoneFour);
     margin: 20px 0px;
-    cursor: pointer;
+    cursor: var(--mouseLink);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -135,7 +135,7 @@
     margin: 12.5px 0px;
     font-size: 15px;
     font-weight: 500;
-    cursor: pointer;
+    cursor: var(--mouseLink);
     transition: all .1s ease-in-out;
 } .content-signin .form button:focus,
  .content-signin .form button:hover {
@@ -155,7 +155,7 @@
     font-size: 15px;
     font-weight: 500;
     margin: 0px 0px 0px 2px;
-    cursor: pointer;
+    cursor: var(--mouseLink);
     text-decoration: underline;
     transition: all .1s ease-in-out;
 } .content-signin .form a strong:hover {

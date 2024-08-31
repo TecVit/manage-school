@@ -45,7 +45,7 @@
     width: 40px;
     height: auto;
     margin: 0px 20px 0px 0px;
-    cursor: pointer;
+    cursor: var(--mouseLink);
 }
 
 .content-navbar .links {
@@ -63,11 +63,11 @@
     margin: 0px 15px;
     color: var(--stoneNine);
     user-select: none;
-    cursor: pointer;
+    cursor: var(--mouseLink);
     transition: all .1s ease-in-out;
 } .content-navbar .links a:hover {
-    color: var(--primary);
-    text-shadow: 0px 0px 12.5px var(--primary);
+    color: var(--secondary);
+    text-shadow: 0px 0px 12.5px var(--secondary);
 }
 
 .btn-signin {
@@ -80,7 +80,7 @@
     color: var(--stoneEleven);
     font-size: 15px;
     font-weight: 400;
-    cursor: pointer;
+    cursor: var(--mouseLink);
     transition: all .1s ease-in-out;
 } .btn-signin:hover,
   .btn-signin:focus {
@@ -97,7 +97,7 @@
     color: var(--stoneOne);
     font-size: 15px;
     font-weight: 500;
-    cursor: pointer;
+    cursor: var(--mouseLink);
     transition: all .1s ease-in-out;
 } .btn-started:hover,
   .btn-started:focus {
@@ -135,14 +135,16 @@
     align-items: center;
     border-radius: 14px;
     padding: 4px;
+    user-select: none;
+    cursor: var(--mouseLink);
+    color: var(--stoneEleven);
     background: var(--stoneTwo);
     border: 1px solid var(--stoneThree);
-    color: var(--stoneEleven);
-    user-select: none;
-    cursor: pointer;
     transition: all .1s ease-in-out;
 } .content-initial .update-info:hover {
     box-shadow: 0px 5px 15px var(--stoneThree);
+} .content-initial .update-info * {
+    cursor: var(--mouseLink);
 }
 
 .content-initial .update-info a {
@@ -334,7 +336,7 @@
     font-size: 14px;
     font-weight: 400;
     background: var(--stoneThree);
-    cursor: pointer;
+    cursor: var(--mouseLink);
     transition: all .1s ease-in-out;
 } .content-products .join-workspace .modal li .content button:hover,
 .content-products .join-workspace .modal li .content button:focus {
@@ -385,6 +387,22 @@
     z-index: 20;
 }
 
+
+.content-products .create-workspace .modal .form h1 {
+    width: 100%;
+    font-size: 18px;
+    font-weight: 500;
+    margin: 0px 0px 6px 0px;
+}
+
+.content-products .create-workspace .modal .form p {
+    width: 100%;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: unset;
+    margin: 0px 0px 10px 0px;
+}
+
 .content-products .create-workspace .modal .form {
     width: 100%;
     height: auto;
@@ -405,19 +423,217 @@
     border-bottom: 1px dashed var(--stoneFour);
 }
 
+/* Form - Input */
+.content-products .create-workspace .modal .form .input {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    margin: 15px 0px;
+}
+
+.content-products .create-workspace .modal .form .input label {
+    font-size: 15.5px;
+    font-weight: 500;
+    margin: 0px 0px 10px 2px;
+}
+
+.content-products .create-workspace .modal .form .input input {
+    width: 100%;
+    height: 42.5px;
+    border-radius: 8px;
+    color: var(--stoneEleven);
+    background: var(--stoneFour);
+    border: 1px solid var(--stoneSix);
+    font-size: 13px;
+    padding: 0px 15px;
+    transition: all .1s ease-in-out;
+} .content-products .create-workspace .modal .form .input input:focus {
+    border: 1px solid var(--stoneSix);
+    box-shadow: 0px 0px 10px var(--stoneSix);
+}
+
+
+/* Form - Input With Select */
+.content-products .create-workspace .modal .form .send {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 15px 0px;
+}
+
+.content-products .create-workspace .modal .form .send .input-with-select {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    position: relative;
+    margin: 0px 15px 0px 0px;
+}
+
+.content-products .create-workspace .modal .form .send .input-with-select input {
+    width: 100%;
+    height: 42.5px;
+    border-radius: 8px;
+    color: var(--stoneEleven);
+    background: var(--stoneFour);
+    border: 1px solid var(--stoneSix);
+    font-size: 13px;
+    padding: 0px 130px 0px 15px;
+    transition: all .1s ease-in-out;
+} .content-products .create-workspace .modal .form .send .input-with-select input:focus {
+    border: 1px solid var(--stoneSix);
+    box-shadow: 0px 0px 10px var(--stoneSix);
+}
+
+.content-products .create-workspace .modal .form .send .input-with-select .select {
+    width: max-content;
+    height: auto;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    border-radius: 8px;
+}
+
+.content-products .create-workspace .modal .form .send .input-with-select .select button {
+    width: 100%;
+    height: 42.5px;
+    padding: 0px 14px;
+    border-radius: 8px;
+    color: var(--stoneEleven);
+    background: transparent;
+    border: 1px solid transparent;
+    cursor: var(--mouseLink);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    transition: all .1s ease-in-out;
+} .content-products .create-workspace .modal .form .send .input-with-select .select button:hover,
+.content-products .create-workspace .modal .form .send .input-with-select .select button:focus {
+    background: var(--stoneThree);
+    border: 1px solid var(--stoneSix);
+} .content-products .create-workspace .modal .form .send .input-with-select .select button * {
+    cursor: var(--mouseLink);
+}
+
+.content-products .create-workspace .modal .form .send .input-with-select .select button p {
+    width: max-content;
+    font-size: 14px;
+    margin: 0px auto 0px 0px;
+}
+
+.content-products .create-workspace .modal .form .send .input-with-select .select button .icon {
+    font-size: 14px;
+    margin: 0px 0px 0px 8px;
+}
+
+
+.content-products .create-workspace .modal .form .send .input-with-select .select .list {
+    width: 100%;
+    min-width: max-content;
+    height: auto;
+    border-radius: 8px;
+    background: var(--stoneThree);
+    border: 1px solid var(--stoneFour);
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    transition: all .1s ease-in-out;
+}
+
+.content-products .create-workspace .modal .form .send .input-with-select .select .list button:hover,
+.content-products .create-workspace .modal .form .send .input-with-select .select .list button:focus {
+    background: var(--secondary);
+    border: 1px solid var(--stoneSix);
+}
+
+.content-products .create-workspace .modal .form .send button {
+    width: max-content;
+    height: 42.5px;
+    padding: 0px 12px;
+    border-radius: 8px;
+    background: var(--primary);
+    border: 1px solid var(--primary);
+    color: var(--stoneEleven);
+    cursor: var(--mouseLink);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+    transition: all .1s ease-in-out;
+} .content-products .create-workspace .modal .form .send button:hover,
+.content-products .create-workspace .modal .form .send button:focus {
+    background: var(--secondary);
+    border: 1px solid var(--secondary);
+    color: var(--stoneOne);
+}
+
+
+
+/* Form - Textarea */
+.content-products .create-workspace .modal .form .textarea {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    margin: 15px 0px;
+}
+
+.content-products .create-workspace .modal .form .textarea label {
+    font-size: 15.5px;
+    font-weight: 500;
+    margin: 0px 0px 10px 2px;
+}
+
+.content-products .create-workspace .modal .form .textarea textarea {
+    min-width: 100%;
+    max-width: 100%;
+    min-height: 70px;
+    max-height: 100px;
+    border-radius: 8px;
+    font-size: 13px;
+    color: var(--stoneEleven);
+    background: var(--stoneFour);
+    border: 1px solid var(--stoneSix);
+    padding: 12.5px 15px;
+    transition: all .1s ease-in-out;
+} .content-products .create-workspace .modal .form .textarea textarea:focus {
+    border: 1px solid var(--stoneSix);
+    box-shadow: 0px 0px 10px var(--stoneSix);
+}
+
+
+.content-products .create-workspace .modal .form .checkbox {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    margin: 15px 0px 7.5px 0px;
+}
 
 .content-products .create-workspace .modal .form .checkbox .input-checkbox {
-    width: 20px;
-    height: 20px;
+    min-width: 22.5px;
+    max-width: 22.5px;
+    min-height: 22.5px;
+    max-height: 22.5px;
     border: 1px solid var(--stoneFour);
     background: var(--stoneThree);
-    border-radius: 4px;
-    cursor: pointer;
+    border-radius: 50%;
+    cursor: var(--mouseLink);
     transition: all .1s ease-in-out;
     display: flex;
     align-items: center;
     justify-content: center;
+    margin: 0px 12px 0px 0px;
+} .content-products .create-workspace .modal .form .checkbox .input-checkbox:hover,
+.content-products .create-workspace .modal .form .checkbox .input-checkbox:focus {
+    background: var(--stoneFour);
+    border: 1px solid var(--stoneSix);
+    box-shadow: 0px 0px 15px var(--stoneSix);
 }
+
 
 .content-products .create-workspace .modal .form .checkbox .input-checkbox.selecionado {
     background: var(--primary);
@@ -426,12 +642,32 @@
 
 .content-products .create-workspace .modal .form .checkbox .input-checkbox.selecionado::before {
     content: "✓";
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 200;
     margin: auto;
 }
 
+.content-products .create-workspace .modal .form .checkbox .text {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+}
 
+.content-products .create-workspace .modal .form .checkbox .text h1 {
+    font-size: 16px;
+    font-weight: 500;
+    margin: 2px 0px 4px 0px;
+}
+
+.content-products .create-workspace .modal .form .checkbox .text p {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 18px;
+}
+
+
+/* Form - Btns */
 .content-products .create-workspace .modal .btns {
     width: 100%;
     height: 60px;
@@ -453,7 +689,7 @@
     background: var(--primary);
     border: 1px solid var(--primary);
     color: var(--stoneEleven);
-    cursor: pointer;
+    cursor: var(--mouseLink);
     font-size: 13px;
     font-weight: 500;
     letter-spacing: 0.2px;
@@ -474,7 +710,7 @@
     background: var(--stoneThree);
     border: 1px solid var(--stoneSix);
     color: var(--stoneEleven);
-    cursor: pointer;
+    cursor: var(--mouseLink);
     font-size: 13px;
     font-weight: 500;
     letter-spacing: 0.2px;
@@ -483,6 +719,52 @@
 .content-products .create-workspace .modal .btns .btn-cancel:focus {
     background: var(--stoneFour);
 }
+
+
+/* Form - Links */
+.content-products .create-workspace .modal .links {
+    width: 100%;
+    height: 60px;
+    border-top: none;
+    padding: 0px 10px;
+    border-radius: 0px 0px 8px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.content-products .create-workspace .modal .links .copiar {
+    width: max-content;
+    height: auto;
+    padding: 6px;
+    border-radius: 8px;
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--secondary);
+    cursor: var(--mouseLink);
+    user-select: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+    transition: all .1s ease-in-out;
+} .content-products .create-workspace .modal .links .copiar:hover,
+.content-products .create-workspace .modal .links .copiar:focus {
+    background: var(--secondary);
+    color: var(--mouseLink);
+} .content-products .create-workspace .modal .links .copiar * {
+    cursor: var(--mouseLink);
+}
+
+
+.content-products .create-workspace .modal .links .copiar .icon {
+    font-size: 18px;
+    margin: 1px 6px 0px 0px;
+}
+
 
 
 
@@ -543,7 +825,7 @@
 .content-landing .content-contact .social-media .icons .icon {
     font-size: 22.5px;
     margin: 0px 8px;
-    cursor: pointer;
+    cursor: var(--mouseLink);
     transition: all .05s ease-in-out;
 } .content-landing .content-contact .social-media .icons .icon:hover {
     color: var(--primary);
@@ -585,7 +867,7 @@
     font-size: 15.5px;
     font-weight: 400;
     margin: 8px 0px;
-    cursor: pointer;
+    cursor: var(--mouseLink);
     user-select: none;
     color: var(--stoneEleven);
     transition: all .1s ease-in-out;
@@ -605,7 +887,7 @@
 } .content-landing .content-contact .made strong {
     color: var(--blue);
     font-weight: 900;
-    cursor: pointer;
+    cursor: var(--mouseLink);
     user-select: none;
     transition: all .1s ease-in-out;
 } .content-landing .content-contact .made strong:hover {
