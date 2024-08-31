@@ -26,19 +26,23 @@
     top: 0px;
     background: var(--stoneOneOpacity);
     backdrop-filter: blur(20px);
+    border: 1px solid var(--stoneThree);
+    border-top: none;
+    border-radius: 0px 0px 12px 12px;
+    z-index: 900;
 }
 
 .content-navbar {
     width: 92.5%;
     max-width: 1111px;
-    height: 80px;
+    height: 70px;
     display: flex;
     flex-direction: row;
     align-items: center;
 }
 
 .content-navbar .logo {
-    width: 42.5px;
+    width: 40px;
     height: auto;
     margin: 0px 20px 0px 0px;
     cursor: pointer;
@@ -54,7 +58,7 @@
 }
 
 .content-navbar .links a {
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 400;
     margin: 0px 15px;
     color: var(--stoneNine);
@@ -62,8 +66,8 @@
     cursor: pointer;
     transition: all .1s ease-in-out;
 } .content-navbar .links a:hover {
-    color: var(--stoneEleven);
-    text-shadow: 0px 0px 12.5px var(--stoneEleven);
+    color: var(--primary);
+    text-shadow: 0px 0px 12.5px var(--primary);
 }
 
 .btn-signin {
@@ -75,11 +79,12 @@
     background: transparent;
     color: var(--stoneEleven);
     font-size: 15px;
+    font-weight: 400;
     cursor: pointer;
     transition: all .1s ease-in-out;
 } .btn-signin:hover,
   .btn-signin:focus {
-    background: var(--stoneFour);
+    background: var(--stoneTwo);
 }
 
 .btn-started {
@@ -90,11 +95,15 @@
     margin: 0px 0px 0px 15px;
     background: var(--stoneNine);
     color: var(--stoneOne);
+    font-size: 15px;
+    font-weight: 500;
     cursor: pointer;
     transition: all .1s ease-in-out;
 } .btn-started:hover,
   .btn-started:focus {
-    box-shadow: 0px 5px 15px var(--stoneEleven);
+    background: var(--primary);
+    color: var(--stoneEleven);
+    box-shadow: 0px 2.5px 12.5px var(--primary);
 }
 
 /* Inicio */
@@ -109,7 +118,7 @@
 .content-initial {
     width: 92.5%;
     max-width: 1111px;
-    height: calc(100vh - 80px);
+    height: calc(100vh - 70px);
     max-height: 650px;
     display: flex;
     flex-direction: column;
@@ -126,13 +135,14 @@
     align-items: center;
     border-radius: 14px;
     padding: 4px;
-    background: var(--stoneFour);
+    background: var(--stoneTwo);
+    border: 1px solid var(--stoneThree);
     color: var(--stoneEleven);
     user-select: none;
     cursor: pointer;
     transition: all .1s ease-in-out;
 } .content-initial .update-info:hover {
-    box-shadow: 0px 5px 15px var(--stoneFour);
+    box-shadow: 0px 5px 15px var(--stoneThree);
 }
 
 .content-initial .update-info a {
@@ -162,8 +172,7 @@
     width: 100%;
     max-width: 525px;
     font-size: 46.5px;
-    font-weight: 600;
-    letter-spacing: -0.5px;
+    font-weight: 800;
     line-height: 56px;
     text-align: center;
     margin: 40px auto 20px auto;
@@ -184,6 +193,295 @@
 .content-initial button {
     font-size: 15px;
     padding: 12.5px 17.5px;
+}
+
+
+
+/* Products */
+.container-products {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    padding: 50px 0px 100px;
+}
+
+.content-products {
+    width: 92.5%;
+    max-width: 1111px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+/* Join Workspace */
+.content-products .join-workspace {
+    width: 100%;
+    max-width: 780px;
+    height: auto;
+    padding: 40px 0px;
+    border: 1px solid var(--stoneThree);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0px 0px 50px 0px;
+}
+
+.content-products .join-workspace h1 {
+    width: 90%;
+    max-width: 400px;
+    font-size: 17px;
+    font-weight: 500;
+    margin: 0px 0px 6px 0px;
+}
+
+.content-products .join-workspace p {
+    width: 90%;
+    max-width: 400px;
+    font-size: 15px;
+    font-weight: 400;
+}
+
+.content-products .join-workspace .modal {
+    width: 92.5%;
+    max-width: 425px;
+    height: auto;
+    background: var(--stoneTwo);
+    border: 1px solid var(--stoneThree);
+    border-radius: 12px;
+    padding: 20px;
+    margin: 20px 0px 0px 0px;
+    display: flex;
+    flex-direction: column;
+}
+
+.content-products .join-workspace .modal li {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+}
+
+.content-products .join-workspace .modal li .image {
+    min-width: 50px;
+    min-height: 50px;
+    padding: 2px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0px 15px 0px 0px;
+}
+
+
+.content-products .join-workspace .modal li .image p {
+    width: max-content;
+    height: auto;
+    margin: 0px;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+}
+
+.content-products .join-workspace .modal li .content {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 0px 5px 0px;
+}
+
+.content-products .join-workspace .modal .linha {
+    width: calc(100% - 65px);
+    height: auto;
+    border-bottom: 1px dashed var(--stoneFour);
+    margin: 5px 0px 7.5px auto;
+}
+
+.content-products .join-workspace .modal li .content .text {
+    width: max-content;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.content-products .join-workspace .modal li .content .text h1 {
+    width: max-content;
+    font-size: 15px;
+    font-weight: 500;
+    margin: 0px 0px 4px 0px;
+}
+
+.content-products .join-workspace .modal li .content .text p {
+    width: max-content;
+    font-size: 13px;
+    font-weight: 450;
+    color: var(--stoneSix);
+    margin: 0px;
+}
+
+.content-products .join-workspace .modal li .content button {
+    width: max-content;
+    height: auto;
+    border-radius: 12px;
+    padding: 8px 12px;
+    color: var(--stoneEleven);
+    font-size: 14px;
+    font-weight: 400;
+    background: var(--stoneThree);
+    cursor: pointer;
+    transition: all .1s ease-in-out;
+} .content-products .join-workspace .modal li .content button:hover,
+.content-products .join-workspace .modal li .content button:focus {
+    background: var(--stoneFour);
+}
+
+
+/* Create Workspace */
+.content-products .create-workspace {
+    width: 100%;
+    max-width: 780px;
+    height: auto;
+    padding: 40px 0px;
+    border: 1px solid var(--stoneThree);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0px 0px 50px 0px;
+}
+
+.content-products .create-workspace h1 {
+    width: 90%;
+    max-width: 500px;
+    font-size: 17px;
+    font-weight: 500;
+    margin: 0px 0px 6px 0px;
+}
+
+.content-products .create-workspace p {
+    width: 90%;
+    max-width: 500px;
+    font-size: 15px;
+    font-weight: 400;
+}
+
+.content-products .create-workspace .modal {
+    width: 92.5%;
+    max-width: 525px;
+    height: auto;
+    background: var(--stoneTwo);
+    border: 1px solid var(--stoneFour);
+    border-radius: 12px;
+    margin: 20px 0px 0px 0px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 20;
+}
+
+.content-products .create-workspace .modal .form {
+    width: 100%;
+    height: auto;
+    background: var(--stoneThree);
+    border-bottom: 1px solid var(--stoneFour);
+    border-radius: 12px;
+    padding: 20px 20px 20px 20px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 20;
+}
+
+.content-products .create-workspace .modal .linha {
+    width: 100%;
+    height: auto;
+    margin: 10px auto;
+    border-bottom: 1px dashed var(--stoneFour);
+}
+
+
+.content-products .create-workspace .modal .form .checkbox .input-checkbox {
+    width: 20px;
+    height: 20px;
+    border: 1px solid var(--stoneFour);
+    background: var(--stoneThree);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all .1s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.content-products .create-workspace .modal .form .checkbox .input-checkbox.selecionado {
+    background: var(--primary);
+    border: 1px solid var(--secondary);
+}
+
+.content-products .create-workspace .modal .form .checkbox .input-checkbox.selecionado::before {
+    content: "✓";
+    font-size: 15px;
+    font-weight: 200;
+    margin: auto;
+}
+
+
+.content-products .create-workspace .modal .btns {
+    width: 100%;
+    height: 60px;
+    border-top: none;
+    padding: 0px 20px;
+    border-radius: 0px 0px 8px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+
+.content-products .create-workspace .modal .btns .btn-create {
+    width: max-content;
+    height: auto;
+    padding: 8px 12px;
+    border-radius: 8px;
+    margin: 0px 0px 0px 12px;
+    background: var(--primary);
+    border: 1px solid var(--primary);
+    color: var(--stoneEleven);
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+    transition: all .1s ease-in-out;
+} .content-products .create-workspace .modal .btns .btn-create:hover,
+.content-products .create-workspace .modal .btns .btn-create:focus {
+    background: var(--secondary);
+    border: 1px solid var(--secondary);
+    color: var(--stoneOne);
+}
+
+.content-products .create-workspace .modal .btns .btn-cancel {
+    width: max-content;
+    height: auto;
+    padding: 8px 14px;
+    border-radius: 8px;
+    margin: 0px 0px 0px 12px;
+    background: var(--stoneThree);
+    border: 1px solid var(--stoneSix);
+    color: var(--stoneEleven);
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+    transition: all .1s ease-in-out;
+} .content-products .create-workspace .modal .btns .btn-cancel:hover,
+.content-products .create-workspace .modal .btns .btn-cancel:focus {
+    background: var(--stoneFour);
 }
 
 
@@ -277,15 +575,15 @@
 }
 
 .content-landing .content-contact .links li h1 {
-    font-size: 18.5px;
-    font-weight: 900;
+    font-size: 18px;
+    font-weight: 600;
     margin: 0px 0px 8px 0px;
 }
 
 .content-landing .content-contact .links li a {
     width: max-content;
-    font-size: 16px;
-    font-weight: 500;
+    font-size: 15.5px;
+    font-weight: 400;
     margin: 8px 0px;
     cursor: pointer;
     user-select: none;
@@ -306,7 +604,6 @@
     font-weight: 600;
 } .content-landing .content-contact .made strong {
     color: var(--blue);
-    font-family: var(--nunito);
     font-weight: 900;
     cursor: pointer;
     user-select: none;

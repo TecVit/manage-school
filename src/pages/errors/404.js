@@ -19,14 +19,14 @@ export default function Error404() {
         
         elements.forEach( async (element) => {
         const positionElemento = await getTopPositionRelativeToPage(element);
-        if (Number(windowTop) >= positionElemento - 50) {
+        if (Number(windowTop) >= positionElemento - 100) {
             element.classList.add(classAnimation);
         }
         });
     }
 
     useEffect(() => {
-        document.title = 'Leitores Letícia | Error 404';
+        document.title = 'Error 404 | Manage School';
         animacoes();
         window.addEventListener('scroll', animacoes);
         return () => {
@@ -40,9 +40,9 @@ export default function Error404() {
     <main className="container-error404">
         <section className='content-error404'>
             <div className='center'>
-                <h1 data-animation="left" data-duration-animation="0.7s">404</h1>
-                <h2 data-animation="left" data-duration-animation="0.9s">Página não encontrada</h2>
-                <p>O recurso solicitado não foi encontrado neste servidor!</p>
+                <h1 data-animation="top" data-duration-animation="0.7s">404</h1>
+                <h2 data-animation="top" data-duration-animation="0.8s">Página não encontrada</h2>
+                <p data-animation="top" data-duration-animation="0.9s">O recurso solicitado não foi encontrado neste servidor!</p>
             </div>
         </section>
     </main>

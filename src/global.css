@@ -1,18 +1,75 @@
 @font-face { 
   font-family: Geist; 
-  src: url('../public/fonts/geist.otf') format("opentype"); 
+  src: url('../public/fonts/Geist-Black.otf') format("opentype"); 
   font-style: normal; 
-  font-weight: 400; 
+  font-weight: 800; 
   font-display: swap; 
 }
 
 @font-face { 
   font-family: Geist; 
-  src: url("../public/fonts/geist-bold.otf") format("opentype");
+  src: url('../public/fonts/Geist-Bold.otf') format("opentype"); 
   font-style: normal; 
-  font-weight: 600; 
+  font-weight: 700; 
   font-display: swap; 
 }
+
+@font-face { 
+  font-family: Geist; 
+  src: url('../public/fonts/Geist-Light.otf') format("opentype"); 
+  font-style: normal; 
+  font-weight: 300; 
+  font-display: swap; 
+}
+
+@font-face { 
+  font-family: Geist; 
+  src: url('../public/fonts/Geist-Medium.otf') format("opentype"); 
+  font-style: normal; 
+  font-weight: 500; 
+  font-display: swap;
+}
+
+@font-face { 
+  font-family: Geist; 
+  src: url('../public/fonts/Geist-Regular.otf') format("opentype"); 
+  font-style: normal; 
+  font-weight: 400; 
+  font-display: swap;
+}
+
+@font-face { 
+  font-family: Geist; 
+  src: url('../public/fonts/Geist-SemiBold.otf') format("opentype"); 
+  font-style: normal; 
+  font-weight: 600; 
+  font-display: swap;
+}
+
+@font-face { 
+  font-family: Geist; 
+  src: url('../public/fonts/Geist-Thin.otf') format("opentype"); 
+  font-style: normal; 
+  font-weight: 100; 
+  font-display: swap;
+}
+
+@font-face { 
+  font-family: Geist; 
+  src: url('../public/fonts/Geist-UltraBlack.otf') format("opentype"); 
+  font-style: normal; 
+  font-weight: 900; 
+  font-display: swap;
+}
+
+@font-face { 
+  font-family: Geist; 
+  src: url('../public/fonts/Geist-UltraLight.otf') format("opentype"); 
+  font-style: normal; 
+  font-weight: 200; 
+  font-display: swap;
+}
+
 
 @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
 
@@ -171,29 +228,28 @@ input::placeholder {
 
 
 /* Animações */
-
 *[data-animation] {
   opacity: 0;
   transition: opacity 1s ease-in-out, transform 1s ease-in-out;
 }
 
 *[data-animation="top"] {
-  transform: transtoneY(170px);
+  transform: translateY(170px);
 }
 
 *[data-animation="right"] {
-  transform: transtoneX(-170px);
+  transform: translateX(-170px);
 }
 
 *[data-animation="bottom"] {
-  transform: transtoneY(-170px);
+  transform: translateY(-170px);
 }
 
 *[data-animation="left"] {
-  transform: transtoneX(170px);
+  transform: translateX(170px);
 }
 
 *.animationClass {
-  transform: transtone(0px) !important;
+  transform: translate(0px) !important;
   opacity: 1 !important;
 }

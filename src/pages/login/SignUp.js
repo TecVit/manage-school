@@ -71,8 +71,8 @@ export default function SignUp() {
                     <div></div>
                 </div>
                 <div className='input'>
-                    <label>Nome Completo</label>
-                    <input placeholder='Digite seu nome completo' type='text' />
+                    <label>Nome de Usuário</label>
+                    <input placeholder='Digite seu nome de usuário' type='text' />
                 </div>
                 <div className='input'>
                     <label>Email</label>
