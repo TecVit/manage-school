@@ -1,0 +1,179 @@
+.container-signin {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.content-signin {
+    width: 100%;
+    max-width: 1111px;
+    height: auto;
+    min-height: calc(100vh);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin: 0px auto;
+    padding: 50px 0px;
+}
+
+
+/* Formulário */
+.content-signin .form {
+    width: 92.5%;
+    max-width: 550px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 32.5px;
+    border-radius: 12px;
+    color: var(--stoneEleven);
+    background: var(--stoneTwo);
+    border: 1px solid var(--stoneThree);
+}
+
+.content-signin .form h1 {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--stoneEleven);
+    margin: 0px 0px 8px 0px;
+}
+
+.content-signin .form p {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--stoneEleven);
+}
+
+.content-signin .form .btn-social-midia {
+    width: 100%;
+    height: 45px;
+    border-radius: 8px;
+    color: var(--stoneEleven);
+    background: var(--stoneThree);
+    border: 1px solid var(--stoneFour);
+    margin: 20px 0px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    font-weight: 500;
+    transition: all .1s ease-in-out;
+} .content-signin .form .btn-social-midia:focus,
+.content-signin .form .btn-social-midia:hover {
+    box-shadow: 0px 5px 15px var(--stoneFour);
+}
+
+.content-signin .form .btn-social-midia .icon {
+    font-size: 24.5px;
+    margin: 0px 8px 0px 0px;
+}
+
+
+.content-signin .form .or {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 5px 0px;
+}
+
+.content-signin .form .or div {
+    width: 100%;
+    height: auto;
+    border-top: 1px solid var(--stoneFour);
+}
+
+.content-signin .form .or p {
+    width: max-content;
+    min-width: max-content;
+    margin: 0px 15px;
+    background: var(--stoneTwo);
+    font-size: 14px;
+    font-weight: 400;
+}
+
+
+.content-signin .form .input {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    margin: 8px 0px 12px;
+}
+
+.content-signin .form .input label {
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0px 0px 8px 1px;
+}
+
+
+.content-signin .form .input input {
+    width: 100%;
+    height: 40px;
+    border-radius: 8px;
+    color: var(--stoneEleven);
+    background: var(--stoneThree);
+    border: 1px solid var(--stoneFour);
+    padding: 0px 15px;
+    transition: all .1s ease-in-out;
+} .content-signin .form .input input:focus {
+    box-shadow: 0px 0px 10px var(--stoneFour);
+}
+
+.content-signin .form button {
+    width: 100%;
+    height: 45px;
+    border-radius: 10px;
+    color: var(--stoneEleven);
+    background: var(--primary);
+    border: 1px solid var(--stoneFour);
+    margin: 12.5px 0px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all .1s ease-in-out;
+} .content-signin .form button:focus,
+ .content-signin .form button:hover {
+    box-shadow: 0px 2.5px 20px var(--stoneThree);
+}
+
+.content-signin .form a {
+    width: 100%;
+    height: auto;
+    text-align: center;
+    margin: 10px 0px 0px 0px;
+    font-size: 15px;
+    font-weight: 400;
+}
+
+.content-signin .form a strong {
+    font-size: 15px;
+    font-weight: 500;
+    margin: 0px 0px 0px 2px;
+    cursor: pointer;
+    text-decoration: underline;
+    transition: all .1s ease-in-out;
+} .content-signin .form a strong:hover {
+    text-shadow: 0px 0px 10px var(--stoneFive);
+}
+
+
+@media (max-width: 555px) {
+    .content-signin {
+        padding: 0px;
+    }
+
+    .content-signin .form {
+        width: 100%;
+        height: auto;
+        min-height: 100vh;
+        border: none;
+        border-radius: 0px;
+        padding: 40px 30px;
+    }
+}

@@ -1,0 +1,316 @@
+.container-landing {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container-landing .content-landing {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Navbar */
+.container-navbar {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0px;
+    background: var(--stoneOneOpacity);
+    backdrop-filter: blur(20px);
+}
+
+.content-navbar {
+    width: 92.5%;
+    max-width: 1111px;
+    height: 80px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.content-navbar .logo {
+    width: 42.5px;
+    height: auto;
+    margin: 0px 20px 0px 0px;
+    cursor: pointer;
+}
+
+.content-navbar .links {
+    width: max-content;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 0px auto 0px 0px;
+}
+
+.content-navbar .links a {
+    font-size: 16px;
+    font-weight: 400;
+    margin: 0px 15px;
+    color: var(--stoneNine);
+    user-select: none;
+    cursor: pointer;
+    transition: all .1s ease-in-out;
+} .content-navbar .links a:hover {
+    color: var(--stoneEleven);
+    text-shadow: 0px 0px 12.5px var(--stoneEleven);
+}
+
+.btn-signin {
+    width: max-content;
+    height: auto;
+    padding: 10px 15px;
+    border-radius: 25px;
+    margin: 0px 0px 0px 15px;
+    background: transparent;
+    color: var(--stoneEleven);
+    font-size: 15px;
+    cursor: pointer;
+    transition: all .1s ease-in-out;
+} .btn-signin:hover,
+  .btn-signin:focus {
+    background: var(--stoneFour);
+}
+
+.btn-started {
+    width: max-content;
+    height: auto;
+    padding: 10px 15px;
+    border-radius: 25px;
+    margin: 0px 0px 0px 15px;
+    background: var(--stoneNine);
+    color: var(--stoneOne);
+    cursor: pointer;
+    transition: all .1s ease-in-out;
+} .btn-started:hover,
+  .btn-started:focus {
+    box-shadow: 0px 5px 15px var(--stoneEleven);
+}
+
+/* Inicio */
+.container-initial {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    padding: 80px 0px 0px 0px;
+}
+
+.content-initial {
+    width: 92.5%;
+    max-width: 1111px;
+    height: calc(100vh - 80px);
+    max-height: 650px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0px 0px 30px 0px;
+}
+
+.content-initial .update-info {
+    width: max-content;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-radius: 14px;
+    padding: 4px;
+    background: var(--stoneFour);
+    color: var(--stoneEleven);
+    user-select: none;
+    cursor: pointer;
+    transition: all .1s ease-in-out;
+} .content-initial .update-info:hover {
+    box-shadow: 0px 5px 15px var(--stoneFour);
+}
+
+.content-initial .update-info a {
+    font-size: 14px;
+    font-weight: 400;
+    padding: 8px;
+    border-radius: 10px;
+    background: rgba(91, 57, 151, 0.2);
+    color: var(--secondary);
+    border: 1px solid var(--secondary);
+    margin: 0px 14px 0px 0px;
+}
+
+.content-initial .update-info p {
+    font-size: 14px;
+    font-weight: 400;
+    margin: 0px 4px 0px 0px;
+}
+
+.content-initial .update-info .icon {
+    font-size: 16px;
+    margin: 2px 4px 0px 0px;
+}
+
+
+.content-initial h1 {
+    width: 100%;
+    max-width: 525px;
+    font-size: 46.5px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    line-height: 56px;
+    text-align: center;
+    margin: 40px auto 20px auto;
+}
+
+.content-initial p {
+    width: 100%;
+    max-width: 600px;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 30px;
+    text-align: center;
+    margin: 0px auto 25px auto;
+} .content-initial p strong {
+    color: var(--secondary);
+}
+
+.content-initial button {
+    font-size: 15px;
+    padding: 12.5px 17.5px;
+}
+
+
+
+/* Formas de contato */
+.content-landing .container-contact {
+    width: 100%;
+    height: auto;
+    padding: 15px 0px;
+    border-radius: 12px;
+    border: 1px solid var(--stoneThree);
+    display: flex;
+    justify-content: center;
+}
+
+.content-landing .content-contact {
+    width: 92.5%;
+    max-width: 1111px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    margin: 0px auto;
+}
+
+.content-landing .content-contact .social-media {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0px;
+}
+
+.content-landing .content-contact .social-media .logo {
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 0.2px;
+    font-family: var(--nunito);
+    margin: 12.5px 0px 5px 0px;
+    display: flex;
+    align-items: center;
+}
+
+.content-landing .content-contact .social-media .logo img {
+    width: 40px;
+    height: 40px;
+    margin: 0px 12px 0px 0px;
+}
+
+.content-landing .content-contact .social-media .icons {
+    width: max-content;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.content-landing .content-contact .social-media .icons .icon {
+    font-size: 22.5px;
+    margin: 0px 8px;
+    cursor: pointer;
+    transition: all .05s ease-in-out;
+} .content-landing .content-contact .social-media .icons .icon:hover {
+    color: var(--primary);
+}
+
+.content-landing .content-contact .row {
+    width: 100%;
+    height: auto;
+    border-top: 1px solid var(--stoneFour);
+    margin: 10px 0px;
+}
+
+/* Links */
+.content-landing .content-contact .links {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 25px 0px;
+}
+
+.content-landing .content-contact .links li {
+    flex: 1;
+    max-width: 25%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.content-landing .content-contact .links li h1 {
+    font-size: 18.5px;
+    font-weight: 900;
+    margin: 0px 0px 8px 0px;
+}
+
+.content-landing .content-contact .links li a {
+    width: max-content;
+    font-size: 16px;
+    font-weight: 500;
+    margin: 8px 0px;
+    cursor: pointer;
+    user-select: none;
+    color: var(--stoneEleven);
+    transition: all .1s ease-in-out;
+} .content-landing .content-contact .links li a:hover {
+    text-decoration: underline;
+    text-shadow: 0px 0px 5px  var(--stoneEleven);
+}
+
+
+/* Criado por TecVit */
+.content-landing .content-contact .made {
+    width: 100%;
+    height: auto;
+    margin: 10px 0px;
+    font-size: 15px;
+    font-weight: 600;
+} .content-landing .content-contact .made strong {
+    color: var(--blue);
+    font-family: var(--nunito);
+    font-weight: 900;
+    cursor: pointer;
+    user-select: none;
+    transition: all .1s ease-in-out;
+} .content-landing .content-contact .made strong:hover {
+    text-shadow: 0px 0px 10px var(--blue);
+}

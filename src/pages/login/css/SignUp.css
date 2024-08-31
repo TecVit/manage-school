@@ -1,0 +1,309 @@
+.container-signup {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.content-signup {
+    width: 100%;
+    max-width: 1111px;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 0px auto;
+    padding: 75px 10px;
+}
+
+/* Informações */
+.content-signup .info {
+    width: 45%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    margin: 0px 5% 0px 0px;
+}
+
+.content-signup .info .logo {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: 0.2px;
+    font-family: var(--nunito);
+    margin: 12.5px 0px 5px 0px;
+    display: flex;
+    align-items: center;
+}
+
+.content-signup .info .logo img {
+    width: 47.5px;
+    height: 47.5px;
+    margin: 0px 10px 0px 0px;
+    cursor: pointer;
+}
+
+.content-signup .info .list {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    margin: 15px 0px;
+}
+
+.content-signup .info .list li {
+    width: 100%;
+    max-width: 425px;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    padding: 10px 0px;
+    color: var(--stoneEleven);
+}
+
+.content-signup .info .list li .icon {
+    min-width: 25px;
+    min-height: 25px;
+    background: var(--stoneTwo);
+    color: var(--stoneNine);
+    border: 1px solid var(--stoneThree);
+    border-radius: 50%;
+    margin: 0px 12px 0px 0px;
+}
+
+.content-signup .info .list li h1 {
+    font-size: 17px;
+    font-weight: 600;
+    margin: 1px 0px 8px 0px;
+}
+
+.content-signup .info .list li p {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 22px;
+    color: var(--stoneEight);
+}
+
+.content-signup .info .news {
+    width: 100%;
+    max-width: 425px;
+    height: auto;
+    border: 1px solid var(--stoneThree);
+    border-radius: 8px;
+    margin: 10px 0px 0px 0px;
+}
+
+.content-signup .info .news .paragraph {
+    width: 100%;
+    height: auto;
+    padding: 25px 0px;
+}
+
+.content-signup .info .news .paragraph p {
+    width: 65%;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    text-align: center;
+    margin: 0px auto;
+} .content-signup .info .news .paragraph p strong {
+    color: var(--secondary);
+}
+
+.content-signup .info .news .made {
+    width: 100%;
+    height: max-content;
+    border-top: 1px solid var(--stoneFour);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    margin: 0px auto;
+}
+
+.content-signup .info .news .made img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin: 0px 10px 0px 0px;
+}
+
+.content-signup .info .news .made .text h1 {
+    font-size: 15px;
+    font-weight: 600;
+    margin: 0px 0px 2.5px 0px;
+}
+
+.content-signup .info .news .made .text p {
+    font-size: 13px;
+    font-weight: 400;
+}
+
+
+/* Formulário */
+.content-signup .form {
+    width: 45%;
+    max-width: 550px;
+    height: max-content;
+    display: flex;
+    flex-direction: column;
+    padding: 32.5px;
+    border-radius: 12px;
+    color: var(--stoneEleven);
+    background: var(--stoneTwo);
+    border: 1px solid var(--stoneThree);
+}
+
+.content-signup .form h1 {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--stoneEleven);
+    margin: 0px 0px 8px 0px;
+}
+
+.content-signup .form p {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--stoneEleven);
+}
+
+.content-signup .form .btn-social-midia {
+    width: 100%;
+    height: 45px;
+    border-radius: 8px;
+    color: var(--stoneEleven);
+    background: var(--stoneThree);
+    border: 1px solid var(--stoneFour);
+    margin: 20px 0px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    font-weight: 500;
+    transition: all .1s ease-in-out;
+} .content-signup .form .btn-social-midia:focus,
+.content-signup .form .btn-social-midia:hover {
+    box-shadow: 0px 5px 15px var(--stoneFour);
+}
+
+.content-signup .form .btn-social-midia .icon {
+    font-size: 24.5px;
+    margin: 0px 8px 0px 0px;
+}
+
+
+.content-signup .form .or {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 5px 0px;
+}
+
+.content-signup .form .or div {
+    width: 100%;
+    height: auto;
+    border-top: 1px solid var(--stoneFour);
+}
+
+.content-signup .form .or p {
+    width: max-content;
+    min-width: max-content;
+    margin: 0px 15px;
+    background: var(--stoneTwo);
+    font-size: 14px;
+    font-weight: 400;
+}
+
+
+.content-signup .form .input {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    margin: 8px 0px 12px;
+}
+
+.content-signup .form .input label {
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0px 0px 8px 1px;
+}
+
+
+.content-signup .form .input input {
+    width: 100%;
+    height: 42.5px;
+    border-radius: 8px;
+    color: var(--stoneEleven);
+    background: var(--stoneThree);
+    border: 1px solid var(--stoneFour);
+    padding: 0px 15px;
+    transition: all .1s ease-in-out;
+} .content-signup .form .input input:focus {
+    box-shadow: 0px 0px 10px var(--stoneFour);
+}
+
+.content-signup .form button {
+    width: 100%;
+    height: 45px;
+    border-radius: 10px;
+    color: var(--stoneEleven);
+    background: var(--primary);
+    border: 1px solid var(--stoneFour);
+    margin: 12.5px 0px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all .1s ease-in-out;
+} .content-signup .form button:focus,
+ .content-signup .form button:hover {
+    box-shadow: 0px 2.5px 20px var(--stoneThree);
+}
+
+.content-signup .form a {
+    width: 100%;
+    height: auto;
+    text-align: center;
+    margin: 10px 0px 0px 0px;
+    font-size: 15px;
+    font-weight: 400;
+}
+
+.content-signup .form a strong {
+    font-size: 15px;
+    font-weight: 500;
+    margin: 0px 0px 0px 2px;
+    cursor: pointer;
+    text-decoration: underline;
+    transition: all .1s ease-in-out;
+} .content-signup .form a strong:hover {
+    text-shadow: 0px 0px 10px var(--stoneFive);
+}
+
+@media (max-width: 925px) {
+    .content-signup .info {
+        display: none;
+    }
+    .container-signup .form {
+        width: 100%;
+    }
+}
+
+@media (max-width: 555px) {
+    .content-signup {
+        padding: 0px;
+    }
+
+    .content-signup .form {
+        width: 100%;
+        height: auto;
+        min-height: 100vh;
+        border: none;
+        border-radius: 0px;
+        padding: 40px 30px;
+    }
+}

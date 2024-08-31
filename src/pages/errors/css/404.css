@@ -1,0 +1,99 @@
+.container-error404 {
+    position: relative;
+    width: 100%;
+    height: auto;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    color: var(--stoneNine);
+}
+
+.content-error404 {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    position: relative;
+}
+
+.content-error404 .left {
+    width: max-content;
+    height: auto;
+    padding: 0px;
+    height: auto;
+    display: flex;
+    justify-content: end;
+    margin: 0px;
+}
+
+.content-error404 .left img {
+    width: max-content;
+    max-width: 400px;
+    height: auto;
+}
+
+.content-error404 .center {
+    width: 85%;
+    max-width: 425px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--stoneEight);
+    margin: auto 0px auto 0px;
+}
+
+.content-error404 .center .logo {
+    width: 180px;
+    height: auto;
+    margin: -50px -20px -50px -20px;
+    user-select: none;
+}
+
+.content-error404 .center h1 {
+    font-size: 120px;
+    font-weight: 900;
+    letter-spacing: 5px;
+    margin: 0px 0px 5px 0px;
+}
+
+.content-error404 .center h2 {
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    margin: 0px 0px 0px 0px;
+}
+
+.content-error404 .center p {
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    line-height: 24px;
+    margin: 10px auto 20px auto;
+    text-align: center;
+}
+
+.content-error404 .center button {
+    width: max-content;
+    height: max-content;
+    padding: 12.5px 25px;
+    border-radius: 6px;
+    color: var(--stoneTen);
+    background: var(--primary);
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    border: 2px solid var(--primary);
+    transition: all .1s ease-in-out;
+} .content-error404 .center button:hover,
+.content-error404 .center button:focus {
+    background: transparent;
+    box-shadow: 0 0 10px var(--primary);
+    color: var(--primary);
+}
