@@ -263,7 +263,7 @@ export default function Landing() {
                                                 <div className='list'>
                                                     {status.length > 0 && (
                                                         status.map((val, index) => (
-                                                            <button onClick={() => {
+                                                            <button key={index} onClick={() => {
                                                                 handleStatusTeam(0);
                                                                 setStatusSelected(val);
                                                             }}>
@@ -284,7 +284,7 @@ export default function Landing() {
                                             users.map((val, index) => {
                                                 if (val.status === 1) {
                                                     return (
-                                                        <li>
+                                                        <li key={index}>
                                                             <img src={val.foto} />
                                                             <h1>{val.nick}</h1>
                                                             <h2 className='ml-auto'>{statusNames[val.status-1]}</h2>
@@ -292,7 +292,7 @@ export default function Landing() {
                                                     )
                                                 }
                                                 return (
-                                                    <li>
+                                                    <li key={index}>
                                                         <img src={val.foto} />
                                                         <h1>{val.nick}</h1>
                                                         <h2>{val.email}</h2>

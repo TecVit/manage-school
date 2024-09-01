@@ -189,6 +189,10 @@
         padding: 0px;
     }
 
+    .content-signin .logo {
+        display: none;
+    }
+
     .content-signin .form {
         width: 100%;
         height: auto;

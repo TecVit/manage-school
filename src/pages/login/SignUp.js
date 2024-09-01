@@ -142,26 +142,26 @@ export default function SignUp() {
         <NotificationContainer />
         <section className='content-signup'>
             <div className='info'>
-                <h1 data-animation="top" data-duration-animation="0.6s" className='logo'>
+                <h1 data-animation data-duration-animation="0.6s" className='logo'>
                     <img onClick={() => navigate('/')} src={Logo} />
                     Manage School
                 </h1>
                 <div className='list'>
-                    <li data-animation="top" data-duration-animation="0.7s">
+                    <li data-animation data-duration-animation="0.7s">
                         <IoIosCheckmark className='icon' />
                         <div className='text'>
                             <h1>Introdução</h1>
                             <p>O Manage School simplifica a gestão de dados. Ideal para escolas, empresas e instituições de saúde.</p>
                         </div>
                     </li>
-                    <li data-animation="top" data-duration-animation="0.8s">
+                    <li data-animation data-duration-animation="0.8s">
                         <IoIosCheckmark className='icon' />
                         <div className='text'>
                             <h1>Funcionalidades Poderosas</h1>
                             <p>Edite planilhas Excel, visualize dados interativos, baixe prints para impressão e compartilhe facilmente.</p>
                         </div>
                     </li>
-                    <li data-animation="top" data-duration-animation="0.9s">
+                    <li data-animation data-duration-animation="0.9s">
                         <IoIosCheckmark className='icon' />
                         <div className='text'>
                             <h1>Maximize Seus Resultados</h1>
@@ -169,7 +169,7 @@ export default function SignUp() {
                         </div>
                     </li>
                 </div>
-                <div data-animation="top" data-duration-animation="1.0s" className='news'>
+                <div data-animation data-duration-animation="1.0s" className='news'>
                     <div className='paragraph'>
                         <p>O <strong>Modelo 2.0</strong> da plataforma está no ar! Esta atualização traz um design moderno e novas funcionalidades para melhorar sua experiência.</p>
                     </div>

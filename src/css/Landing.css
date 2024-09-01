@@ -971,8 +971,10 @@
     letter-spacing: 0.2px;
     font-family: var(--nunito);
     margin: 12.5px 0px 5px 0px;
+    user-select: none;
     display: flex;
     align-items: center;
+    cursor: var(--mouseAuto);
 }
 
 .content-landing .content-contact .social-media .logo img {
