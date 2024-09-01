@@ -4,7 +4,6 @@ import './css/404.css';
 
 export default function Error404() {
 
-
     // Animações
     function getTopPositionRelativeToPage(element) {
         var rect = element.getBoundingClientRect();

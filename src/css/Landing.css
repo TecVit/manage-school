@@ -84,7 +84,7 @@
     transition: all .1s ease-in-out;
 } .btn-signin:hover,
   .btn-signin:focus {
-    background: var(--stoneTwo);
+    background: var(--stoneThree);
 }
 
 .btn-started {
@@ -301,8 +301,8 @@
 .content-products .join-workspace .modal .linha {
     width: calc(100% - 65px);
     height: auto;
-    border-bottom: 1px dashed var(--stoneFour);
-    margin: 5px 0px 7.5px auto;
+    border-bottom: 1px dashed var(--stoneSix);
+    margin: 7.5px 0px 12px auto;
 }
 
 .content-products .join-workspace .modal li .content .text {
@@ -356,6 +356,38 @@
     flex-direction: column;
     align-items: center;
     margin: 0px 0px 50px 0px;
+    position: relative;
+}
+
+.content-products .create-workspace.new {
+    border: 1px solid var(--primary);
+}
+
+.content-products .create-workspace .news {
+    width: max-content;
+    height: 40px;
+    padding: 0px 10px;
+    background: var(--primary);
+    border-radius: 8px;
+    position: absolute;
+    top: -20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.content-products .create-workspace .news .icon {
+    font-size: 20px;
+    margin: 0px 10px 0px 0px;
+}
+
+.content-products .create-workspace .news h1 {
+    font-size: 16px;
+    font-weight: 500;
+    user-select: none;
+    cursor: var(--mouseAuto);
+    margin: 0px;
 }
 
 .content-products .create-workspace h1 {
@@ -420,7 +452,7 @@
     width: 100%;
     height: auto;
     margin: 10px auto;
-    border-bottom: 1px dashed var(--stoneFour);
+    border-bottom: 1px dashed var(--stoneSix);
 }
 
 /* Form - Input */
@@ -495,14 +527,14 @@
     position: absolute;
     right: 0px;
     top: 0px;
-    border-radius: 8px;
+    border-radius: 12px;
 }
 
 .content-products .create-workspace .modal .form .send .input-with-select .select button {
     width: 100%;
     height: 42.5px;
     padding: 0px 14px;
-    border-radius: 8px;
+    border-radius: 10px;
     color: var(--stoneEleven);
     background: transparent;
     border: 1px solid transparent;
@@ -535,10 +567,11 @@
     width: 100%;
     min-width: max-content;
     height: auto;
-    border-radius: 8px;
-    background: var(--stoneThree);
-    border: 1px solid var(--stoneFour);
+    border-radius: 12px;
+    background: var(--stoneFour);
+    border: 1px solid var(--stoneSix);
     position: absolute;
+    z-index: 200;
     top: 0px;
     right: 0px;
     transition: all .1s ease-in-out;
@@ -547,7 +580,7 @@
 .content-products .create-workspace .modal .form .send .input-with-select .select .list button:hover,
 .content-products .create-workspace .modal .form .send .input-with-select .select .list button:focus {
     background: var(--secondary);
-    border: 1px solid var(--stoneSix);
+    border: 1px solid var(--stoneSeven);
 }
 
 .content-products .create-workspace .modal .form .send button {
@@ -570,7 +603,138 @@
     color: var(--stoneOne);
 }
 
+/* Form - Response SEND */
+.content-products .create-workspace .modal .form .response-send {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    margin: 15px 0px 0px 0px;
+}
 
+.content-products .create-workspace .modal .form .response-send h1 {
+    width: 100%;
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0px 0px 20px 0px;
+}
+
+.content-products .create-workspace .modal .form .response-send .list {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.content-products .create-workspace .modal .form .response-send .list li {
+    width: 100%;
+    height: max-content;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 0px 0px 15px 0px;
+    position: relative;
+}
+
+.content-products .create-workspace .modal .form .response-send .list li img {
+    width: 35px;
+    height: auto;
+    border-radius: 50%;
+    margin: 0px 12px 0px 0px;
+}
+
+.content-products .create-workspace .modal .form .response-send .list li h1 {
+    width: max-content;
+    font-size: 15px;
+    font-weight: 500;
+    margin: 0px 10px 0px 0px;
+}
+
+.content-products .create-workspace .modal .form .response-send .list li h2 {
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--stoneSeven);
+    margin: 0px 10px 0px 0px;
+}
+
+.content-products .create-workspace .modal .form .response-send .list li h3 {
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0px 0px 0px auto;
+}
+
+.content-products .create-workspace .modal .form .response-send .list li .icon {
+    width: 30px;
+    height: 32.5px;
+    padding: 8px 4px;
+    border-radius: 8px;
+    margin: 0px 0px 0px 10px;
+    cursor: var(--mouseLink);
+    transition: all .1s ease-in-out;
+} .content-products .create-workspace .modal .form .response-send .list li .icon:hover,
+.content-products .create-workspace .modal .form .response-send .list li .icon:focus {
+    background: var(--stoneFour);
+}
+
+.content-products .create-workspace .modal .form .response-send .list li .md-user {
+    width: max-content;
+    height: auto;
+    background: var(--stoneFour);
+    border: 1px solid var(--stoneSix);
+    border-radius: 12px;
+    position: absolute;
+    top: 45px;
+    right: 0px;
+    padding: 0px;
+    z-index: 200;
+}
+
+.content-products .create-workspace .modal .form .response-send .list li .md-user .list {
+    height: max-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2px;
+    color: var(--stoneEleven);
+}
+
+.content-products .create-workspace .modal .form .response-send .list li .md-user .list button {
+    width: 100%;
+    height: 40px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background: transparent;
+    font-size: 14.75px;
+    padding: 0px 12.5px 0px 7px;
+    color: var(--stoneEleven);
+    cursor: var(--mouseLink);
+    border-radius: 10px;
+    border: 1px solid transparent;
+    transition: all .1s ease-in-out;
+} .content-products .create-workspace .modal .form .response-send .list li .md-user .list button:hover,
+.content-products .create-workspace .modal .form .response-send .list li .md-user .list button:focus {
+    background: var(--stoneFive);
+    border: 1px solid var(--stoneSix);
+} .content-products .create-workspace .modal .form .response-send .list li .md-user .list button * {
+    cursor: var(--mouseLink);
+}
+
+/* Md User - Button Deletar */
+.content-products .create-workspace .modal .form .response-send .list li .md-user .list button.deletar {
+    color: var(--red);
+}
+
+.content-products .create-workspace .modal .form .response-send .list li .md-user .list button .icon {
+    width: 18px;
+    height: 18px;
+    padding: 0px;
+    margin: 0px 8px 0px 0px;
+    cursor: unset;
+} .content-products .create-workspace .modal .form .response-send .list li .md-user .list button .icon:hover {
+    background: transparent;
+}
 
 /* Form - Textarea */
 .content-products .create-workspace .modal .form .textarea {
@@ -618,8 +782,8 @@
     max-width: 22.5px;
     min-height: 22.5px;
     max-height: 22.5px;
-    border: 1px solid var(--stoneFour);
-    background: var(--stoneThree);
+    border: 1px solid var(--stoneSix);
+    background: var(--stoneFour);
     border-radius: 50%;
     cursor: var(--mouseLink);
     transition: all .1s ease-in-out;
@@ -629,8 +793,8 @@
     margin: 0px 12px 0px 0px;
 } .content-products .create-workspace .modal .form .checkbox .input-checkbox:hover,
 .content-products .create-workspace .modal .form .checkbox .input-checkbox:focus {
-    background: var(--stoneFour);
-    border: 1px solid var(--stoneSix);
+    background: var(--stoneFive);
+    border: 1px solid var(--stoneSeven);
     box-shadow: 0px 0px 15px var(--stoneSix);
 }
 
@@ -638,6 +802,9 @@
 .content-products .create-workspace .modal .form .checkbox .input-checkbox.selecionado {
     background: var(--primary);
     border: 1px solid var(--secondary);
+} .content-products .create-workspace .modal .form .checkbox .input-checkbox.selecionado:hover,
+  .content-products .create-workspace .modal .form .checkbox .input-checkbox.selecionado:focus {
+    box-shadow: 0px 0px 15px var(--secondary);
 }
 
 .content-products .create-workspace .modal .form .checkbox .input-checkbox.selecionado::before {

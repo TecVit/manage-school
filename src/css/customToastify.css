@@ -2,6 +2,8 @@
 
 .Toastify__toast-container {
     margin-top: 5px !important;
+} .Toastify__toast-container * {
+    cursor: var(--mouseLink) !important;
 }
 
 .Toastify__toast {
@@ -10,16 +12,16 @@
     letter-spacing: 0.3px !important;
     padding-bottom: 12.5px !important;
     font-weight: 600 !important;
-    color: var(--slateTwo) !important;
-    background-color: var(--slateNine) !important;
+    color: var(--stoneTwo) !important;
+    background-color: var(--stoneNine) !important;
 }
   
 .Toastify__toast--success {
-    background-color: var(--slateNine) !important;
+    background-color: var(--stoneNine) !important;
 }
   
 .Toastify__toast--error {
-    background-color: var(--slateNine) !important;
+    background-color: var(--stoneNine) !important;
 }
   
 .Toastify__toast-body {

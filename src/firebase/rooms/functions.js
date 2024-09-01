@@ -8,7 +8,7 @@
   3 - Editor: Pode editar e publicar conteúdo, mas não pode gerenciar usuários.
   4 - Contribuidor: Pode criar conteúdo, mas precisa de aprovação para publicação.
   5 - Leitor: Pode apenas visualizar o conteúdo, sem capacidades de edição ou gerenciamento.
-  6 - Usuário Padrão: Tem acesso muito limitado, principalmente aos recursos básicos.
+  6 - Membro: Tem acesso muito limitado, principalmente aos recursos básicos.
   
   Essa hierarquia garante que maiores privilégios estão associados a números menores.
 */

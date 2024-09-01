@@ -25,8 +25,8 @@ const RouterApp = () => {
     <Router>
       <Routes>
         <Route path="/" element={<Landing />} />
-        <Route path="/sign-in" element={<SignIn />} />
-        <Route path="/sign-up" element={<SignUp />} />
+        <Route path="/entrar" element={<SignIn />} />
+        <Route path="/cadastrar" element={<SignUp />} />
         {/*
         <Route path="/painel/*" element={
           <div className='painel'>

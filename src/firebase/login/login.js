@@ -3,15 +3,17 @@ import 'firebase/compat/firestore';
 import 'firebase/compat/auth';
 import 'firebase/compat/database';
 import 'firebase/compat/storage';
-import { firebaseConfig } from './firebaseConfig';
-import { clearCookies, deleteCookie, getCookie, setCookie } from './cookies';
+import { firebaseConfig } from '../firebaseConfig';
+import { getCookie, setCookie } from '../cookies';
 
+const uidCookie = getCookie('uid') || null;
+const nomeCookie = getCookie('nome') || null;
+const emailCookie = getCookie('email') || null;
 
 // Inicializando o Firebase
 if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
 }
-
 const firestore = firebase.firestore();
 const auth = firebase.auth();
 
@@ -22,82 +24,178 @@ const formatarNomeDeUsuario = (valor) => {
     return valor;
 };
 
-export const cadastrarComEmail = async (nome, email, senha) => {
-    return auth.createUserWithEmailAndPassword(email, senha)
-        .then( async (userCredential) => {
-            const user = userCredential.user;
-            if (user) {
-                const uid = user.uid;
-                const nomeUsuario = await formatarNomeDeUsuario(nome);
-                const userRef = await firestore.collection('privado').doc(uid);
-                const amigosRef = firestore.collection('publico').doc(nomeUsuario);
-                if ((await amigosRef.get()).exists) {
-                    return 'nome-de-usuario-existe';
-                }
-                if (userRef.get().exists) {
-                    return 'usuario-existe';
+export const entrarComRedeSocial = (provedor) => {
+    return auth.signInWithPopup(provedor)
+        .then((result) => {
+            const user = result.user;
+            const usuarioRef = firestore.collection('private-users').doc(user.uid);
+            return usuarioRef.get()
+            .then( async (doc) => {
+                if (doc.exists) {
+                    const dados = doc.data();
+                    const camposCookies = ['nick', 'email', 'cep', 'foto'];
+                    camposCookies.forEach((campo) => {
+                        if (dados[campo]) {
+                            setCookie(campo, dados[campo]);
+                        }
+                    });
+                    setCookie('uid', user.uid);
+                    return 'sucesso';
                 } else {
-                    await amigosRef.set({
-                        nome: nomeUsuario,
-                        email: user.email,
-                    });
-                    userRef.set({
-                        nome: nomeUsuario,
-                        email: email,
-                    });
-                    return 'sucesso'; 
+                    return 'usuario-nao-existe';
                 }
-            } else {
+            })
+            .catch((error) => {
+                console.log(error);
                 return 'erro';
-            }
+            });
         })
         .catch((error) => {
-            if (error.code === 'auth/invalid-email') {
-                return 'email-invalido';
-            } else if (error.code === 'auth/invalid-credential') {
-                return 'credencial-invalida';
-            } else if (error.code === 'auth/email-already-in-use') {
-                return 'email-em-uso';
+            if (error.code === 'auth/popup-closed-by-user') {
+                return 'popup-fechou';
             }
-            console.error('Erro ao cadastrar:', error);
+            console.log(error);
             return 'erro';
         });
 };
 
-export const entrarComEmail = (email, senha) => {
-    return auth.signInWithEmailAndPassword(email, senha)
-        .then( async (userCredential) => {
-        const user = userCredential.user;
-        if (user) {
-            const uid = user.uid;
-            const userRef = await firestore.collection('privado').doc(uid).get();
-            if (userRef.exists) {
-                const dados = userRef.data();
-                const camposCookies = ['nome', 'email', 'fotoURL'];
-
-                camposCookies.forEach((campo) => {
-                    if (dados[campo]) {
-                        setCookie(campo, dados[campo]);
-                    }
-                });
-                setCookie('uid', uid);
-                return 'sucesso';
-            } else {
-                return 'usuario-nao-existe'; 
-            }
-        } else {
-            return 'credencial-invalida';
+export const cadastrarComRedeSocial = (provedor) => {
+    return auth.signInWithPopup(provedor)
+        .then( async (result) => {
+        const user = result.user;
+        const nomeUsuario = await formatarNomeDeUsuario(user.displayName);
+        const usuarioRef = firestore.collection('private-users').doc(user.uid);
+        const amigosRef = firestore.collection('public-users').doc(nomeUsuario);
+        if ((await amigosRef.get()).exists) {
+            return 'nome-de-usuario-existe';
         }
+        return usuarioRef.get()
+            .then( async (doc) => {
+            if (doc.exists) {
+                return 'usuario-existe';
+            } else {
+                await amigosRef.set({
+                    nick: nomeUsuario,
+                    email: user.email,
+                    foto: user.photoURL
+                });
+                return usuarioRef.set({
+                    nick: nomeUsuario,
+                    email: user.email,
+                    foto: user.photoURL
+                })
+                .then(() => {
+                    setCookie('nick', nomeUsuario);
+                    setCookie('email', user.email);
+                    setCookie('foto', user.photoURL);
+                    setCookie('uid', user.uid);
+                    return 'sucesso';
+                })
+                .catch((error) => {
+                    console.log(error);
+                    return 'erro';
+                });
+            }
+            })
+            .catch((error) => {
+                console.log(error);
+                return 'erro';
+            });
         })
         .catch((error) => {
+            if (error.code === 'auth/popup-closed-by-user') {
+                return 'popup-fechou';
+            }
+            console.log(error);
+            return 'erro';
+        });
+};
+
+export const cadastrarComEmail = async (nome, email, senha) => {
+    try {
+        const nomeUsuario = await formatarNomeDeUsuario(nome);
+        const friendDocRef = firestore.collection('public-users').doc(nomeUsuario);
+        const friendDoc = await friendDocRef.get();
+        if (friendDoc.exists) {
+            return 'nome-de-usuario-em-uso';
+        }
+        
+        const userCredential = await auth.createUserWithEmailAndPassword(email, senha);
+        const user = userCredential.user;
+
+        if (!user) {
+            return 'erro';
+        }
+
+        const uid = user.uid;
+        const userDocRef = firestore.collection('private-users').doc(uid);
+        const userDoc = await userDocRef.get();
+
+        if (userDoc.exists) {
+            return 'usuario-existe';
+        } else {
+            await userDocRef.set({
+                nick: nomeUsuario,
+                email: email,
+            });
+            await friendDocRef.set({
+                nick: nomeUsuario,
+                email: email,
+            });
+            setCookie('nick', nomeUsuario);
+            setCookie('email', email);
+            setCookie('uid', uid);
+            return 'sucesso';
+        }
+    } catch (error) {
+        console.error('Erro ao cadastrar:', error, error.code);
         if (error.code === 'auth/invalid-email') {
             return 'email-invalido';
         } else if (error.code === 'auth/invalid-credential') {
+            return 'credenciais-invalidas';
+        } else if (error.code === 'auth/email-already-in-use') {
+            return 'email-em-uso';
+        }
+        return 'erro';
+    }
+};
+
+export const entrarComEmail = async (email, senha) => {
+    try {
+        const userCredential = await auth.signInWithEmailAndPassword(email, senha);
+        const user = userCredential.user;
+
+        if (!user) {
             return 'credencial-invalida';
+        }
+
+        const uid = user.uid;
+        const userDoc = await firestore.collection('private-users').doc(uid).get();
+
+        if (userDoc.exists) {
+            const dados = userDoc.data();
+            const camposCookies = ['nick', 'email', 'foto'];
+
+            camposCookies.forEach((campo) => {
+                if (dados[campo]) {
+                    setCookie(campo, dados[campo]);
+                }
+            });
+
+            setCookie('uid', uid);
+            return 'sucesso';
+        } else {
+            return 'usuario-nao-existe'; 
+        }
+    } catch (error) {
+        if (error.code === 'auth/invalid-email') {
+            return 'email-invalido';
+        } else if (error.code === 'auth/invalid-credential') {
+            return 'credenciais-invalidas';
         }
         console.error('Erro ao entrar:', error);
         return 'erro';
-    });
+    }
 };
 
 export const enviarLinkEmail = (email) => {
@@ -129,11 +227,31 @@ export const redefinirSenha = (codigoOOB, novaSenha) => {
         console.error('Erro ao definir a senha:', error);
         return 'erro';
       });
+  };
+  
+  
+export const entrarComGoogle = () => {
+    const provedor = new firebase.auth.GoogleAuthProvider();
+    return entrarComRedeSocial(provedor);
+};
+
+export const entrarComFacebook = () => {
+    const provedor = new firebase.auth.FacebookAuthProvider();
+    return entrarComRedeSocial(provedor);
+};
+
+export const cadastrarComGoogle = () => {
+    const provedor = new firebase.auth.GoogleAuthProvider();
+    return cadastrarComRedeSocial(provedor);
+};
+
+export const cadastrarComFacebook = () => {
+    const provedor = new firebase.auth.FacebookAuthProvider();
+    return cadastrarComRedeSocial(provedor);
 };
   
 export const sair = () => {
   return auth.signOut();
 };
-
 
 export { firestore, auth };
