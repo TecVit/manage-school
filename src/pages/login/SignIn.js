@@ -49,7 +49,7 @@ export default function SignIn() {
   // Dados
   const cepCookie = getCookie('cep') || '';
   const uidCookie = getCookie('uid') || '';
-  const nomeCookie = getCookie('nome') || '';
+  const nickCookie = getCookie('nick') || '';
   const emailCookie = getCookie('email') || '';
 
   // Modais
@@ -79,11 +79,10 @@ export default function SignIn() {
       
       const entrando = await entrarComEmail(email, senha);
       if (entrando === 'sucesso') {
-        //let nomeCookie = getCookie('nome');
-        //notifySuccess(`Seja bem-vindo novamente, ${nomeCookie}`);
-        //setTimeout(() => {
-          window.location.href = "/";
-        //}, 3750);
+        notifySuccess('Usuário logado com sucesso');
+        setTimeout(() => {
+          navigate('/painel');
+        }, 2250);
         return;
       } else if (entrando === 'email-invalido') {
         notifyError('Email inválido');
@@ -120,11 +119,10 @@ export default function SignIn() {
       
       const entrando = await entrarComGoogle();
       if (entrando === 'sucesso') {
-        //let nomeCookie = getCookie('nome');
-        //notifySuccess(`Seja bem-vindo novamente, ${nomeCookie}`);
-        //setTimeout(() => {
-          window.location.href = "/";
-        //}, 3750);
+        notifySuccess('Usuário logado com sucesso');
+        setTimeout(() => {
+          navigate('/painel');
+        }, 2250);
         return;
       } else if (entrando === 'email-invalido') {
         notifyError('Email inválido');

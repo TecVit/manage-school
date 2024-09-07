@@ -1,8 +1,6 @@
 /* custom-toast.css */
 
-.Toastify__toast-container {
-    margin-top: 5px !important;
-} .Toastify__toast-container * {
+.Toastify__toast-container * {
     cursor: var(--mouseLink) !important;
 }
 

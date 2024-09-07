@@ -1,0 +1,119 @@
+.container-menu {
+    width: 280px;
+    height: auto;
+    position: fixed;
+    background: var(--stoneOne);
+    top: 0px;
+    left: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.content-menu {
+    width: 100%;
+    height: auto;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 15px;
+    position: relative;
+}
+
+.content-menu .logo { 
+    width: 40px;
+    height: auto;
+    margin: 0px 0px 12.5px 10px;
+    cursor: var(--mouseLink);
+}
+
+.content-menu .list {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.content-menu .list li {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 12.5px;
+    border-radius: 12px;
+    margin: 2px 0px;
+    cursor: pointer;
+    user-select: none;
+    cursor: var(--mouseLink);
+    transition: all .05s ease-in-out;
+} .content-menu .list li:hover,
+.content-menu .list li:focus {
+    background: var(--stoneThree);
+} .content-menu .list li * {
+    user-select: none;
+    cursor: var(--mouseLink);
+} .content-menu .list li.selecionado {
+    background: var(--stoneThree);
+}
+
+.content-menu .list li img {
+    width: 28px;
+    height: auto;
+    border-radius: 50%;
+    margin: 0px 10px 0px 0px;
+}
+.content-menu .list li .icon {
+    font-size: 20px;
+    margin: 0px 12px 0px 0px;
+}
+
+.content-menu .list li .seta {
+    font-size: 20px;
+    margin: 0px 0px 0px auto;
+}
+
+.content-menu .list li p {
+    font-size: 15px;
+    font-weight: 400;
+}
+
+
+/* Perfil */
+.content-menu .list li.profile {
+    width: calc(100% - 30px);
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    letter-spacing: 0px;
+}
+
+.content-menu .list .md-perfil {
+    width: calc(100% - 30px);
+    position: absolute;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--stoneTwo);
+    border-radius: 12px;
+    border: 1px solid var(--stoneFour);
+}
+
+.content-menu .list .md-perfil li {
+    margin: 0px;
+    padding: 13.5px 12.5px;
+    border-radius: 0px;
+} .content-menu .list .md-perfil li:first-child {
+    border-radius: 12px 12px 0px 0px;
+} .content-menu .list .md-perfil li:last-child {
+    border-radius: 0px 0px 12px 12px;
+}
+
+
+.content-menu .list .md-perfil .linha {
+    width: 100%;
+    height: auto;
+    border-top: 1px solid var(--stoneFour);
+    margin: 0px 0px;
+}

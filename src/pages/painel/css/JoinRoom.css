@@ -1,0 +1,236 @@
+.container-join-room {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;   
+}
+
+.content-join-room {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.content-join-room .content {
+    width: 55%;
+    max-width: 750px;
+    height: auto;
+    min-height: 100vh;
+    border-radius: 0px 36px 36px 0px;
+    background: var(--stoneTwo);
+    color: var(--stoneEleven);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.content-join-room .content .form {
+    width: 87.5%;
+    max-width: 500px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.content-join-room .content .form h1 {
+    width: 95%;
+    font-size: 22px;
+    font-weight: 525;
+    margin: 0px 0px 5px 0px;
+} .content-join-room .content .form h1.loading {
+    height: 40px;
+    border-radius: 8px;
+    background: radial-gradient(circle at 30% 30%, var(--stoneFive), var(--stoneSix), var(--stoneSeven) 75%);
+    background-size: 200% 200%;
+    animation: loading 2.25s infinite;
+    margin: 0px 0px 15px 0px;
+    user-select: none;
+    cursor: var(--mouseAuto);
+}
+
+.content-join-room .content .form p {
+    width: 95%;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 22px;
+    color: var(--stoneSeven);
+} .content-join-room .content .form p.loading {
+    height: 35px;
+    border-radius: 8px;
+    background: radial-gradient(circle at 30% 30%, var(--stoneFive), var(--stoneSix), var(--stoneSeven) 75%);
+    background-size: 200% 200%;
+    animation: loading 2.25s infinite;
+    user-select: none;
+    cursor: var(--mouseAuto);
+}
+
+.content-join-room .content .form a {
+    width: 95%;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 22px;
+    margin: 10px 0px 0px 0px;
+    color: var(--stoneSeven);
+} .content-join-room .content .form a strong {
+    font-weight: 600;
+    color: var(--stoneEleven);
+}
+
+.content-join-room .content .form .list {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    margin: 20px 0px;
+}
+
+.content-join-room .content .form .list li {
+    width: 100%;
+    height: 75px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    /*padding: 0px 15px 0px 10px;*/
+} .content-join-room .content .form .list li.loading {
+    height: 75px;
+    border-radius: 8px;
+    background: radial-gradient(circle at 30% 30%, var(--stoneFive), var(--stoneSix), var(--stoneSeven) 75%);
+    background-size: 200% 200%;
+    animation: loading 2.25s infinite;
+    margin: 0px 0px 15px 0px;
+    user-select: none;
+    cursor: var(--mouseAuto);
+}
+
+.content-join-room .content .form .list li img {
+    width: 52.5px;
+    height: 52.5px;
+    border-radius: 8px;
+    margin: 0px 15px 0px 0px;
+    background: radial-gradient(circle at 30% 30%, var(--stoneFive), var(--stoneSix), var(--stoneSeven) 75%);
+    background-size: 100% 1200%;
+    animation: loading 2.25s infinite;
+    border: 1px solid var(--stoneThree);
+    background-color: var(--stoneFive);
+}
+
+.content-join-room .content .form .list li .image {
+    width: 52.5px;
+    height: 52.5px;
+    padding: 2px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0px 15px 0px 0px;
+    border: 1px solid var(--stoneFour);
+}
+
+.content-join-room .content .form .list li .image p {
+    width: max-content;
+    height: auto;
+    margin: 0px;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+}
+
+.content-join-room .content .form .list li .text {
+    width: max-content;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.content-join-room .content .form .list li .text h1 {
+    width: max-content;
+    font-size: 15px;
+    font-weight: 500;
+    margin: 0px;
+}
+
+.content-join-room .content .form .list li .text p {
+    width: max-content;
+    font-size: 13px;
+    font-weight: 450;
+    color: var(--stoneSix);
+    margin: 0px;
+}
+
+.content-join-room .content .form .list li button {
+    width: max-content;
+    height: auto;
+    border-radius: 14px;
+    padding: 10px 12px;
+    color: var(--stoneEleven);
+    font-size: 13.5px;
+    font-weight: 400;
+    margin: 0px 0px 0px auto;
+    background: var(--stoneFour);
+    cursor: var(--mouseLink);
+    transition: all .1s ease-in-out;
+} .content-join-room .form .list li button:hover,
+.content-join-room .form .list li button:focus {
+    background: var(--stoneFive);
+}
+
+
+.content-join-room .content .error {
+    width: max-content;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.content-join-room .content .error .icon {
+    width: 100px;
+    height: auto;
+    margin: 0px auto 5px auto;
+}
+
+.content-join-room .content .error h1 {
+    font-size: 24px;
+    font-weight: 500;
+    margin: 0px;
+}
+
+
+/* Detais */
+.content-join-room .details {
+    width: 45%;
+    height: auto;
+    min-height: 100vh;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.content-join-room .details p {
+    width: 100%;
+    max-width: 545px;
+    font-size: 15px;
+    font-weight: 400;
+    margin: 0px 0px 10px 0px;
+}
+
+.content-join-room .details h2 {
+    width: 100%;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+@media (max-width: 916px) {
+    .content-join-room .content {
+        width: 100%;
+        max-width: unset;
+        border-radius: 0px;
+    }
+    .content-join-room .details {
+        display: none;
+    }
+}

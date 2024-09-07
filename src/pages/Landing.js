@@ -126,31 +126,31 @@ export default function Landing() {
                 <div className='content-navbar'>
                     <img onClick={() => window.location.href = "/"} className='logo' src={Logo} />
                     <div className='links'>
-                        <a href='/#initial'>Início</a>
-                        <a href='/#features'>Funcionalidades</a>
-                        <a href='/#updates'>Atualizações</a>
+                        <a href='/#inicio'>Início</a>
+                        <a href='/#funcionalidades'>Funcionalidades</a>
+                        <a href='/#atualizacoes'>Atualizações</a>
                     </div>
                     <button onClick={() => navigate('/entrar')} className='btn-signin'>Entrar</button>
                     <button onClick={() => navigate('/cadastrar')} className='btn-started'>Começar</button>
                 </div>
             </header>
 
-            {/* Initial */}
-            <div id='initial' className='container-initial'>
+            {/* Inicio */}
+            <div id='inicio' className='container-initial'>
                 <div className='content-initial'>
-                    <div data-animation="top" data-duration-animation="0.6s" onClick={() => window.location.href = "/#updates"} className='update-info'>
+                    <div data-animation="top" data-duration-animation="0.6s" onClick={() => window.location.href = "/#atualizacoes"} className='update-info'>
                         <a>Atualizações</a>
                         <p>Visualizar novos componentes</p>
                         <IoIosArrowForward className='icon' />
                     </div>
                     <h1 data-animation="top" data-duration-animation="0.7s">Transforme Seus Dados em Resultados</h1>
                     <p data-animation="top" data-duration-animation="0.8s">Simplifique a gestão de informações, <strong>Edite</strong>, visualize e compartilhe seus dados com <strong>rapidez</strong> e eficiência, tudo em um <strong>só lugar</strong></p>
-                    <button data-animation="top" data-duration-animation="0.9s" onClick={() => navigate('/cadastrar')} className='btn-started'>Começar Agora</button>
+                    <button data-animation="top" data-duration-animation="0.9s" onClick={() => navigate('/painel')} className='btn-started'>Começar Agora</button>
                 </div>
             </div>
 
             {/* Products */}
-            <div id='features' className='container-products'>
+            <div id='funcionalidades' className='container-products'>
                 <div className='content-products'>
 
                     {/* Join Workspace */}
@@ -233,7 +233,7 @@ export default function Landing() {
                             </div>
                             
                             {/* Buttons */}
-                            <div id='updates' className='btns'>
+                            <div id='atualizacoes' className='btns'>
                                 <button className='btn-cancel'>Cancel</button>
                                 <button className='btn-create'>Create</button>
                             </div>
@@ -258,7 +258,7 @@ export default function Landing() {
                                             <button onClick={() => handleStatusTeam(0)}>
                                                 {statusSelected}
                                                 <IoIosArrowDown className='icon' />
-                                            </button>
+                                            </button> 
                                             {mdStatusTeam[0] && (
                                                 <div className='list'>
                                                     {status.length > 0 && (

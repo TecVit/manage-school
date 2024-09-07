@@ -9,6 +9,10 @@
     align-items: center;
     margin: auto;
     color: var(--stoneNine);
+} .container-error404.error-painel {
+    background: var(--stoneTwo);
+    border-radius: 10px 0px 0px 10px;
+    border: 1px solid var(--stoneFour);
 }
 
 .content-error404 {

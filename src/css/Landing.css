@@ -579,7 +579,7 @@
 
 .content-products .create-workspace .modal .form .send .input-with-select .select .list button:hover,
 .content-products .create-workspace .modal .form .send .input-with-select .select .list button:focus {
-    background: var(--secondary);
+    background: var(--stoneSix);
     border: 1px solid var(--stoneSeven);
 }
 
@@ -715,8 +715,8 @@
     transition: all .1s ease-in-out;
 } .content-products .create-workspace .modal .form .response-send .list li .md-user .list button:hover,
 .content-products .create-workspace .modal .form .response-send .list li .md-user .list button:focus {
-    background: var(--stoneFive);
-    border: 1px solid var(--stoneSix);
+    background: var(--stoneSix);
+    border: 1px solid var(--stoneSeven);
 } .content-products .create-workspace .modal .form .response-send .list li .md-user .list button * {
     cursor: var(--mouseLink);
 }

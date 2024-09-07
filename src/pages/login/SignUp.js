@@ -47,9 +47,8 @@ export default function SignUp() {
   const navigate = useNavigate();
 
   // Dados
-  const cepCookie = getCookie('cep') || '';
   const uidCookie = getCookie('uid') || '';
-  const nomeCookie = getCookie('nome') || '';
+  const nickCookie = getCookie('nick') || '';
   const emailCookie = getCookie('email') || '';
 
   // Modais
@@ -80,6 +79,9 @@ export default function SignUp() {
       const cadastrando = await cadastrarComEmail(nick, email, senha);
       if (cadastrando === 'sucesso') {
         notifySuccess('Usuário cadastrado com sucesso');
+        setTimeout(() => {
+          navigate('/painel');
+        }, 3750);
         return;
       } else if (cadastrando === 'email-invalido') {
         notifyError('Email inválido');
@@ -114,12 +116,15 @@ export default function SignUp() {
       const cadastrando = await cadastrarComGoogle();
       if (cadastrando === 'sucesso') {
         notifySuccess('Usuário cadastrado com sucesso');
+        setTimeout(() => {
+          navigate('/painel');
+        }, 3750);
         return;
       } else if (cadastrando === 'email-em-uso') {
         notifyError('Email já está em uso');
         return;
-      } else if (cadastrando === 'nome-de-usuario-em-uso') {
-        notifyError('Nome de usuário já está em uso');
+      } else if (cadastrando === 'usuario-existe') {
+        notifyError('Usuário/Conta já existe');
         return;
       } else if (cadastrando === 'popup-fechou') {
         notifyError('O Popup foi fechado, tente novamente');

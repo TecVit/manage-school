@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { Children, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import './css/404.css';
+import './css/Form.css';
 
-export default function Error404({ painel }) {
+export default function Form({ children, handleClose, handleCreate }) {
 
     // Animações
     function getTopPositionRelativeToPage(element) {
@@ -25,25 +25,31 @@ export default function Error404({ painel }) {
     }
 
     useEffect(() => {
-        document.title = 'Error 404 | Manage School';
         animacoes();
         window.addEventListener('scroll', animacoes);
         return () => {
-        window.removeEventListener('scroll', animacoes);
+            window.removeEventListener('scroll', animacoes);
         };
     }, []);
 
     const navigate = useNavigate();
 
     return (
-    <main className={`container-error404 ${painel && 'error-painel'}`}>
-        <section className='content-error404'>
-            <div className='center'>
-                <h1 data-animation="top" data-duration-animation="0.7s">404</h1>
-                <h2 data-animation="top" data-duration-animation="0.8s">Página não encontrada</h2>
-                <p data-animation="top" data-duration-animation="0.9s">O recurso solicitado não foi encontrado neste servidor!</p>
-            </div>
-        </section>
-    </main>
+        <main className='container-form'>
+            <section className='content-form'>
+                <div className='form'>
+                    {children}
+                </div>
+                {/* Buttons */}
+                <div className='btns'>
+                    {handleClose && (
+                        <button onClick={() => handleClose()} className='btn-cancel'>Cancelar</button>
+                    )}
+                    {handleCreate && (
+                        <button onClick={handleCreate}  className='btn-create'>Criar Novo Workspace</button>
+                    )}
+                </div>
+            </section>
+        </main>
     )
 }

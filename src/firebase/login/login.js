@@ -4,7 +4,7 @@ import 'firebase/compat/auth';
 import 'firebase/compat/database';
 import 'firebase/compat/storage';
 import { firebaseConfig } from '../firebaseConfig';
-import { getCookie, setCookie } from '../cookies';
+import { clearCookies, getCookie, setCookie } from '../cookies';
 
 const uidCookie = getCookie('uid') || null;
 const nomeCookie = getCookie('nome') || null;
@@ -24,7 +24,8 @@ const formatarNomeDeUsuario = (valor) => {
     return valor;
 };
 
-export const entrarComRedeSocial = (provedor) => {
+export const entrarComRedeSocial = async (provedor) => {
+    await clearCookies();
     return auth.signInWithPopup(provedor)
         .then((result) => {
             const user = result.user;
@@ -33,7 +34,7 @@ export const entrarComRedeSocial = (provedor) => {
             .then( async (doc) => {
                 if (doc.exists) {
                     const dados = doc.data();
-                    const camposCookies = ['nick', 'email', 'cep', 'foto'];
+                    const camposCookies = ['nick', 'email', 'photo'];
                     camposCookies.forEach((campo) => {
                         if (dados[campo]) {
                             setCookie(campo, dados[campo]);
@@ -59,59 +60,64 @@ export const entrarComRedeSocial = (provedor) => {
         });
 };
 
-export const cadastrarComRedeSocial = (provedor) => {
+export const cadastrarComRedeSocial = async (provedor) => {
+    await clearCookies();
     return auth.signInWithPopup(provedor)
-        .then( async (result) => {
-        const user = result.user;
-        const nomeUsuario = await formatarNomeDeUsuario(user.displayName);
-        const usuarioRef = firestore.collection('private-users').doc(user.uid);
-        const amigosRef = firestore.collection('public-users').doc(nomeUsuario);
-        if ((await amigosRef.get()).exists) {
-            return 'nome-de-usuario-existe';
-        }
-        return usuarioRef.get()
-            .then( async (doc) => {
-            if (doc.exists) {
-                return 'usuario-existe';
-            } else {
-                await amigosRef.set({
-                    nick: nomeUsuario,
-                    email: user.email,
-                    foto: user.photoURL
-                });
-                return usuarioRef.set({
-                    nick: nomeUsuario,
-                    email: user.email,
-                    foto: user.photoURL
-                })
-                .then(() => {
-                    setCookie('nick', nomeUsuario);
-                    setCookie('email', user.email);
-                    setCookie('foto', user.photoURL);
-                    setCookie('uid', user.uid);
-                    return 'sucesso';
+        .then(async (result) => {
+            const user = result.user;
+            const nomeUsuario = await formatarNomeDeUsuario(user.displayName);
+            const usuarioRef = firestore.collection('private-users').doc(user.uid);
+            const amigosRef = firestore.collection('public-users').doc(nomeUsuario);
+            
+            if ((await amigosRef.get()).exists) {
+                return 'nome-de-usuario-existe';
+            }
+
+            return usuarioRef.get()
+                .then(async (doc) => {
+                    if (doc.exists) {
+                        return 'usuario-existe';
+                    } else {
+                        await amigosRef.set({
+                            nick: nomeUsuario,
+                            email: user.email,
+                            photo: user.photoURL
+                        });
+
+                        await usuarioRef.set({
+                            nick: nomeUsuario,
+                            email: user.email,
+                            photo: user.photoURL
+                        });
+
+                        await user.updateProfile({
+                            displayName: nomeUsuario
+                        });
+
+                        setCookie('nick', nomeUsuario);
+                        setCookie('email', user.email);
+                        setCookie('photo', user.photoURL);
+                        setCookie('uid', user.uid);
+                        
+                        return 'sucesso';
+                    }
                 })
                 .catch((error) => {
-                    console.log(error);
+                    console.log(error, error.code);
                     return 'erro';
                 });
-            }
-            })
-            .catch((error) => {
-                console.log(error);
-                return 'erro';
-            });
         })
         .catch((error) => {
             if (error.code === 'auth/popup-closed-by-user') {
                 return 'popup-fechou';
             }
-            console.log(error);
+            console.log(error, error.code);
             return 'erro';
         });
 };
 
 export const cadastrarComEmail = async (nome, email, senha) => {
+    await clearCookies();
     try {
         const nomeUsuario = await formatarNomeDeUsuario(nome);
         const friendDocRef = firestore.collection('public-users').doc(nomeUsuario);
@@ -138,17 +144,22 @@ export const cadastrarComEmail = async (nome, email, senha) => {
                 nick: nomeUsuario,
                 email: email,
             });
+            
             await friendDocRef.set({
                 nick: nomeUsuario,
                 email: email,
             });
+            
+            await user.updateProfile({
+                displayName: nomeUsuario
+            });
+
             setCookie('nick', nomeUsuario);
             setCookie('email', email);
             setCookie('uid', uid);
             return 'sucesso';
         }
     } catch (error) {
-        console.error('Erro ao cadastrar:', error, error.code);
         if (error.code === 'auth/invalid-email') {
             return 'email-invalido';
         } else if (error.code === 'auth/invalid-credential') {
@@ -156,11 +167,13 @@ export const cadastrarComEmail = async (nome, email, senha) => {
         } else if (error.code === 'auth/email-already-in-use') {
             return 'email-em-uso';
         }
+        console.error('Erro ao cadastrar:', error, error.code);
         return 'erro';
     }
 };
 
 export const entrarComEmail = async (email, senha) => {
+    await clearCookies();
     try {
         const userCredential = await auth.signInWithEmailAndPassword(email, senha);
         const user = userCredential.user;
@@ -174,7 +187,7 @@ export const entrarComEmail = async (email, senha) => {
 
         if (userDoc.exists) {
             const dados = userDoc.data();
-            const camposCookies = ['nick', 'email', 'foto'];
+            const camposCookies = ['nick', 'email', 'photo'];
 
             camposCookies.forEach((campo) => {
                 if (dados[campo]) {

@@ -1,0 +1,489 @@
+.container-form {
+    width: 95%;
+    height: max-content; /* Pode ser necessário ajustar para 'auto' se a altura não estiver correta */
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 15px 0px 30px 0px;
+    margin: 20px 0px 30px 0px;
+}
+
+.content-form {
+    width: 100%;
+    height: auto;
+    background: var(--stoneTwo);
+    border: 1px solid var(--stoneFour);
+    border-radius: 12px;
+    margin: 20px 0px 0px 0px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 20;
+}
+
+.content-form .form h1 {
+    width: 100%;
+    font-size: 17px;
+    font-weight: 500;
+    margin: 0px 0px 6px 0px;
+}
+
+.content-form .form p {
+    width: 100%;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: unset;
+    margin: 0px 0px 10px 0px;
+}
+
+.content-form .form {
+    width: 100%;
+    height: auto;
+    background: var(--stoneThree);
+    border-bottom: 1px solid var(--stoneFour);
+    border-radius: 12px;
+    padding: 20px 20px 20px 20px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 20;
+}
+
+.content-form .linha {
+    width: 100%;
+    height: auto;
+    margin: 10px auto;
+    border-bottom: 1px dashed var(--stoneSix);
+}
+
+/* Form - Input */
+.content-form .form .input {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    margin: 15px 0px;
+}
+
+.content-form .form .input label {
+    font-size: 15.5px;
+    font-weight: 500;
+    margin: 0px 0px 10px 2px;
+}
+
+.content-form .form .input input {
+    width: 100%;
+    height: 42.5px;
+    border-radius: 8px;
+    color: var(--stoneEleven);
+    background: var(--stoneFour);
+    border: 1px solid var(--stoneSix);
+    font-size: 13px;
+    padding: 0px 15px;
+    transition: all .1s ease-in-out;
+} .content-form .form .input input:focus {
+    border: 1px solid var(--stoneSix);
+    box-shadow: 0px 0px 10px var(--stoneSix);
+}
+
+
+/* Form - Input With Select */
+.content-form .form .send {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 15px 0px;
+}
+
+.content-form .form .send .input-with-select {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    position: relative;
+    margin: 0px 15px 0px 0px;
+}
+
+.content-form .form .send .input-with-select input {
+    width: 100%;
+    height: 42.5px;
+    border-radius: 8px;
+    color: var(--stoneEleven);
+    background: var(--stoneFour);
+    border: 1px solid var(--stoneSix);
+    font-size: 13px;
+    padding: 0px 130px 0px 15px;
+    transition: all .1s ease-in-out;
+} .content-form .form .send .input-with-select input:focus {
+    border: 1px solid var(--stoneSix);
+    box-shadow: 0px 0px 10px var(--stoneSix);
+}
+
+.content-form .form .send .input-with-select .select {
+    width: max-content;
+    height: auto;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    border-radius: 12px;
+}
+
+.content-form .form .send .input-with-select .select button {
+    width: 100%;
+    height: 42.5px;
+    padding: 0px 14px;
+    border-radius: 10px;
+    color: var(--stoneEleven);
+    background: transparent;
+    border: 1px solid transparent;
+    cursor: var(--mouseLink);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    transition: all .1s ease-in-out;
+} .content-form .form .send .input-with-select .select button:hover,
+.content-form .form .send .input-with-select .select button:focus {
+    background: var(--stoneThree);
+    border: 1px solid var(--stoneSix);
+} .content-form .form .send .input-with-select .select button * {
+    cursor: var(--mouseLink);
+}
+
+.content-form .form .send .input-with-select .select button p {
+    width: max-content;
+    font-size: 14px;
+    margin: 0px auto 0px 0px;
+}
+
+.content-form .form .send .input-with-select .select button .icon {
+    font-size: 14px;
+    margin: 0px 0px 0px 8px;
+}
+
+
+.content-form .form .send .input-with-select .select .list {
+    width: 100%;
+    min-width: max-content;
+    height: auto;
+    border-radius: 12px;
+    background: var(--stoneFour);
+    border: 1px solid var(--stoneSix);
+    position: absolute;
+    z-index: 200;
+    top: 0px;
+    right: 0px;
+    transition: all .1s ease-in-out;
+}
+
+.content-form .form .send .input-with-select .select .list button:hover,
+.content-form .form .send .input-with-select .select .list button:focus {
+    background: var(--stoneSix);
+    border: 1px solid var(--stoneSeven);
+}
+
+.content-form .form .send button {
+    width: max-content;
+    height: 42.5px;
+    padding: 0px 12px;
+    border-radius: 8px;
+    background: var(--primary);
+    border: 1px solid var(--primary);
+    color: var(--stoneEleven);
+    cursor: var(--mouseLink);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+    transition: all .1s ease-in-out;
+} .content-form .form .send button:hover,
+.content-form .form .send button:focus {
+    background: var(--secondary);
+    border: 1px solid var(--secondary);
+    color: var(--stoneOne);
+}
+
+/* Form - Response SEND */
+.content-form .form .response-send {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    margin: 15px 0px 0px 0px;
+}
+
+.content-form .form .response-send h1 {
+    width: 100%;
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0px 0px 20px 0px;
+}
+
+.content-form .form .response-send .list {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.content-form .form .response-send .list li {
+    width: 100%;
+    height: max-content;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 0px 0px 15px 0px;
+    position: relative;
+}
+
+.content-form .form .response-send .list li img {
+    width: 35px;
+    height: auto;
+    border-radius: 50%;
+    margin: 0px 12px 0px 0px;
+}
+
+.content-form .form .response-send .list li h1 {
+    width: max-content;
+    font-size: 15px;
+    font-weight: 500;
+    margin: 0px 10px 0px 0px;
+}
+
+.content-form .form .response-send .list li h2 {
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--stoneSeven);
+    margin: 0px 10px 0px 0px;
+}
+
+.content-form .form .response-send .list li h3 {
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0px 0px 0px auto;
+}
+
+.content-form .form .response-send .list li .icon {
+    width: 30px;
+    height: 32.5px;
+    padding: 8px 4px;
+    border-radius: 8px;
+    margin: 0px 0px 0px 10px;
+    cursor: var(--mouseLink);
+    transition: all .1s ease-in-out;
+} .content-form .form .response-send .list li .icon:hover,
+.content-form .form .response-send .list li .icon:focus {
+    background: var(--stoneFour);
+}
+
+.content-form .form .response-send .list li .md-user {
+    width: max-content;
+    height: auto;
+    background: var(--stoneFour);
+    border: 1px solid var(--stoneSix);
+    border-radius: 12px;
+    position: absolute;
+    top: 45px;
+    right: 0px;
+    padding: 0px;
+    z-index: 200;
+}
+
+.content-form .form .response-send .list li .md-user .list {
+    height: max-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2px;
+    color: var(--stoneEleven);
+}
+
+.content-form .form .response-send .list li .md-user .list button {
+    width: 100%;
+    height: 40px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background: transparent;
+    font-size: 14.75px;
+    padding: 0px 12.5px 0px 7px;
+    color: var(--stoneEleven);
+    cursor: var(--mouseLink);
+    border-radius: 10px;
+    border: 1px solid transparent;
+    transition: all .1s ease-in-out;
+} .content-form .form .response-send .list li .md-user .list button:hover,
+.content-form .form .response-send .list li .md-user .list button:focus {
+    background: var(--stoneSix);
+    border: 1px solid var(--stoneSeven);
+} .content-form .form .response-send .list li .md-user .list button * {
+    cursor: var(--mouseLink);
+}
+
+/* Md User - Button Deletar */
+.content-form .form .response-send .list li .md-user .list button.deletar {
+    color: var(--red);
+}
+
+.content-form .form .response-send .list li .md-user .list button .icon {
+    width: 18px;
+    height: 18px;
+    padding: 0px;
+    margin: 0px 8px 0px 0px;
+    cursor: unset;
+} .content-form .form .response-send .list li .md-user .list button .icon:hover {
+    background: transparent;
+}
+
+/* Form - Textarea */
+.content-form .form .textarea {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    margin: 15px 0px;
+}
+
+.content-form .form .textarea label {
+    font-size: 15.5px;
+    font-weight: 500;
+    margin: 0px 0px 10px 2px;
+}
+
+.content-form .form .textarea textarea {
+    min-width: 100%;
+    max-width: 100%;
+    min-height: 70px;
+    max-height: 100px;
+    border-radius: 8px;
+    font-size: 13px;
+    color: var(--stoneEleven);
+    background: var(--stoneFour);
+    border: 1px solid var(--stoneSix);
+    padding: 12.5px 15px;
+    transition: all .1s ease-in-out;
+} .content-form .form .textarea textarea:focus {
+    border: 1px solid var(--stoneSix);
+    box-shadow: 0px 0px 10px var(--stoneSix);
+}
+
+
+.content-form .form .checkbox {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    margin: 15px 0px 7.5px 0px;
+}
+
+.content-form .form .checkbox .input-checkbox {
+    min-width: 22.5px;
+    max-width: 22.5px;
+    min-height: 22.5px;
+    max-height: 22.5px;
+    border: 1px solid var(--stoneSix);
+    background: var(--stoneFour);
+    border-radius: 50%;
+    cursor: var(--mouseLink);
+    transition: all .1s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0px 12px 0px 0px;
+} .content-form .form .checkbox .input-checkbox:hover,
+.content-form .form .checkbox .input-checkbox:focus {
+    background: var(--stoneFive);
+    border: 1px solid var(--stoneSeven);
+    box-shadow: 0px 0px 15px var(--stoneSix);
+}
+
+
+.content-form .form .checkbox .input-checkbox.selecionado {
+    background: var(--primary);
+    border: 1px solid var(--secondary);
+} .content-form .form .checkbox .input-checkbox.selecionado:hover,
+  .content-form .form .checkbox .input-checkbox.selecionado:focus {
+    box-shadow: 0px 0px 15px var(--secondary);
+}
+
+.content-form .form .checkbox .input-checkbox.selecionado::before {
+    content: "✓";
+    font-size: 14px;
+    font-weight: 200;
+    margin: auto;
+}
+
+.content-form .form .checkbox .text {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.content-form .form .checkbox .text h1 {
+    font-size: 16px;
+    font-weight: 500;
+    margin: 2px 0px 4px 0px;
+}
+
+.content-form .form .checkbox .text p {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 18px;
+}
+
+
+/* Form - Btns */
+.content-form .btns {
+    width: 100%;
+    height: 70px;
+    border-top: none;
+    padding: 0px 20px;
+    border-radius: 0px 0px 8px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+
+.content-form .btns .btn-create {
+    width: max-content;
+    height: auto;
+    padding: 10px 12px;
+    border-radius: 8px;
+    margin: 0px 0px 0px 12px;
+    background: var(--primary);
+    border: 1px solid var(--primary);
+    color: var(--stoneEleven);
+    cursor: var(--mouseLink);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+    transition: all .1s ease-in-out;
+} .content-form .btns .btn-create:hover,
+.content-form .btns .btn-create:focus {
+    background: var(--secondary);
+    border: 1px solid var(--secondary);
+    color: var(--stoneOne);
+}
+
+.content-form .btns .btn-cancel {
+    width: max-content;
+    height: auto;
+    padding: 8px 14px;
+    border-radius: 8px;
+    margin: 0px 0px 0px 12px;
+    background: var(--stoneThree);
+    border: 1px solid var(--stoneSix);
+    color: var(--stoneEleven);
+    cursor: var(--mouseLink);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+    transition: all .1s ease-in-out;
+} .content-form .btns .btn-cancel:hover,
+.content-form .btns .btn-cancel:focus {
+    background: var(--stoneFour);
+}
