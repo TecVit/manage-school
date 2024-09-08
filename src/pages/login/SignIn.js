@@ -82,7 +82,7 @@ export default function SignIn() {
         notifySuccess('Usuário logado com sucesso');
         setTimeout(() => {
           navigate('/painel');
-        }, 2250);
+        }, 3750);
         return;
       } else if (entrando === 'email-invalido') {
         notifyError('Email inválido');
@@ -122,7 +122,7 @@ export default function SignIn() {
         notifySuccess('Usuário logado com sucesso');
         setTimeout(() => {
           navigate('/painel');
-        }, 2250);
+        }, 3750);
         return;
       } else if (entrando === 'email-invalido') {
         notifyError('Email inválido');

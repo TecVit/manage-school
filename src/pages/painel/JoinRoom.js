@@ -12,7 +12,7 @@ import { getCookie, setCookie } from '../../firebase/cookies';
 import { entrarComEmail, entrarComGoogle } from '../../firebase/login/login';
 
 import { NotificationContainer, notifyError, notifySuccess } from '../../toastifyServer';
-import { getRoom } from '../../firebase/rooms/functions';
+import { getRoom } from '../../firebase/rooms.js';
 
 export default function JoinRoom() {
 

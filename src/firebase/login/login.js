@@ -34,7 +34,7 @@ export const entrarComRedeSocial = async (provedor) => {
             .then( async (doc) => {
                 if (doc.exists) {
                     const dados = doc.data();
-                    const camposCookies = ['nick', 'email', 'photo'];
+                    const camposCookies = ['nick', 'email', 'photo', 'vip'];
                     camposCookies.forEach((campo) => {
                         if (dados[campo]) {
                             setCookie(campo, dados[campo]);
@@ -81,23 +81,26 @@ export const cadastrarComRedeSocial = async (provedor) => {
                         await amigosRef.set({
                             nick: nomeUsuario,
                             email: user.email,
-                            photo: user.photoURL
+                            photo: user.photoURL,
+                            vip: false,
                         });
 
                         await usuarioRef.set({
                             nick: nomeUsuario,
                             email: user.email,
-                            photo: user.photoURL
+                            photo: user.photoURL,
+                            vip: false,
                         });
 
                         await user.updateProfile({
-                            displayName: nomeUsuario
+                            displayName: nomeUsuario,
                         });
 
                         setCookie('nick', nomeUsuario);
                         setCookie('email', user.email);
                         setCookie('photo', user.photoURL);
                         setCookie('uid', user.uid);
+                        setCookie('vip', false);
                         
                         return 'sucesso';
                     }
@@ -143,11 +146,13 @@ export const cadastrarComEmail = async (nome, email, senha) => {
             await userDocRef.set({
                 nick: nomeUsuario,
                 email: email,
+                vip: false,
             });
             
             await friendDocRef.set({
                 nick: nomeUsuario,
                 email: email,
+                vip: false,
             });
             
             await user.updateProfile({
@@ -157,6 +162,7 @@ export const cadastrarComEmail = async (nome, email, senha) => {
             setCookie('nick', nomeUsuario);
             setCookie('email', email);
             setCookie('uid', uid);
+            setCookie('vip', false);
             return 'sucesso';
         }
     } catch (error) {
@@ -187,7 +193,7 @@ export const entrarComEmail = async (email, senha) => {
 
         if (userDoc.exists) {
             const dados = userDoc.data();
-            const camposCookies = ['nick', 'email', 'photo'];
+            const camposCookies = ['nick', 'email', 'photo', 'vip'];
 
             camposCookies.forEach((campo) => {
                 if (dados[campo]) {

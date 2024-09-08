@@ -8,6 +8,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: all .1s ease-in-out;
+} .container-menu.none {
+    display: none !important;
 }
 
 .content-menu {
@@ -55,6 +58,9 @@
     cursor: var(--mouseLink);
 } .content-menu .list li.selecionado {
     background: var(--stoneThree);
+} .content-menu .list li.selecionado:hover,
+  .content-menu .list li.selecionado:focus {
+    background: var(--stoneFour);
 }
 
 .content-menu .list li img {
@@ -77,6 +83,97 @@
     font-size: 15px;
     font-weight: 400;
 }
+
+
+/* Limit Storage */
+.content-menu .limit-storage {
+    width: calc(100% - 30px);
+    height: auto;
+    border-radius: 10px;
+    position: absolute;
+    bottom: 82.5px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--stoneTwo);
+    padding: 15px;
+}
+
+.content-menu .limit-storage h1 {
+    width: 100%;
+    font-size: 15px;
+    font-weight: 600;
+    margin: 0px 0px 8px 0px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.content-menu .limit-storage h1 .icon {
+    font-size: 18px;
+    cursor: var(--mouseLink);
+    user-select: none;
+    transition: all .05s ease-in-out;
+} .content-menu .limit-storage h1 .icon * {
+    cursor: var(--mouseLink);
+    user-select: none;
+} .content-menu .limit-storage h1 .icon:hover,
+.content-menu .limit-storage h1 .icon:focus {
+    color: var(--secondary);
+}
+
+
+.content-menu .limit-storage p {
+    width: 100%;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 21.5px;
+}
+
+.content-menu .limit-storage .progress-bar {
+    width: 100%;
+    height: 6px;
+    border-radius: 8px;
+    background: var(--stoneFive);
+    margin: 17.5px 0px;
+} .content-menu .limit-storage .progress-bar .progress {
+    width: max-content;
+    height: 100%;
+    border-radius: 8px;
+} 
+
+.content-menu .limit-storage .progress-bar .progress.green {
+    background: var(--greenLight);
+} .content-menu .limit-storage .progress-bar .progress.orange {
+    background: var(--orange);
+} .content-menu .limit-storage .progress-bar .progress.red {
+    background: var(--red);
+}
+
+.content-menu .limit-storage button {
+    width: max-content;
+    height: auto;
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    border: 1px solid var(--stoneFive);
+    background: var(--stoneThree);
+    color: var(--stoneEleven);
+    user-select: none;
+    cursor: var(--mouseLink);
+    margin: 5px 0px 0px 0px;
+    transition: all .05s ease-in-out;
+} .content-menu .limit-storage button * {
+    user-select: none;
+    cursor: var(--mouseLink);
+} .content-menu .limit-storage button:hover,
+.content-menu .limit-storage button:focus {
+    background: var(--stoneFive);
+    box-shadow: 0px 0px 2px var(--stoneFive);
+}
+
+
+
 
 
 /* Perfil */

@@ -2,8 +2,32 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './css/Painel.css';
 import { IoMdTrendingDown, IoMdTrendingUp } from 'react-icons/io';
+import { auth } from '../../firebase/login/login';
+import { clearCookies, getCookie, setCookie } from '../../firebase/cookies';
 
 export default function Painel() {
+
+    // Dados
+    const uidCookie = getCookie('uid') || '';
+    const nickCookie = getCookie('nick') || '';
+    const photoCookie = getCookie('photo') || '';
+    const emailCookie = getCookie('email') || '';
+    
+    useEffect(() => {
+        auth.onAuthStateChanged( async function(user) {
+            if (!user) {
+                await clearCookies();
+                localStorage.clear();
+                window.location.href = "/entrar";
+            } else {
+                if (emailCookie !== user.email || uidCookie !== user.uid || nickCookie !== user.displayName) {
+                await clearCookies();
+                localStorage.clear();
+                window.location.href = "/entrar";
+                }
+            }
+        });
+    }, []);
 
     // Animações
     function getTopPositionRelativeToPage(element) {
@@ -33,38 +57,33 @@ export default function Painel() {
         window.removeEventListener('scroll', animacoes);
         };
     }, []);
-
+    
     const navigate = useNavigate();
 
     const [items, setItems] = useState([]);
     const handleFileChange = async (event) => {
         const file = event.target.files[0];
         if (file) {
-        const reader = new FileReader();
-        
-        // Ler o arquivo como texto
-        reader.readAsText(file);
-        
-        // Quando o arquivo é carregado
-        reader.onload = async (e) => {
-            const text = e.target.result;
-            const parsedItems = await parseMsFile(text);
-            console.log(parsedItems);
-            setItems(parsedItems);
-        };
+            const reader = new FileReader();
+            
+            reader.readAsText(file);
+            
+            reader.onload = async (e) => {
+                const text = e.target.result;
+                const parsedItems = await parseMsFile(text);
+                console.log(parsedItems);
+                setItems(parsedItems);
+            };
 
-        // Lidar com erros de leitura do arquivo
-        reader.onerror = () => {
-            console.error('Erro ao ler o arquivo.');
-        };
+            reader.onerror = () => {
+                console.error('Erro ao ler o arquivo.');
+            };
         }
     };
 
     const parseMsFile = async (text) => {
-        // Divida o conteúdo por linhas, removendo espaços em branco e linhas vazias
         const lines = text.split(';').map(line => line.trim()).filter(line => line);
         
-        // Identificar os nomes das colunas dinamicamente
         const result = lines.map(line => {
           const values = line.split('|').map(value => value.trim());
           return values;
@@ -84,8 +103,14 @@ export default function Painel() {
                     var key = String(data[0][j])
                     .normalize('NFD')
                     .replace(/[\u0300-\u036f]/g, '')
-                    .toLowerCase();;
+                    .toLowerCase();
                     obj[key] = value;
+                });
+                json.push(obj);
+            } else {
+                var obj = {};
+                arr.map((value, j) => {
+                    obj[j] = value;
                 });
                 json.push(obj);
             }
@@ -94,6 +119,14 @@ export default function Painel() {
             return json;
         }
     };
+    
+    var numMaxWorkspaces = 3;
+    var numMaxTimes = 3;
+    const qtdWorkspaces = Number(getCookie('qtdWorkspaces')) || 0;
+    const qtdTimes = Number(getCookie('qtdTimes')) || 0;
+
+    var percentageWorkspaces = parseInt(parseFloat(qtdWorkspaces / numMaxWorkspaces) * 100);
+    var percentageTimes = parseInt(parseFloat(qtdTimes / numMaxTimes) * 100);
 
     return (
         <main className="container-painel">
@@ -108,31 +141,39 @@ export default function Painel() {
                         <li>
                             <div className='text'>
                                 <h2>Workspaces</h2>
-                                <h1>5/10</h1>
+                                <h1>{qtdWorkspaces}/{numMaxWorkspaces}</h1>
                             </div>
-                            <div className='percentage green'>
-                                <IoMdTrendingUp className="icon" />
-                                <p>50%</p>
+                            <div className={`percentage ${percentageWorkspaces >= 80 ? 'red' : percentageWorkspaces >= 60 ? 'orange' : 'green'}`}>
+                                {percentageWorkspaces >= 80 ? (
+                                    <IoMdTrendingDown className="icon" />
+                                ) : (
+                                    <IoMdTrendingUp className="icon" />
+                                )}
+                                <p>{percentageWorkspaces}%</p>
                             </div>
                         </li>
                         <li>
                             <div className='text'>
                                 <h2>Times</h2>
-                                <h1>6/10</h1>
+                                <h1>{qtdTimes}/{numMaxTimes}</h1>
                             </div>
-                            <div className='percentage orange'>
-                                <IoMdTrendingUp className="icon" />
-                                <p>60%</p>
+                            <div className={`percentage ${percentageTimes >= 80 ? 'red' : percentageTimes >= 60 ? 'orange' : 'green'}`}>
+                                {percentageTimes >= 80 ? (
+                                    <IoMdTrendingDown className="icon" />
+                                ) : (
+                                    <IoMdTrendingUp className="icon" />
+                                )}
+                                <p>{percentageTimes}%</p>
                             </div>
                         </li>
                         <li>
                             <div className='text'>
-                                <h2>Minutos por dia</h2>
-                                <h1>82/100</h1>
+                                <h2>Compartilhamento</h2>
+                                <h1>Em Breve</h1>
                             </div>
-                            <div className='percentage red'>
+                            <div className='percentage orange'>
                                 <IoMdTrendingDown className="icon" />
-                                <p>82%</p>
+                                <p>0%</p>
                             </div>
                         </li>
                     </div>

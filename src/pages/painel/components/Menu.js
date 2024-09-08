@@ -5,7 +5,7 @@ import './css/Menu.css';
 import Logo from '../../../icons/manage.png';
 import { GoCheck, GoHome, GoPeople, GoPerson, GoQuestion, GoSignOut } from 'react-icons/go';
 import { IoPricetagsOutline, IoSettingsOutline } from 'react-icons/io5';
-import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
+import { IoIosArrowDown, IoIosArrowUp, IoMdClose } from 'react-icons/io';
 import { MdMonitor, MdWorkspacePremium } from 'react-icons/md';
 import { clearCookies, deleteCookie, getCookie, setCookie } from '../../../firebase/cookies';
 import { BiSupport } from 'react-icons/bi';
@@ -38,6 +38,8 @@ export default function App() {
     const nickCookie = getCookie('nick') || '';
     const photoCookie = getCookie('photo') || '';
     const emailCookie = getCookie('email') || '';
+    const mdLimitStorageCookie = getCookie('mdLimitStorage') || false;
+    const [mdLimitStorage, setMdLimitStorage] = useState(mdLimitStorageCookie);
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -51,6 +53,11 @@ export default function App() {
         await clearCookies();
         window.location.href = "/";
     }
+
+    // Limits
+    const qtdWorkspaces = Number(getCookie('qtdWorkspaces')) || 0;
+    var maxQtdWorkspaces = 3;
+    var limitStorage = parseInt((qtdWorkspaces / maxQtdWorkspaces) * 100);
     
 
     return (
@@ -58,24 +65,51 @@ export default function App() {
             <section className='content-menu'>
                 <img onClick={() => navigate('/')} src={Logo} className='logo' />
                 <div className='list'>
-                    <li tabIndex={0} onClick={() => navigate('/painel')} className={router === '/painel' && 'selecionado'}>
+                    <li tabIndex={0} onKeyDown={(event) => event.key === "Enter" && navigate('/painel')} onClick={() => navigate('/painel')} className={router === '/painel' && 'selecionado'}>
                         <MdMonitor className='icon' />
                         <p>Painel</p>
                     </li>
-                    <li tabIndex={0} onClick={() => navigate('/painel/workspaces')} className={router === '/painel/workspaces' && 'selecionado'}>
+                    <li tabIndex={0} onKeyDown={(event) => event.key === "Enter" && navigate('/painel/workspaces')} onClick={() => navigate('/painel/workspaces')} className={router === '/painel/workspaces' && 'selecionado'}>
                         <MdWorkspacePremium className='icon' />
                         <p>Workspaces</p>
                     </li>
-                    <li tabIndex={0} onClick={() => navigate('/painel/times')} className={router === '/painel/times' && 'selecionado'}>
+                    <li tabIndex={0} onKeyDown={(event) => event.key === "Enter" && navigate('/painel/times')} onClick={() => navigate('/painel/times')} className={router === '/painel/times' && 'selecionado'}>
                         <GoPeople className='icon' />
                         <p>Times</p>
                     </li>
-                    <li tabIndex={0} onClick={() => navigate('/painel/configuracoes')}>
+                    <li tabIndex={0} onKeyDown={(event) => event.key === "Enter" && navigate('/painel/configuracoes')} onClick={() => navigate('/painel/configuracoes')}>
                         <IoSettingsOutline className='icon' />
                         <p>Configurações</p>
                     </li>
 
-                    <li tabIndex={0} onClick={() => setMdPerfil(!mdPerfil)} className={`profile ${mdPerfil && 'selecionado'}`}>
+                    {!mdLimitStorage && (
+                        <div className='limit-storage'>
+                            <h1>
+                                Armazenamento
+                                <IoMdClose onClick={() => {
+                                    setMdLimitStorage(true)
+                                    setCookie('mdLimitStorage', true);
+                                }}
+                                onKeyDown={(event) => {
+                                    if (event.key === "Enter") {
+                                        setMdLimitStorage(true); 
+                                        setCookie('mdLimitStorage', true);
+                                    }
+                                }}
+                                tabIndex={0} className='icon' />
+                            </h1>
+                            <p>Atualize seu plano para obter mais espaço livre</p>
+                            <div className='progress-bar'>
+                                <div style={{
+                                    width: `${limitStorage}%`,
+                                }} className={`progress ${limitStorage >= 80 ? 'red' : limitStorage >= 60 ? 'orange' : 'green'}`}></div>
+                            </div>
+                            <button>Atualizar plano</button>
+                        </div>
+                    )}
+
+                    {/* Perfil do Usúario */}
+                    <li tabIndex={0} onKeyDown={(event) => event.key === "Enter" && setMdPerfil(!mdPerfil)} onClick={() => setMdPerfil(!mdPerfil)} className={`profile ${mdPerfil && 'selecionado'}`}>
                         {photoCookie ? (
                             <img src={photoCookie} />
                         ) : (
@@ -118,6 +152,11 @@ export default function App() {
                             <li tabIndex={0} onClick={() => {
                                 setMdPerfil(false);
                                 sairDaConta();
+                            }} onKeyDown={(event) => {
+                                if (event.key === "Enter") {
+                                    setMdPerfil(false);
+                                    sairDaConta();
+                                }
                             }}>
                                 <GoSignOut className='icon' />
                                 <p>Sair da Conta</p>

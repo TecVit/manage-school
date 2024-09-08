@@ -27,27 +27,28 @@ function deleteCookie(name) {
 }
 
 function clearCookies() {
-  var cookies = document.cookie.split(";");
+  return new Promise((resolve) => {
+      var cookies = document.cookie.split(";");
 
-  for (var i = 0; i < cookies.length; i++) {
-      var cookie = cookies[i].trim();
-      var igualPos = cookie.indexOf("=");
-      var nome = igualPos > -1 ? cookie.substr(0, igualPos) : cookie;
+      for (var i = 0; i < cookies.length; i++) {
+          var cookie = cookies[i].trim();
+          var igualPos = cookie.indexOf("=");
+          var nome = igualPos > -1 ? cookie.substr(0, igualPos) : cookie;
 
-      // Apaga o cookie para o path atual
-      document.cookie = nome + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+          document.cookie = nome + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
 
-      // Opcionalmente, apaga o cookie para todos os subdomínios
-      document.cookie = nome + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=" + window.location.hostname;
+          document.cookie = nome + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=" + window.location.hostname;
 
-      // Apaga o cookie para o domínio principal, removendo subdomínios
-      var domainParts = window.location.hostname.split(".");
-      if (domainParts.length > 2) {
-          domainParts.shift(); // Remove o subdomínio
-          var domain = domainParts.join(".");
-          document.cookie = nome + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=" + domain;
+          var domainParts = window.location.hostname.split(".");
+          if (domainParts.length > 2) {
+              domainParts.shift(); // Remove o subdomínio
+              var domain = domainParts.join(".");
+              document.cookie = nome + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=" + domain;
+          }
       }
-  }
+
+      resolve();
+  });
 }
 
 export { setCookie, deleteCookie, getCookie, clearCookies };

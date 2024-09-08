@@ -81,7 +81,7 @@
   --stoneOneOpacity: rgba(12, 10, 9, 0.2);
   --stoneTwo: #18181b;
   --stoneThree: #27272a;
-  --stoneFour: #3f3f46;
+  --stoneFour: #34343a; /* #3f3f46 */
   --stoneFive: #52525b;
   --stoneSix: #71717a;
   --stoneSeven: #a1a1aa;
@@ -97,7 +97,7 @@
   --greenLight: #04d361;
   --red: #F55557;
   --orange: #ff6400;
-  --grayMicrosoft: #2c2c2e;
+  --grayMicrosoft: #242427;
   --white: #ffffff;
   --firebase: #f5820d;
 
@@ -150,19 +150,6 @@ input::placeholder {
 
 h1, h2, h3, h4, h5, h6, a, p, strong, span, label, input, textarea {
   cursor: var(--mouseText);
-}
-
-
-.painel {
-  width: 100%;
-  height: max-content;
-  display: flex;
-  position: relative;
-  flex-direction: row;
-  margin: 0px;
-  padding: 0px;
-  overflow-y: scroll;
-  overflow-x: hidden;
 }
 
 
@@ -252,6 +239,13 @@ h1, h2, h3, h4, h5, h6, a, p, strong, span, label, input, textarea {
   flex-direction: row;
   align-items: center;
   overflow: hidden;
+} 
+
+*.expanded {
+  width: 100vw !important;
+  left: 0px !important;
+} *.border-radius-none {
+  border-radius: 0px 0px 0px 0px !important;
 }
 
 
