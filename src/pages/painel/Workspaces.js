@@ -12,7 +12,7 @@ import { LuExpand } from 'react-icons/lu';
 import { BiExitFullscreen, BiFullscreen } from 'react-icons/bi';
 import { FaEllipsisVertical } from 'react-icons/fa6';
 import { FiTrash } from 'react-icons/fi';
-import { validateUserNick } from '../../firebase/users.js';
+import { addUserWorkspace, deleteUserWorkspace, validateUserNick } from '../../firebase/users.js';
 
 export default function Workspaces() {
 
@@ -31,9 +31,9 @@ export default function Workspaces() {
                 window.location.href = "/entrar";
             } else {
                 if (emailCookie !== user.email || uidCookie !== user.uid || nickCookie !== user.displayName) {
-                await clearCookies();
-                localStorage.clear();
-                window.location.href = "/entrar";
+                    await clearCookies();
+                    localStorage.clear();
+                    window.location.href = "/entrar";
                 }
             }
         });
@@ -208,12 +208,14 @@ export default function Workspaces() {
     }
 
     const [inputUserNick, setInputUserNick] = useState('');
+    const [userEmail, setUserEmail] = useState('');
     const [statusUserNick, setStatusUserNick] = useState(null);
     const handleValidateUserNick = async () => {
         if (inputUserNick.length >= 5) {
             const response = await validateUserNick(inputUserNick);
             if (response.email) {
                 setStatusUserNick(true);
+                setUserEmail(response.email);
             } else if (response.code === 'nick-invalido') {
                 setStatusUserNick(false);
             } else {
@@ -223,9 +225,58 @@ export default function Workspaces() {
             setStatusUserNick(null);
         }
     }
+    
+    const handleAddUser = async () => {
+        try {
+            let positionUser = positions.indexOf(positionSelect)+1;
+            if (!infoWorkspace.uid || !inputUserNick || positionUser < 1) {
+                notifyError('Complete os dados necessários para adicionar um usuário');
+                return false;
+            }
+            if (!statusUserNick) {
+                notifyError('Nick do usuário inválido');
+                return false;
+            }
+            const adding = await addUserWorkspace(infoWorkspace.uid, inputUserNick, userEmail, positionUser);
+            if (adding.users) {
+                notifySuccess('Usuário adicionado com sucesso');
+                setInfoWorkspace((prev) => ({
+                    ...prev,
+                    users: adding.users,
+                }));
+                return true;
+            }
+        } catch (error) {
+            console.log(error);
+            return;
+        } finally {
+            setCarregando(false);
+        }
+    }
 
-    // positions.indexOf(positionSelect) => Usado para definir o cargo do usuário em forma de Número
-
+    const handleDeleteUser = async (index, nickUser, emailUser) => {
+        try {
+            handleMdUsersWorkspace(index);
+            if (!infoWorkspace.uid || !nickUser || !emailUser) {
+                notifyError('Não encontramos os dados desse usuário, tente novamente mais tarde');
+                return false;
+            }
+            const removing = await deleteUserWorkspace(infoWorkspace.uid, nickUser, emailUser);
+            if (removing.users) {
+                notifySuccess('Usuário deletado com sucesso');
+                setInfoWorkspace((prev) => ({
+                    ...prev,
+                    users: removing.users,
+                }));
+                return true;
+            }
+        } catch (error) {
+            console.log(error);
+            return;
+        } finally {
+            setCarregando(false);
+        }
+    }
 
     return (
         <>
@@ -270,7 +321,7 @@ export default function Workspaces() {
                                                     <h2>{val.data}</h2>
                                                     <h1>{val.nome}</h1>
                                                     <p>{val.descricao}</p>
-                                                    <a>{val.users ? val.users.length-1 : 0} Membros</a>
+                                                    <a>{val.users ? val.users.length-1 : 0} Membro{val.users.length-1 > 1 ? 's' : ''}</a>
                                                 </div>
                                             </div>
                                         ))
@@ -366,7 +417,7 @@ export default function Workspaces() {
                                             )}
                                         </div>
                                     </div>
-                                    <button>Adicionar</button>
+                                    <button onClick={handleAddUser}>Adicionar</button>
                                 </div>
                             </div>
                             
@@ -398,7 +449,7 @@ export default function Workspaces() {
                                                             <MdOutlineEdit className='icon' />
                                                             Editar
                                                         </button>
-                                                        <button className='deletar'>
+                                                        <button onClick={() => handleDeleteUser(i-1, infoWorkspace.users[i][1], infoWorkspace.users[i][2])} className='deletar'>
                                                             <FiTrash className='icon' />
                                                             Deletar
                                                         </button>
