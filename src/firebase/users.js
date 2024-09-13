@@ -46,8 +46,11 @@ const validateUserNick = async (nick) => {
 };
 
 const addUserWorkspace = async (uid, nick, email, cargo) => {
-  if (!uid || !nick || !cargo) {
+  if (!uid || !uidCookie || !nick || !cargo) {
     notifyError('Houve um erro');
+    setTimeout(() => {
+      window.location.reload();
+    }, 3750);
     return;
   }
   try {

@@ -5,7 +5,7 @@ import { IoIosArrowDown, IoMdTrendingDown, IoMdTrendingUp } from 'react-icons/io
 import { clearCookies, getCookie, setCookie } from '../../firebase/cookies';
 import { MdErrorOutline, MdOutlineDashboard, MdOutlineEdit } from 'react-icons/md';
 import Form from './components/Form';
-import { createWorkspace, getWorkspaces } from '../../firebase/workspaces.js';
+import { createWorkspace, getWorkspaces, saveWorkspace } from '../../firebase/workspaces.js';
 import { NotificationContainer, notifyError, notifySuccess } from '../../toastifyServer';
 import { auth } from '../../firebase/login/login.js';
 import { LuExpand } from 'react-icons/lu';
@@ -13,8 +13,26 @@ import { BiExitFullscreen, BiFullscreen } from 'react-icons/bi';
 import { FaEllipsisVertical } from 'react-icons/fa6';
 import { FiTrash } from 'react-icons/fi';
 import { addUserWorkspace, deleteUserWorkspace, validateUserNick } from '../../firebase/users.js';
+import Popup from './components/Popup.js';
 
 export default function Workspaces() {
+
+    function deepEqual(obj1, obj2) {
+        if (typeof obj1 === "object" && obj1 !== null && typeof obj2 === "object" && obj2 !== null) {
+          if (Object.keys(obj1).length !== Object.keys(obj2).length) {
+            return false;
+          }
+      
+          for (let key in obj1) {
+            if (!obj2.hasOwnProperty(key) || !deepEqual(obj1[key], obj2[key])) {
+              return false;
+            }
+          }
+          return true;
+        } else {
+          return obj1 === obj2;
+        }
+    }
 
     // Dados
     const uidCookie = getCookie('uid') || '';
@@ -74,6 +92,7 @@ export default function Workspaces() {
     // Modais
     const [carregando, setCarregando] = useState(false);
     const [mdPopup, setMdPopup] = useState(true);
+    const [mdPopupEditar, setMdPopupEditar] = useState(false);
 
     // Pages
     const [pageWorkspaces, setPageWorkspaces] = useState(true);
@@ -103,6 +122,7 @@ export default function Workspaces() {
     // Datas Workspaces
     const [workspacesData, setWorkspacesData] = useState([]);
     const [infoWorkspace, setInfoWorkspace] = useState({});
+    const [editInfoWorkspace, setEditInfoWorkspace] = useState({});
     
     const [mdUsersWorkspace, setMdUsersWorkspace] = useState([false]);
     // const [mdUsersWorkspace, setMdUsersWorkspace] = useState(Array(10).fill(false));
@@ -120,7 +140,6 @@ export default function Workspaces() {
             return list;
         });
     }
-    
 
     useEffect(() => {
         const consultarWorkspaces = async () => {
@@ -278,6 +297,51 @@ export default function Workspaces() {
         }
     }
 
+    // Input File
+    const [inputFile, setInputFile] = useState(false);
+    const handleInputFile = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            setInputFile({
+              name: file.name,
+              type: file.type,
+              fileObject: file,
+            });
+        }
+    }
+
+    const handleEditKeyWorkspace = (key, value) => {
+        setEditInfoWorkspace({
+            ...editInfoWorkspace,
+            [key]: value,
+        });
+    }
+
+    const handleSaveWorkspace = async () => {
+        try {
+            const naoEditado = await deepEqual(infoWorkspace, editInfoWorkspace);
+            if (naoEditado && !inputFile) {
+                notifyError('Nenhuma alteração feita');
+                return false;
+            }
+            const saving = await saveWorkspace(editInfoWorkspace, inputFile.fileObject);
+            if (saving.uid) {
+                notifySuccess('Mudanças salvas com sucesso');
+                setInfoWorkspace(saving);
+                return true;
+            }
+        } catch (error) {
+            console.log(error);
+            return;
+        } finally {
+            setCarregando(false);
+        }
+    }
+
+    const truncateText = (text, maxLength) => {
+        return text.length > maxLength ? text.slice(0, maxLength) + '...' : text;
+    };
+
     return (
         <>
             <main className="container-workspaces">
@@ -301,12 +365,14 @@ export default function Workspaces() {
                                         workspacesData.map((val, index) => (
                                             <div tabIndex={0} onClick={() => {
                                                 setInfoWorkspace(val);
+                                                setEditInfoWorkspace(val);
                                                 setPageEditWorkspace(true);
                                                 setPageWorkspaces(false);
                                             }}
                                             onKeyDown={(event) => {
                                                 if (event.key === "Enter") {
                                                     setInfoWorkspace(val);
+                                                    setEditInfoWorkspace(val);
                                                     setPageEditWorkspace(true);
                                                     setPageWorkspaces(false);
                                                 }
@@ -319,8 +385,8 @@ export default function Workspaces() {
                                                 )}
                                                 <div className='text'>
                                                     <h2>{val.data}</h2>
-                                                    <h1>{val.nome}</h1>
-                                                    <p>{val.descricao}</p>
+                                                    <h1>{truncateText(val.nome, 30)}</h1>
+                                                    <p>{truncateText(val.descricao, 30)}</p>
                                                     <a>{val.users ? val.users.length-1 : 0} Membro{val.users.length-1 > 1 ? 's' : ''}</a>
                                                 </div>
                                             </div>
@@ -336,11 +402,11 @@ export default function Workspaces() {
                         </div>
                         <div className='linha'></div>
                         <Form handleCreate={handleCreateWorkspace}>
-                            <h1>Novo espaço de trabalho</h1>
-                            <p>Crie um novo espaço de trabalho para seu gerenciamento</p>
+                            <h1>Novo Workspace</h1>
+                            <p>Crie um novo workspace para seu gerenciamento</p>
                             <div className='linha'></div>
                             <div className='input'>
-                                <label>Nome do espaço de trabalho</label>
+                                <label>Nome do Workspace</label>
                                 <input onChange={(e) => setInputNomeWorkspace(e.target.value)} placeholder='ex: Biblioteca Escolar 2024' type='text' />
                             </div>
                             <div className='checkbox'>
@@ -376,15 +442,15 @@ export default function Workspaces() {
                                 <MdOutlineDashboard className='icon' />
                             )}
                             <div className='text'>
-                                <h1>{infoWorkspace.nome}</h1>
-                                <p>{infoWorkspace.descricao}</p>
+                                <h1>{truncateText(infoWorkspace.nome, 40)}</h1>
+                                <p>{truncateText(infoWorkspace.descricao, 40)}</p>
                             </div>
                             {statusExpanded ? (
                                 <BiExitFullscreen onClick={() => handleExpandScreen()} className='expand' />
                             ) : (
                                 <BiFullscreen onClick={() => handleExpandScreen()} className='expand' />
                             )}
-                            <button>Editar Workspace</button>
+                            <button onClick={() => setMdPopupEditar(true)}>Editar Workspace</button>
                         </div>
 
                         {/* Users Workspace */}
@@ -467,8 +533,51 @@ export default function Workspaces() {
                     </section>      
                 )}
 
-
             </main>
+
+            {/* Popups */}
+            {mdPopupEditar && (
+                <Popup handleClose={() => setMdPopupEditar(false)} handleSave={handleSaveWorkspace} handleDelete={'a'} title="Editar Workspace">
+                    <div className='form'>
+                        <div className='file'>
+                            <div className='input-file'>
+                                <input onChange={handleInputFile} accept='image/*' type='file' />
+                                {inputFile ? (
+                                    <img className='content' src={URL.createObjectURL(inputFile.fileObject)} />
+                                ) : (
+                                    <div className='content'>
+                                        <p>Arquívo</p>
+                                    </div>
+                                )}
+                            </div>
+                            <div className='text'>
+                                <h1>
+                                    {inputFile ? (
+                                        <>Foto de Perfil: {inputFile.name}</>
+                                    ) : (
+                                        <>Selecione um arquivo</>
+                                    )}
+                                </h1>
+                                <p>
+                                    {inputFile ? (
+                                        <>{inputFile.type}</>
+                                    ) : (
+                                        <>Nenhum tipo de arquivo encontrado</>
+                                    )}
+                                </p>
+                            </div>
+                        </div>
+                        <div className='input'>
+                            <label>Nome do Workspace</label>
+                            <input maxLength={60} onChange={(e) => handleEditKeyWorkspace('nome', e.target.value)} value={editInfoWorkspace.nome} placeholder='ex: Biblioteca Escolar 2024' type='text' />
+                        </div>
+                        <div className='textarea'>
+                            <label>Descrição do Workspace</label>
+                            <textarea maxLength={300} onChange={(e) => handleEditKeyWorkspace('descricao', e.target.value)} value={editInfoWorkspace.descricao} placeholder='Adicione sua descrição para o espaço de trabalho'></textarea>
+                        </div>
+                    </div>
+                </Popup>
+            )}
         </>
     )
 }

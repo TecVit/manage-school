@@ -135,7 +135,11 @@ export default function App() {
                                 <GoCheck className='seta' />
                             </li>
                             <div className='linha'></div>
-                            <li tabIndex={0} onClick={() => setMdPerfil(false)}>
+                            <li onKeyDown={(event) => {
+                                if (event.key === "Enter") {
+                                    window.location.href = "/#planos";
+                                }
+                            }} onClick={() => window.location.href = "/#planos"} tabIndex={0}>
                                 <IoPricetagsOutline className='icon' />
                                 <p>Atualizar Plano</p>
                             </li>

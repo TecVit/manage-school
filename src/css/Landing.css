@@ -194,7 +194,7 @@
 
 .content-initial button {
     font-size: 15px;
-    padding: 12.5px 17.5px;
+    padding: 15px 18px;
 }
 
 
@@ -1062,3 +1062,149 @@
 } .content-landing .content-contact .made strong:hover {
     text-shadow: 0px 0px 10px var(--blue);
 }
+
+
+
+
+/* Planos */
+.container-plans {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0px 0px 100px 0px;
+    color: var(--stoneEleven);
+} 
+
+.content-plans {
+    width: 92.5%;
+    max-width: 1111px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.content-plans h1 {
+    width: 95%;
+    max-width: 600px;
+    text-align: center;
+    font-size: 32.5px;
+    font-weight: 800;
+    line-height: 44px;
+    margin: 30px auto 60px auto;
+} .content-plans h1 strong {
+    font-weight: 800;
+    color: var(--secondary);
+}
+
+.content-plans .plan {
+    width: 100%;
+    max-width: 780px;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-radius: 14px;
+    background: var(--stoneTwo);
+    border: 1px solid var(--stoneThree);
+    padding: 40px 30px;
+    margin: 15px 0px 30px 0px;
+}
+
+.content-plans .plan .price {
+    width: 40%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 15px 5% 15px 0px;
+}
+
+.content-plans .plan .price h1 {
+    width: 100%;
+    font-size: 26px;
+    text-align: center;
+    line-height: unset;
+    margin: 0px 0px 8px 0px;
+}
+
+.content-plans .plan .price p {
+    width: 100%;
+    max-width: 250px;
+    font-size: 15px;
+    font-weight: 500;
+    text-align: center;
+    line-height: 22px;
+    margin: 0px auto 8px auto;
+} .content-plans .plan .price p strong {
+    color: var(--secondary);
+}
+
+.content-plans .plan .price h2 {
+    width: 100%;
+    font-size: 34px;
+    text-align: center;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    line-height: unset;
+    margin: 20px 0px 30px 0px;
+}
+
+.content-plans .plan .price button {
+    width: max-content;
+    height: auto;
+    padding: 15px 18px;
+    border-radius: 25px;
+    background: var(--primary);
+    color: var(--stoneEleven);
+    font-size: 14px;
+    font-weight: 525;
+    margin: 0px auto;
+    cursor: var(--mouseLink);
+    transition: all .1s ease-in-out;
+} .content-plans .plan .price button:hover,
+.content-plans .plan .price button:focus {
+    background: var(--stoneEleven);
+    color: var(--stoneOne);
+}
+
+
+/* Descrição */
+.content-plans .plan .description {
+    width: 55%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 0px 0px 0px 5%;
+    border-left: 1px solid var(--stoneThree);
+}
+
+.content-plans .plan .description p {
+    width: 100%;
+    max-width: 450px;
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 28px;
+    margin: 15px 0px;
+}
+
+.content-plans .plan .description .list {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.content-plans .plan .description .list p {
+    font-size: 17px;
+    margin: 8px 0px;
+    font-weight: 400;
+    line-height: unset;
+} .content-plans .plan .description .list p strong {
+    font-size: 20px;
+    color: var(--secondary);
+    margin: 0px 6px 0px 0px;
+}
+

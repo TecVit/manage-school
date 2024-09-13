@@ -111,7 +111,47 @@ const createWorkspace = async (dados) => {
       console.log(error);
       return false;
     }
-  };
+};
+
+const saveWorkspace = async (obj, file) => {
+  try {
+    const workspacesRef = await firestore
+      .collection('private-users')
+      .doc(uidCookie)
+      .collection('workspaces')
+      .get();
+
+    if (!workspacesRef.empty) {
+      if (file) {
+        const storageRef = firebase.storage().ref();
+        const fileRef = storageRef.child(`workspaces/${obj.uid}/${file.name}`);
+        
+        const snapshot = await fileRef.put(file);
+
+        const url = await snapshot.ref.getDownloadURL();
+
+        obj.foto = url;
+      }
+      
+      const workspaceDoc = await firestore
+        .collection('private-users')
+        .doc(uidCookie)
+        .collection('workspaces')
+        .doc(obj.uid)
+        .update(obj);
+
+      return obj;
+    } else {
+      return false;
+    }
+
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
 
 
-export { getWorkspaces, createWorkspace };
+
+export { getWorkspaces, createWorkspace, saveWorkspace };

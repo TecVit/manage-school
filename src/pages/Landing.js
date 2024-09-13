@@ -129,6 +129,7 @@ export default function Landing() {
                         <a href='/#inicio'>Início</a>
                         <a href='/#funcionalidades'>Funcionalidades</a>
                         <a href='/#atualizacoes'>Atualizações</a>
+                        <a href='/#planos'>Planos</a>
                     </div>
                     <button onClick={() => navigate('/entrar')} className='btn-signin'>Entrar</button>
                     <button onClick={() => navigate('/cadastrar')} className='btn-started'>Começar</button>
@@ -329,9 +330,50 @@ export default function Landing() {
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
+
+            {/* Plans */}
+            <section id='planos' className='container-plans'>
+                <div className='content-plans'>
+                    <h1>Comece a gerenciar sua <strong>empresa</strong> de forma mais <strong>inteligente</strong> ainda hoje</h1>
+                    <div className='plan'>
+                        <div className='price'>
+                            <h1>Plano Grátis</h1>
+                            <p>Para qualquer empresa de <strong>pequeno</strong> porte</p>
+                            <h2>R$0,00</h2>
+                            <button onClick={() => navigate('/cadastrar')}>Acessar Agora</button>
+                        </div>
+                        <div className='description'>
+                            <div className='list'>
+                                <p><strong>✓</strong> Acesso a 3 Workspaces</p>
+                                <p><strong>✓</strong> Acesso a 3 Times</p>
+                                <p><strong>✓</strong> Disponível 2 Usuários por Workspace</p>
+                                <p><strong>✓</strong> Inclui o Suporte Básico</p>
+                            </div>
+                            <p>A equipe pode adicionar, editar e excluir membros conforme necessário.</p>
+                        </div>
+                    </div>
+                    <div className='plan'>
+                        <div className='price'>
+                            <h1>Plano Premium</h1>
+                            <p>Para empresas de <strong>grande</strong> porte</p>
+                            <h2>R$19,99</h2>
+                            <button>Garantir Agora</button>
+                        </div>
+                        <div className='description'>
+                            <div className='list'>
+                                <p><strong>✓</strong> Acesso a 10 Workspaces</p>
+                                <p><strong>✓</strong> Acesso a 10 Times</p>
+                                <p><strong>✓</strong> Disponível 8 Usuários por Workspace</p>
+                                <p><strong>✓</strong> Inclui o Suporte Customizado</p>
+                            </div>
+                            <p>Com uma solução completa, sua equipe tem controle total sobre a gestão de membros e dos projetos.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
 
             {/* Contact */}
             <div data-animation data-duration-animation="0.8s" className='container-contact'>
