@@ -359,7 +359,7 @@ export default function Landing() {
                             <h1>Plano Premium</h1>
                             <p>Para empresas de <strong>grande</strong> porte</p>
                             <h2>R$19,99</h2>
-                            <button>Garantir Agora</button>
+                            <button onClick={() => window.open("https://buy.stripe.com/bIY3gbbJc7yzfsY289")}>Garantir Agora</button>
                         </div>
                         <div className='description'>
                             <div className='list'>

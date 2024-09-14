@@ -80,7 +80,7 @@ export default function SignUp() {
       if (cadastrando === 'sucesso') {
         notifySuccess('Usuário cadastrado com sucesso');
         setTimeout(() => {
-          navigate('/painel');
+          window.location.href = "/painel";
         }, 3750);
         return;
       } else if (cadastrando === 'email-invalido') {
@@ -117,7 +117,7 @@ export default function SignUp() {
       if (cadastrando === 'sucesso') {
         notifySuccess('Usuário cadastrado com sucesso');
         setTimeout(() => {
-          navigate('/painel');
+          window.location.href = "/painel";
         }, 3750);
         return;
       } else if (cadastrando === 'email-em-uso') {

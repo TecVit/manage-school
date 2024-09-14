@@ -81,7 +81,7 @@ export default function SignIn() {
       if (entrando === 'sucesso') {
         notifySuccess('Usuário logado com sucesso');
         setTimeout(() => {
-          navigate('/painel');
+          window.location.href = "/painel";
         }, 3750);
         return;
       } else if (entrando === 'email-invalido') {
@@ -121,7 +121,7 @@ export default function SignIn() {
       if (entrando === 'sucesso') {
         notifySuccess('Usuário logado com sucesso');
         setTimeout(() => {
-          navigate('/painel');
+          window.location.href = "/painel";
         }, 3750);
         return;
       } else if (entrando === 'email-invalido') {

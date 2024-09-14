@@ -11,11 +11,29 @@ import { v4 as uuidv4 } from 'uuid';
 import { notifyError } from "../toastifyServer";
 
 // Dados
-const uidCookie = getCookie('uid') || '';
-const nickCookie = getCookie('nick') || '';
-const nomeCookie = getCookie('nome') || '';
-const emailCookie = getCookie('email') || '';
-const photoCookie = getCookie('photo') || '';
+const uidCookie = getCookie('uid') || null;
+const nickCookie = getCookie('nick') || null;
+const emailCookie = getCookie('email') || null;
+const photoCookie = getCookie('photo') || null;
+
+const reloadCookies = async () => {
+  if (!uidCookie) {
+    return;
+  }
+  try {
+    const userDoc = await firestore.collection('private-users')
+    .doc(uidCookie).get();
+    if (userDoc.exists) {
+      const data = userDoc.data();
+      setCookie('nick', data.nick);
+      setCookie('email', data.email);
+      return true;
+    }
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
 
 // Funções
 const getWorkspaces = async (uid) => {
@@ -72,10 +90,15 @@ const getWorkspaces = async (uid) => {
 };
 
 const createWorkspace = async (dados) => {
+    if (!nickCookie || !emailCookie || !uidCookie) {
+      await reloadCookies();
+      notifyError('Atualize a página e tente novamente');
+      return;
+    }
     const { status, nome, descricao, uid } = dados;
     const dataAtual = new Date().toLocaleDateString('pt-BR');
     var uuid = uuidv4();
-    console.log(dados)
+    
     try {
         const workspacesRef = await firestore.collection('private-users')
         .doc(uid).collection('workspaces').get();
@@ -113,7 +136,33 @@ const createWorkspace = async (dados) => {
     }
 };
 
+const deleteWorkspace = async (dados) => {
+  const { uid, uuid } = dados;
+  if (!nickCookie || !emailCookie || !uidCookie || !uuid || !uid) {
+    await reloadCookies();
+    notifyError('Atualize a página e tente novamente');
+    return;
+  }
+  try {
+      const workspaceDoc = firestore.collection('private-users')
+      .doc(uid).collection('workspaces').doc(uuid);
+      const workspaceDocGet = await workspaceDoc.get();
+      if (workspaceDocGet.exists) {
+        const res = await workspaceDoc.delete();
+        console.log(res);
+      }
+      return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
 const saveWorkspace = async (obj, file) => {
+  if (!nickCookie || !emailCookie || !uidCookie) {
+    notifyError('Atualize a página e tente novamente');
+    return;
+  }
   try {
     const workspacesRef = await firestore
       .collection('private-users')
@@ -154,4 +203,4 @@ const saveWorkspace = async (obj, file) => {
 
 
 
-export { getWorkspaces, createWorkspace, saveWorkspace };
+export { getWorkspaces, createWorkspace, saveWorkspace, deleteWorkspace };

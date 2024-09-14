@@ -5,7 +5,7 @@ import { IoIosArrowDown, IoMdTrendingDown, IoMdTrendingUp } from 'react-icons/io
 import { clearCookies, getCookie, setCookie } from '../../firebase/cookies';
 import { MdErrorOutline, MdOutlineDashboard, MdOutlineEdit } from 'react-icons/md';
 import Form from './components/Form';
-import { createWorkspace, getWorkspaces, saveWorkspace } from '../../firebase/workspaces.js';
+import { createWorkspace, deleteWorkspace, getWorkspaces, saveWorkspace } from '../../firebase/workspaces.js';
 import { NotificationContainer, notifyError, notifySuccess } from '../../toastifyServer';
 import { auth } from '../../firebase/login/login.js';
 import { LuExpand } from 'react-icons/lu';
@@ -161,7 +161,6 @@ export default function Workspaces() {
         consultarWorkspaces();
     }, []);
     
-    
     const handleCreateWorkspace = async () => {
         try {
             if (!inputNomeWorkspace || !inputDescricaoWorkspace || inputAccessWorkspace < 0) {
@@ -180,6 +179,33 @@ export default function Workspaces() {
                 if (list.length > 0) {
                     setCookie('qtdWorkspaces', list.length);
                     setWorkspacesData(list);
+                    return true;
+                }
+            }
+        } catch (error) {
+            console.log(error);
+            return;
+        } finally {
+            setCarregando(false);
+        }
+    }
+
+    const handleDeleteWorkspace = async () => {
+        try {
+            const deletando = await deleteWorkspace({
+                uid: uidCookie,
+                uuid: infoWorkspace.uid,
+            });
+            if (deletando) {
+                notifySuccess('Workspace excluído com sucesso');
+                const list = await getWorkspaces(uidCookie) || [];
+                if (list.length > 0) {
+                    setCookie('qtdWorkspaces', list.length);
+                    setWorkspacesData(list);
+                    setMdPopupEditar(false);
+                    setInfoWorkspace({});
+                    setPageEditWorkspace(false);
+                    setPageWorkspaces(true);
                     return true;
                 }
             }
@@ -339,7 +365,11 @@ export default function Workspaces() {
     }
 
     const truncateText = (text, maxLength) => {
-        return text.length > maxLength ? text.slice(0, maxLength) + '...' : text;
+        if (text && maxLength) {
+            return text.length > maxLength ? text.slice(0, maxLength) + '...' : text;
+        } else {
+            return 'Inválido';
+        }
     };
 
     return (
@@ -537,7 +567,7 @@ export default function Workspaces() {
 
             {/* Popups */}
             {mdPopupEditar && (
-                <Popup handleClose={() => setMdPopupEditar(false)} handleSave={handleSaveWorkspace} handleDelete={'a'} title="Editar Workspace">
+                <Popup handleClose={() => setMdPopupEditar(false)} handleSave={handleSaveWorkspace} handleDelete={handleDeleteWorkspace} title="Editar Workspace">
                     <div className='form'>
                         <div className='file'>
                             <div className='input-file'>
