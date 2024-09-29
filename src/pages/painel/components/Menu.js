@@ -104,7 +104,7 @@ export default function App() {
                                     width: `${limitStorage}%`,
                                 }} className={`progress ${limitStorage >= 80 ? 'red' : limitStorage >= 60 ? 'orange' : 'green'}`}></div>
                             </div>
-                            <button>Atualizar plano</button>
+                            <button onClick={() => window.location.href = "/#planos"}>Atualizar plano</button>
                         </div>
                     )}
 

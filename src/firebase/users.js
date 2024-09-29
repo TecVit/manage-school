@@ -4,7 +4,7 @@ import { firestore, auth } from "./login/login";
 
 // Dados
 const uidCookie = getCookie('uid') || '';
-const nomeCookie = getCookie('nome') || '';
+const nickCookie = getCookie('nick') || '';
 const emailCookie = getCookie('email') || '';
 
 const positions = [
@@ -45,14 +45,43 @@ const validateUserNick = async (nick) => {
   }
 };
 
-const addUserWorkspace = async (uid, nick, email, cargo) => {
-  if (!uid || !uidCookie || !nick || !cargo) {
+const checkVIP = async () => {
+  try {
+    auth.onAuthStateChanged( async function(user) {
+      if (!user) {
+          await clearCookies();
+          localStorage.clear();
+          window.location.href = "/entrar";
+      } else {
+          if (emailCookie !== user.email || uidCookie !== user.uid || nickCookie !== user.displayName) {
+              await clearCookies();
+              localStorage.clear();
+              window.location.href = "/entrar";
+          }
+          if (user.vip) {
+            return true;
+          } else {
+            return false;
+          }
+      }
+    });
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
+const addUserWorkspace = async (dados, uid, nick, email, cargo) => {
+  if (!uid || !uidCookie || !nick || !cargo || !dados) {
     notifyError('Houve um erro');
     setTimeout(() => {
       window.location.reload();
     }, 3750);
     return;
   }
+  
+  let vip = await checkVIP();
+
   try {
     const workspaceDoc = await firestore.collection('private-users')
       .doc(uidCookie).collection('workspaces').doc(uid).get();
@@ -60,6 +89,14 @@ const addUserWorkspace = async (uid, nick, email, cargo) => {
     if (workspaceDoc.exists) {
         const data = workspaceDoc.data();
         let usersList = data.users;
+
+        if (usersList.length >= 4 && !vip) {
+          notifyError('Você já atingiu o limite de usuários nesse workspace');
+          return false;
+        } else if (usersList.length >= 10 && vip) {
+          notifyError('Você já atingiu o limite de usuários nesse workspace');
+          return false;
+        }
 
         const validando = await Promise.all(usersList.map((val, index) => {
           if (val[1] === nick && val[2] === email) {
@@ -74,6 +111,7 @@ const addUserWorkspace = async (uid, nick, email, cargo) => {
           return false;
         }
         
+        // Public
         const userDoc = await firestore.collection('public-users')
         .doc(nick).get();
 
@@ -91,6 +129,14 @@ const addUserWorkspace = async (uid, nick, email, cargo) => {
           });
         }
 
+        const userDocPublic = await firestore.collection('public-users')
+        .doc(nick).collection('invites').doc(uid).set({
+          nome: dados.nome,
+          descricao: dados.descricao,
+          foto: dados.foto,
+        });
+
+        // Private
         await firestore.collection('private-users')
         .doc(uidCookie).collection('workspaces').doc(uid).update({
           users: usersList,

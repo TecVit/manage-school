@@ -282,7 +282,7 @@ export default function Workspaces() {
                 notifyError('Nick do usuário inválido');
                 return false;
             }
-            const adding = await addUserWorkspace(infoWorkspace.uid, inputUserNick, userEmail, positionUser);
+            const adding = await addUserWorkspace(infoWorkspace, infoWorkspace.uid, inputUserNick, userEmail, positionUser);
             if (adding.users) {
                 notifySuccess('Usuário adicionado com sucesso');
                 setInfoWorkspace((prev) => ({
