@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './css/Painel.css';
 import { IoMdTrendingDown, IoMdTrendingUp } from 'react-icons/io';
-import { auth } from '../../firebase/login/login';
+import { auth, firestore } from '../../firebase/login/login';
 import { clearCookies, getCookie, setCookie } from '../../firebase/cookies';
 
 export default function Painel() {
@@ -12,24 +12,66 @@ export default function Painel() {
     const nickCookie = getCookie('nick') || '';
     const photoCookie = getCookie('photo') || '';
     const emailCookie = getCookie('email') || '';
-    
-    useEffect(() => {
-        auth.onAuthStateChanged( async function(user) {
-            if (!user) {
-                await clearCookies();
-                localStorage.clear();
-                window.location.href = "/entrar";
-            } else {
-                if (emailCookie !== user.email || uidCookie !== user.uid || nickCookie !== user.displayName) {
-                await clearCookies();
-                localStorage.clear();
-                window.location.href = "/entrar";
-                }
-            }
-        });
-    }, []);
 
-    // Animações
+    // Limites do usuário
+    const [numMaxWorkspaces, setNumMaxWorkspaces] = useState(3);
+    const [numMaxTimes, setNumMaxTimes] = useState(3);
+    let qtdWorkspaces = Number(getCookie('qtdWorkspaces')) || 0;
+    let qtdTimes = Number(getCookie('qtdTimes')) || 0;
+
+    var percentageWorkspaces = parseInt(parseFloat(qtdWorkspaces / numMaxWorkspaces) * 100);
+    var percentageTimes = parseInt(parseFloat(qtdTimes / numMaxTimes) * 100);
+    
+    const checkLimitUser = async (user) => {
+        if (user) {
+            try {
+                const token = await user.getIdToken(true);
+                const decodedToken = await auth.currentUser.getIdTokenResult();
+                
+                if (decodedToken.claims.plan === 'premium') {
+                    return 10;
+                } else if (decodedToken.claims.plan === 'custom') {
+                    return decodedToken.claims.planLimit;
+                } else {
+                    return 3;
+                }
+            } catch (error) {
+                return false;
+            }
+        }
+    };
+
+    useEffect(() => {
+        if (uidCookie && emailCookie && nickCookie) {
+            const unsubscribe = auth.onAuthStateChanged(async function(user) {
+                if (!user) {
+                    await clearCookies();
+                    localStorage.clear();
+                    window.location.href = "/entrar";
+                } else {
+                    if (emailCookie !== user.email || uidCookie !== user.uid || nickCookie !== user.displayName) {
+                        await clearCookies();
+                        localStorage.clear();
+                        window.location.href = "/entrar";
+                    } else {
+                        const limit = await checkLimitUser(user);
+                        
+                        if (!limit) {
+                            await clearCookies();
+                            localStorage.clear();
+                            window.location.href = "/entrar";
+                        }
+                        setNumMaxWorkspaces(limit);
+                        setNumMaxTimes(limit);
+                    }
+                }
+            });
+
+            return () => unsubscribe();
+        }
+    }, [uidCookie, emailCookie, nickCookie]);
+
+    
     function getTopPositionRelativeToPage(element) {
         var rect = element.getBoundingClientRect();
         var scrollTop = window.scrollY || window.pageYOffset;
@@ -112,6 +154,8 @@ export default function Painel() {
                 arr.map((value, j) => {
                     obj[j] = value;
                 });
+                
+                // Adicionar essa linha apenas para olhar os Primeiros Index
                 json.push(obj);
             }
         }));
@@ -120,13 +164,9 @@ export default function Painel() {
         }
     };
     
-    var numMaxWorkspaces = 3;
-    var numMaxTimes = 3;
-    const qtdWorkspaces = Number(getCookie('qtdWorkspaces')) || 0;
-    const qtdTimes = Number(getCookie('qtdTimes')) || 0;
 
-    var percentageWorkspaces = parseInt(parseFloat(qtdWorkspaces / numMaxWorkspaces) * 100);
-    var percentageTimes = parseInt(parseFloat(qtdTimes / numMaxTimes) * 100);
+
+    
 
     return (
         <main className="container-painel">

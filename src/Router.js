@@ -13,6 +13,11 @@ import JoinRoom from './pages/painel/JoinRoom';
 import Painel from './pages/painel/Painel';
 import Workspaces from './pages/painel/Workspaces';
 
+/* Grid */
+import WorkspacePrivado from './pages/painel/workspace/WorkspacePrivado';
+import WorkspacePublico from './pages/painel/workspace/WorkspacePublico';
+import MenuWorkspace from './pages/painel/workspace/components/Menu';
+
 // Erros
 import Error404 from './pages/errors/404';
 
@@ -57,6 +62,21 @@ const RouterApp = () => {
 
         <Route path="/sala/:uid" element={<JoinRoom />} />
         
+        {/* Workspace Private */}
+        <Route path="/painel/workspace/privado/:id" element={
+          <div className='painel-workspace'>
+            <WorkspacePrivado />
+          </div>
+        } />
+                
+        {/* Workspace Public */}
+        <Route path="/painel/workspace/publico/:id" element={
+          <div className='painel-workspace'>
+            <WorkspacePublico />
+          </div>
+        } />
+        
+
         <Route path="/painel/*" element={
           <>
             <Menu />

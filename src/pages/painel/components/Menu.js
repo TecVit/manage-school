@@ -8,10 +8,86 @@ import { IoPricetagsOutline, IoSettingsOutline } from 'react-icons/io5';
 import { IoIosArrowDown, IoIosArrowUp, IoMdClose } from 'react-icons/io';
 import { MdMonitor, MdWorkspacePremium } from 'react-icons/md';
 import { clearCookies, deleteCookie, getCookie, setCookie } from '../../../firebase/cookies';
+import { auth, firestore } from '../../../firebase/login/login';
 import { BiSupport } from 'react-icons/bi';
 import { FaRegCreditCard } from 'react-icons/fa';
 
 export default function App() {
+
+    // Dados
+    const uidCookie = getCookie('uid') || '';
+    const nickCookie = getCookie('nick') || '';
+    const photoCookie = getCookie('photo') || '';
+    const emailCookie = getCookie('email') || '';
+    const mdLimitStorageCookie = getCookie('mdLimitStorage') || false;
+    const [mdLimitStorage, setMdLimitStorage] = useState(mdLimitStorageCookie);
+
+
+    // Limites do usuário
+    const [numMaxWorkspaces, setNumMaxWorkspaces] = useState(3);
+    const [numMaxTimes, setNumMaxTimes] = useState(3);
+    let qtdTimes = Number(getCookie('qtdTimes')) || 0;
+
+    // Limits
+    const qtdWorkspaces = Number(getCookie('qtdWorkspaces')) || 0;
+    var limitStorage = parseInt((qtdWorkspaces / numMaxWorkspaces) * 100);
+
+    var percentageWorkspaces = parseInt(parseFloat(qtdWorkspaces / numMaxWorkspaces) * 100);
+    var percentageTimes = parseInt(parseFloat(qtdTimes / numMaxTimes) * 100);
+    
+    const checkLimitUser = async (user) => {
+        if (user) {
+            try {
+                const token = await user.getIdToken(true);
+                const decodedToken = await auth.currentUser.getIdTokenResult();
+                console.log(decodedToken.claims);
+                
+                if (decodedToken.claims.plan === 'premium') {
+                    return 10;
+                } else if (decodedToken.claims.plan === 'custom') {
+                    return decodedToken.claims.planLimit;
+                } else {
+                    return 3;
+                }
+            } catch (error) {
+                return false;
+            }
+        }
+    };
+
+    useEffect(() => {
+        if (uidCookie && emailCookie && nickCookie) {
+            const unsubscribe = auth.onAuthStateChanged(async function(user) {
+                if (!user) {
+                    await clearCookies();
+                    localStorage.clear();
+                    window.location.href = "/entrar";
+                } else {
+                    if (emailCookie !== user.email || uidCookie !== user.uid || nickCookie !== user.displayName) {
+                        await clearCookies();
+                        localStorage.clear();
+                        window.location.href = "/entrar";
+                    } else {
+                        const limit = await checkLimitUser(user);
+                        if (limit > 3) {
+                            setMdLimitStorage(true);
+                        }
+
+                        if (!limit) {
+                            await clearCookies();
+                            localStorage.clear();
+                            window.location.href = "/entrar";
+                        }
+
+                        setNumMaxWorkspaces(limit);
+                        setNumMaxTimes(limit);
+                    }
+                }
+            });
+
+            return () => unsubscribe();
+        }
+    }, [uidCookie, emailCookie, nickCookie]);
 
     // Animações
     function getTopPositionRelativeToPage(element) {
@@ -33,14 +109,6 @@ export default function App() {
         });
     }
 
-    // Dados
-    const uidCookie = getCookie('uid') || '';
-    const nickCookie = getCookie('nick') || '';
-    const photoCookie = getCookie('photo') || '';
-    const emailCookie = getCookie('email') || '';
-    const mdLimitStorageCookie = getCookie('mdLimitStorage') || false;
-    const [mdLimitStorage, setMdLimitStorage] = useState(mdLimitStorageCookie);
-
     const navigate = useNavigate();
     const location = useLocation();
     const pathname = location.pathname;
@@ -54,10 +122,6 @@ export default function App() {
         window.location.href = "/";
     }
 
-    // Limits
-    const qtdWorkspaces = Number(getCookie('qtdWorkspaces')) || 0;
-    var maxQtdWorkspaces = 3;
-    var limitStorage = parseInt((qtdWorkspaces / maxQtdWorkspaces) * 100);
     
 
     return (
@@ -101,7 +165,7 @@ export default function App() {
                             <p>Atualize seu plano para obter mais espaço livre</p>
                             <div className='progress-bar'>
                                 <div style={{
-                                    width: `${limitStorage}%`,
+                                    width: `${Math.max(5, limitStorage)}%`,
                                 }} className={`progress ${limitStorage >= 80 ? 'red' : limitStorage >= 60 ? 'orange' : 'green'}`}></div>
                             </div>
                             <button onClick={() => window.location.href = "/#planos"}>Atualizar plano</button>

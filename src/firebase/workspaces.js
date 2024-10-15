@@ -89,7 +89,99 @@ const getWorkspaces = async (uid) => {
   }
 };
 
-const createWorkspace = async (dados) => {
+// Workspace Private
+const getDataWorkspacePrivate = async (uid, id) => {
+  try {
+    const workspaceDoc = await firestore.collection('private-users')
+    .doc(uid).collection('workspaces').doc(id).get();
+
+    if (workspaceDoc.exists) {
+      const data = workspaceDoc.data();
+      return data;
+    }
+    
+    return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
+
+const saveDataWorkspacePrivate = async (uid, id, dados) => {
+  try {
+    await firestore.collection('private-users')
+      .doc(uid)
+      .collection('workspaces')
+      .doc(id)
+      .set({ dados: dados }, { merge: true });
+      
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
+// Workspace Public
+const getDataWorkspacePublic = async (id) => {
+  try {
+    const workspaceDoc = await firestore.collection('workspaces')
+    .doc(id).get();
+
+    if (workspaceDoc.exists) {
+      const data = workspaceDoc.data();
+      return data;
+    }
+    
+    return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
+
+const saveDataWorkspacePublic = async (id, dados) => {
+  try {
+    await firestore.collection('workspaces')
+    .doc(id).set({ dados: dados }, { merge: true });
+      
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
+
+const upadteDataWorkspacePublic = async (uid, id) => {
+  try {
+    const workspaceDoc = await firestore.collection('workspaces')
+    .doc(id).get();
+
+    if (workspaceDoc.exists) {
+      const data = workspaceDoc.data();
+
+      await firestore.collection('private-users')
+      .doc(uid).collection('workspaces')
+      .doc(id).set(data, { merge: true });
+
+      return {
+        data: data,
+        status: true,
+      };
+    }
+      
+    return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
+
+const createWorkspace = async (dados, limit) => {
     if (!nickCookie || !emailCookie || !uidCookie) {
       await reloadCookies();
       notifyError('Atualize a página e tente novamente');
@@ -102,7 +194,7 @@ const createWorkspace = async (dados) => {
     try {
         const workspacesRef = await firestore.collection('private-users')
         .doc(uid).collection('workspaces').get();
-        if (workspacesRef.size >= 3) {
+        if (workspacesRef.size >= limit) {
           notifyError('Você já possui o limíte de Workspaces, atualize seu plano para mais funcionalidades!');
           return false;
         }
@@ -163,12 +255,27 @@ const saveWorkspace = async (obj, file) => {
     notifyError('Atualize a página e tente novamente');
     return;
   }
+  
   try {
+    let workspaceDoc;
+    
+
+    if (obj['status'] === 0) {
+      workspaceDoc = await firestore
+        .collection('workspaces')
+        .doc(obj.uid)
+        .set(obj, { merge: true });
+    } else if (obj['status'] === 1) {
+      workspaceDoc = await firestore
+        .collection('workspaces')
+        .doc(obj.uid).delete();
+    }
+    
     const workspacesRef = await firestore
-      .collection('private-users')
-      .doc(uidCookie)
-      .collection('workspaces')
-      .get();
+    .collection('private-users')
+    .doc(uidCookie)
+    .collection('workspaces')
+    .get();
 
     if (!workspacesRef.empty) {
       if (file) {
@@ -176,25 +283,21 @@ const saveWorkspace = async (obj, file) => {
         const fileRef = storageRef.child(`workspaces/${obj.uid}/${file.name}`);
         
         const snapshot = await fileRef.put(file);
-
         const url = await snapshot.ref.getDownloadURL();
-
         obj.foto = url;
       }
-      
-      const workspaceDoc = await firestore
+
+      workspaceDoc = await firestore
         .collection('private-users')
         .doc(uidCookie)
         .collection('workspaces')
         .doc(obj.uid)
         .update(obj);
-
-      return obj;
     } else {
       return false;
     }
 
-    return true;
+    return obj;
   } catch (error) {
     console.log(error);
     return false;
@@ -203,4 +306,4 @@ const saveWorkspace = async (obj, file) => {
 
 
 
-export { getWorkspaces, createWorkspace, saveWorkspace, deleteWorkspace };
+export { getWorkspaces, getDataWorkspacePrivate, getDataWorkspacePublic, createWorkspace, saveWorkspace, saveDataWorkspacePrivate, saveDataWorkspacePublic, deleteWorkspace, upadteDataWorkspacePublic };

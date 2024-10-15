@@ -5,7 +5,7 @@ import { IoIosArrowDown, IoMdTrendingDown, IoMdTrendingUp } from 'react-icons/io
 import { clearCookies, getCookie, setCookie } from '../../firebase/cookies';
 import { MdErrorOutline, MdOutlineDashboard, MdOutlineEdit } from 'react-icons/md';
 import Form from './components/Form';
-import { createWorkspace, deleteWorkspace, getWorkspaces, saveWorkspace } from '../../firebase/workspaces.js';
+import { createWorkspace, deleteWorkspace, getWorkspaces, saveWorkspace, upadteDataWorkspacePublic } from '../../firebase/workspaces.js';
 import { NotificationContainer, notifyError, notifySuccess } from '../../toastifyServer';
 import { auth } from '../../firebase/login/login.js';
 import { LuExpand } from 'react-icons/lu';
@@ -39,23 +39,64 @@ export default function Workspaces() {
     const nickCookie = getCookie('nick') || '';
     const photoCookie = getCookie('photo') || '';
     const emailCookie = getCookie('email') || '';
-    const qtdWorkspaces = Number(getCookie('qtdWorkspaces')) || 0;
+
+    // Limites do usuário
+    const [numMaxWorkspaces, setNumMaxWorkspaces] = useState(3);
+    const [numMaxTimes, setNumMaxTimes] = useState(3);
+    let qtdWorkspaces = Number(getCookie('qtdWorkspaces')) || 0;
+    let qtdTimes = Number(getCookie('qtdTimes')) || 0;
+
+    var percentageWorkspaces = parseInt(parseFloat(qtdWorkspaces / numMaxWorkspaces) * 100);
+    var percentageTimes = parseInt(parseFloat(qtdTimes / numMaxTimes) * 100);
     
+    const checkLimitUser = async (user) => {
+        if (user) {
+            try {
+                const token = await user.getIdToken(true);
+                const decodedToken = await auth.currentUser.getIdTokenResult();
+                
+                if (decodedToken.claims.plan === 'premium') {
+                    return 10;
+                } else if (decodedToken.claims.plan === 'custom') {
+                    return decodedToken.claims.planLimit;
+                } else {
+                    return 3;
+                }
+            } catch (error) {
+                return false;
+            }
+        }
+    };
+
     useEffect(() => {
-        auth.onAuthStateChanged( async function(user) {
-            if (!user) {
-                await clearCookies();
-                localStorage.clear();
-                window.location.href = "/entrar";
-            } else {
-                if (emailCookie !== user.email || uidCookie !== user.uid || nickCookie !== user.displayName) {
+        if (uidCookie && emailCookie && nickCookie) {
+            const unsubscribe = auth.onAuthStateChanged(async function(user) {
+                if (!user) {
                     await clearCookies();
                     localStorage.clear();
                     window.location.href = "/entrar";
+                } else {
+                    if (emailCookie !== user.email || uidCookie !== user.uid || nickCookie !== user.displayName) {
+                        await clearCookies();
+                        localStorage.clear();
+                        window.location.href = "/entrar";
+                    } else {
+                        const limit = await checkLimitUser(user);
+                        
+                        if (!limit) {
+                            await clearCookies();
+                            localStorage.clear();
+                            window.location.href = "/entrar";
+                        }
+                        setNumMaxWorkspaces(limit);
+                        setNumMaxTimes(limit);
+                    }
                 }
-            }
-        });
-    }, []);
+            });
+
+            return () => unsubscribe();
+        }
+    }, [uidCookie, emailCookie, nickCookie]);
     
     // Animações
     function getTopPositionRelativeToPage(element) {
@@ -172,7 +213,7 @@ export default function Workspaces() {
                 descricao: inputDescricaoWorkspace,
                 status: inputAccessWorkspace,
                 uid: uidCookie,
-            });
+            }, numMaxWorkspaces);
             if (criando) {
                 notifySuccess('Workspace criado com sucesso');
                 const list = await getWorkspaces(uidCookie) || [];
@@ -282,7 +323,7 @@ export default function Workspaces() {
                 notifyError('Nick do usuário inválido');
                 return false;
             }
-            const adding = await addUserWorkspace(infoWorkspace, infoWorkspace.uid, inputUserNick, userEmail, positionUser);
+            const adding = await addUserWorkspace(infoWorkspace, infoWorkspace.uid, inputUserNick, userEmail, positionUser, numMaxWorkspaces);
             if (adding.users) {
                 notifySuccess('Usuário adicionado com sucesso');
                 setInfoWorkspace((prev) => ({
@@ -356,7 +397,11 @@ export default function Workspaces() {
                 setInfoWorkspace(saving);
                 return true;
             }
+
+            notifyError('Houve algo de errado');
+            return false;
         } catch (error) {
+            notifyError('Houve algo de errado');
             console.log(error);
             return;
         } finally {
@@ -371,6 +416,26 @@ export default function Workspaces() {
             return 'Inválido';
         }
     };
+
+    const handleUpdateDataWorkspacePublic = async (idUser, idWorkspace) => {
+        setCarregando(true);
+        try {
+            const updating = await upadteDataWorkspacePublic(idUser, idWorkspace);
+            if (updating.status) {
+                notifySuccess('Dados atualizados com sucesso');
+                setInfoWorkspace(updating.data);
+                return true;
+            }
+            notifyError('Houve algo de errado');
+            return false;
+        } catch (error) {
+            notifyError('Houve algo de errado');
+            console.log(error);
+            return false;
+        } finally {
+            setCarregando(false);
+        }
+    }
 
     return (
         <>
@@ -414,7 +479,7 @@ export default function Workspaces() {
                                                     <MdOutlineDashboard className='icon' />
                                                 )}
                                                 <div className='text'>
-                                                    <h2>{val.data}</h2>
+                                                    <h2>{val.data} <strong>{val.status === 1 ? 'Privado' : 'Público'}</strong></h2>
                                                     <h1>{truncateText(val.nome, 30)}</h1>
                                                     <p>{truncateText(val.descricao, 30)}</p>
                                                     <a>{val.users ? val.users.length-1 : 0} Membro{val.users.length-1 > 1 ? 's' : ''}</a>
@@ -483,82 +548,109 @@ export default function Workspaces() {
                             <button onClick={() => setMdPopupEditar(true)}>Editar Workspace</button>
                         </div>
 
-                        {/* Users Workspace */}
-                        <div className='users-workspace'>
-                            <h1>Usuários do Workspace</h1>
-                            <p>Informações sobre os usuários com acesso ao <strong>Workspace {infoWorkspace.status === 0 ? 'Público' : infoWorkspace.status === 1 ? 'Privado' : ''}</strong></p>
-                            
-                            <div className='add-user'>
-                                <div className='send'>
-                                    <div className={`input-with-select ${statusUserNick === true ? 'green' : statusUserNick === false ? 'red' : ''}`}>
-                                        <input onChange={(e) => setInputUserNick(e.target.value)} onBlur={() => handleValidateUserNick()} placeholder='Nick do Usuário' type='text' />
-                                        <div className='select'>
-                                            <button onClick={handlePositionUser}>
-                                                {positionSelect}
-                                                <IoIosArrowDown className='icon' />
-                                            </button>
-                                            {mdPositionUser && (
-                                                <div className='list'>
-                                                    {positions.length > 0 && (
-                                                        positions.map((val, index) => (
-                                                            <button key={index} onClick={() => {
-                                                                handlePositionUser(0);
-                                                                setpositionSelect(val);
-                                                            }}>
-                                                                <p>{val}</p>
-                                                            </button>
-                                                        ))
-                                                    )}
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-                                    <button onClick={handleAddUser}>Adicionar</button>
-                                </div>
-                            </div>
-                            
-                            <div className='tabela'>
-                                {infoWorkspace.users && infoWorkspace.users.length > 0 ? (
-                                    infoWorkspace.users.map((obj, i) => (
-                                        <div className={`linha ${i === 0 && 'primeira'}`} key={i}>
-                                            {Object.keys(obj).map((key, j) => (
-                                                <div className='coluna' key={j}>
-                                                    <div className='paragrafo' dangerouslySetInnerHTML={{ __html: obj[key] }} />
-                                                </div>
-                                            ))}
-                                            {i !== 0 && (
-                                                <div className='coluna'>
-                                                    {infoWorkspace.users[i][2] !== emailCookie && (
-                                                        <FaEllipsisVertical onClick={() => handleMdUsersWorkspace(i-1)} 
-                                                        onKeyDown={(event) => {
-                                                            if (event.key === "Enter") {
-                                                                handleMdUsersWorkspace(i-1);
-                                                            }
-                                                        }} tabIndex={0} className='icon' />
-                                                    )}
-                                                </div>
-                                            )}
-                                            {mdUsersWorkspace[i-1] && (
-                                                <div className='md-user'>
-                                                    <div className='list'>
-                                                        <button>
-                                                            <MdOutlineEdit className='icon' />
-                                                            Editar
-                                                        </button>
-                                                        <button onClick={() => handleDeleteUser(i-1, infoWorkspace.users[i][1], infoWorkspace.users[i][2])} className='deletar'>
-                                                            <FiTrash className='icon' />
-                                                            Deletar
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            )}
-                                        </div>
-                                    ))
-                                ) : (
-                                    <h1>Nenhum usuário encontrado</h1>
-                                )}
+                        <div className='start-workspace'>
+                            <h1>Entrar no Workspace - {infoWorkspace.status === 0 ? 'Público' : 'Privado'}</h1>
+                            <p>Este é o lugar onde a mágica acontece, transformando seus dados em resultados, soluções, aplicações e melhorias que você precisava.</p>
+                            <div className='btns'>
+                                <button onClick={() => {
+                                    if (infoWorkspace.status === 0) {
+                                        navigate(`/painel/workspace/publico/${infoWorkspace.uid}`);
+                                    } else if (infoWorkspace.status === 1) {
+                                        navigate(`/painel/workspace/privado/${infoWorkspace.uid}`);
+                                    }
+                                }}>Acessar agora mesmo</button>
                             </div>
                         </div>
+
+                        {/* Atualizar dados */}
+                        {infoWorkspace.status !== 1 && (
+                            <div className='start-workspace'>
+                                <h1>Backup de Segurança</h1>
+                                <p>Ao transformar o workspace em "Público", um backup é criado para restaurar dados em caso de alterações indevidas ao voltar para o modo privado. Caso queira retornar ao privado sem perder os dados adquiridos no modo público, clique em "Atualizar Dados". Esse sistema garante atualizações seguras e controladas pelo administrador.</p>
+                                <div className='btns'>
+                                    <button onClick={() => handleUpdateDataWorkspacePublic(uidCookie, infoWorkspace.uid)}>Atualizar Dados</button>
+                                </div>
+                            </div>
+                        )}
+                        
+                        {/* Users Workspace */}
+                        {infoWorkspace.status !== 1 && (
+                            <div className='users-workspace'>
+                                <h1>Usuários do Workspace</h1>
+                                <p>Informações sobre os usuários com acesso ao <strong>Workspace {infoWorkspace.status === 0 ? 'Público' : infoWorkspace.status === 1 ? 'Privado' : ''}</strong></p>
+                                
+                                <div className='add-user'>
+                                    <div className='send'>
+                                        <div className={`input-with-select ${statusUserNick === true ? 'green' : statusUserNick === false ? 'red' : ''}`}>
+                                            <input onChange={(e) => setInputUserNick(e.target.value)} onBlur={() => handleValidateUserNick()} placeholder='Nick do Usuário' type='text' />
+                                            <div className='select'>
+                                                <button onClick={handlePositionUser}>
+                                                    {positionSelect}
+                                                    <IoIosArrowDown className='icon' />
+                                                </button>
+                                                {mdPositionUser && (
+                                                    <div className='list'>
+                                                        {positions.length > 0 && (
+                                                            positions.map((val, index) => (
+                                                                <button key={index} onClick={() => {
+                                                                    handlePositionUser(0);
+                                                                    setpositionSelect(val);
+                                                                }}>
+                                                                    <p>{val}</p>
+                                                                </button>
+                                                            ))
+                                                        )}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+                                        <button onClick={handleAddUser}>Adicionar</button>
+                                    </div>
+                                </div>
+                                
+                                <div className='tabela'>
+                                    {infoWorkspace.users && infoWorkspace.users.length > 0 ? (
+                                        infoWorkspace.users.map((obj, i) => (
+                                            <div className={`linha ${i === 0 && 'primeira'}`} key={i}>
+                                                {Object.keys(obj).map((key, j) => (
+                                                    <div className='coluna' key={j}>
+                                                        <div className='paragrafo' dangerouslySetInnerHTML={{ __html: obj[key] }} />
+                                                    </div>
+                                                ))}
+                                                {i !== 0 && (
+                                                    <div className='coluna'>
+                                                        {infoWorkspace.users[i][2] !== emailCookie && (
+                                                            <FaEllipsisVertical onClick={() => handleMdUsersWorkspace(i-1)} 
+                                                            onKeyDown={(event) => {
+                                                                if (event.key === "Enter") {
+                                                                    handleMdUsersWorkspace(i-1);
+                                                                }
+                                                            }} tabIndex={0} className='icon' />
+                                                        )}
+                                                    </div>
+                                                )}
+                                                {mdUsersWorkspace[i-1] && (
+                                                    <div className='md-user'>
+                                                        <div className='list'>
+                                                            <button>
+                                                                <MdOutlineEdit className='icon' />
+                                                                Editar
+                                                            </button>
+                                                            <button onClick={() => handleDeleteUser(i-1, infoWorkspace.users[i][1], infoWorkspace.users[i][2])} className='deletar'>
+                                                                <FiTrash className='icon' />
+                                                                Deletar
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        ))
+                                    ) : (
+                                        <h1>Nenhum usuário encontrado</h1>
+                                    )}
+                                </div>
+                            </div>
+                        )}
 
                     </section>      
                 )}
@@ -597,14 +689,33 @@ export default function Workspaces() {
                                 </p>
                             </div>
                         </div>
+                        
                         <div className='input'>
                             <label>Nome do Workspace</label>
                             <input maxLength={60} onChange={(e) => handleEditKeyWorkspace('nome', e.target.value)} value={editInfoWorkspace.nome} placeholder='ex: Biblioteca Escolar 2024' type='text' />
                         </div>
+
                         <div className='textarea'>
                             <label>Descrição do Workspace</label>
                             <textarea maxLength={300} onChange={(e) => handleEditKeyWorkspace('descricao', e.target.value)} value={editInfoWorkspace.descricao} placeholder='Adicione sua descrição para o espaço de trabalho'></textarea>
                         </div>
+                               
+                        <div className='checkbox'>
+                            <div tabIndex={0} onKeyDown={(event) => {event.key === "Enter" && handleEditKeyWorkspace('status', 1)}} onClick={() => {handleEditKeyWorkspace('status', 1)}} className={`input-checkbox ${editInfoWorkspace['status'] === 1 && 'selecionado'}`}></div>
+                            <div className='text'>
+                                <h1>Privado</h1>
+                                <p>Por ser um espaço de trabalho privado, somente administradores podem edita-lo</p>
+                            </div>
+                        </div>
+
+                        <div className='checkbox'>
+                            <div tabIndex={0} onKeyDown={(event) => {event.key === "Enter" && handleEditKeyWorkspace('status', 0)}} onClick={() => {handleEditKeyWorkspace('status', 0)}} className={`input-checkbox ${editInfoWorkspace['status'] === 0 && 'selecionado'}`}></div>
+                            <div className='text'>
+                                <h1>Público</h1>
+                                <p>Por ser um espaço de trabalho público, todos podem ter acesso</p>
+                            </div>
+                        </div>
+
                     </div>
                 </Popup>
             )}

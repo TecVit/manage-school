@@ -275,3 +275,67 @@
     border: 1px solid var(--stoneSix);
     box-shadow: 0px 0px 10px var(--stoneSix);
 }
+
+.content-popup .popup .form .checkbox {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    margin: 15px 0px 7.5px 0px;
+}
+
+.content-popup .popup .form .checkbox .input-checkbox {
+    min-width: 22.5px;
+    max-width: 22.5px;
+    min-height: 22.5px;
+    max-height: 22.5px;
+    border: 1px solid var(--stoneSix);
+    background: var(--stoneFour);
+    border-radius: 50%;
+    cursor: var(--mouseLink);
+    transition: all .1s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0px 12px 0px 0px;
+} .content-popup .popup .form .checkbox .input-checkbox:hover,
+.content-popup .popup .form .checkbox .input-checkbox:focus {
+    background: var(--stoneFive);
+    border: 1px solid var(--stoneSeven);
+    box-shadow: 0px 0px 15px var(--stoneSix);
+}
+
+
+.content-popup .popup .form .checkbox .input-checkbox.selecionado {
+    background: var(--primary);
+    border: 1px solid var(--secondary);
+} .content-popup .popup .form .checkbox .input-checkbox.selecionado:hover,
+  .content-popup .popup .form .checkbox .input-checkbox.selecionado:focus {
+    box-shadow: 0px 0px 15px var(--secondary);
+}
+
+.content-popup .popup .form .checkbox .input-checkbox.selecionado::before {
+    content: "✓";
+    font-size: 14px;
+    font-weight: 200;
+    margin: auto;
+}
+
+.content-popup .popup .form .checkbox .text {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.content-popup .popup .form .checkbox .text h1 {
+    font-size: 16px;
+    font-weight: 500;
+    margin: 2px 0px 4px 0px;
+}
+
+.content-popup .popup .form .checkbox .text p {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 18px;
+}

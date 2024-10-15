@@ -1,92 +1,105 @@
-.container-menu {
-    width: 280px;
+.container-menu-workspace {
+    width: 90px;
     height: auto;
     position: fixed;
     background: var(--stoneOne);
     top: 0px;
     left: 0px;
+    padding: 0px;
     display: flex;
     justify-content: center;
     align-items: center;
     transition: all .1s ease-in-out;
-} .container-menu.none {
+} .container-menu-workspace.none {
     display: none !important;
 }
 
-.container-menu .content-menu {
-    width: 100%;
+.container-menu-workspace .content-menu {
+    width: 80%;
     height: auto;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    padding: 20px 15px;
+    padding: 20px 0px;
+    margin: 0px;
     position: relative;
 }
 
-.container-menu .content-menu .logo { 
+.container-menu-workspace .content-menu .logo { 
     width: 40px;
     height: auto;
-    margin: 0px 0px 12.5px 10px;
+    margin: 0px auto 12.5px auto;
     cursor: var(--mouseLink);
 }
 
-.container-menu .content-menu .list {
+.container-menu-workspace .content-menu .list {
     width: 100%;
     height: auto;
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
 
-.container-menu .content-menu .list li {
-    width: 100%;
+.container-menu-workspace .content-menu .list li {
+    width: max-content;
     height: auto;
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: center;
     padding: 12.5px;
     border-radius: 12px;
     margin: 2px 0px;
     cursor: pointer;
     user-select: none;
     cursor: var(--mouseLink);
+    position: relative;
     transition: all .05s ease-in-out;
-} .container-menu .content-menu .list li:hover,
-.container-menu .content-menu .list li:focus {
+} .container-menu-workspace .content-menu .list li:hover,
+.container-menu-workspace .content-menu .list li:focus {
     background: var(--stoneThree);
-} .container-menu .content-menu .list li * {
+} .container-menu-workspace .content-menu .list li * {
     user-select: none;
     cursor: var(--mouseLink);
-} .container-menu .content-menu .list li.selecionado {
+} .container-menu-workspace .content-menu .list li.selecionado {
     background: var(--stoneThree);
-} .container-menu .content-menu .list li.selecionado:hover,
-  .container-menu .content-menu .list li.selecionado:focus {
+} .container-menu-workspace .content-menu .list li.selecionado:hover,
+  .container-menu-workspace .content-menu .list li.selecionado:focus {
     background: var(--stoneFour);
 }
 
-.container-menu .content-menu .list li img {
+.container-menu-workspace .content-menu .list li img {
     width: 28px;
     height: auto;
     border-radius: 50%;
     margin: 0px 10px 0px 0px;
 }
-.container-menu .content-menu .list li .icon {
-    font-size: 20px;
-    margin: 0px 12px 0px 0px;
+.container-menu-workspace .content-menu .list li .icon {
+    font-size: 22.5px;
+    margin: 0px auto;
 }
 
-.container-menu .content-menu .list li .seta {
+.container-menu-workspace .content-menu .list li .seta {
     font-size: 20px;
-    margin: 0px 0px 0px auto;
+    margin: 0px auto;
 }
 
-.container-menu .content-menu .list li p {
+.container-menu-workspace .content-menu .list li p {
     font-size: 15px;
     font-weight: 400;
 }
 
+.container-menu-workspace .content-menu .list li input {
+    width: 37.5px;
+    height: 37.5px;
+    position: absolute;
+    border-radius: 6px;
+    opacity: 0;
+}
+
 
 /* Limit Storage */
-.container-menu .content-menu .limit-storage {
+.container-menu-workspace .content-menu .limit-storage {
     width: calc(100% - 30px);
     height: auto;
     border-radius: 10px;
@@ -98,7 +111,7 @@
     padding: 15px;
 }
 
-.container-menu .content-menu .limit-storage h1 {
+.container-menu-workspace .content-menu .limit-storage h1 {
     width: 100%;
     font-size: 15px;
     font-weight: 600;
@@ -108,48 +121,48 @@
     justify-content: space-between;
 }
 
-.container-menu .content-menu .limit-storage h1 .icon {
+.container-menu-workspace .content-menu .limit-storage h1 .icon {
     font-size: 18px;
     cursor: var(--mouseLink);
     user-select: none;
     transition: all .05s ease-in-out;
-} .container-menu .content-menu .limit-storage h1 .icon * {
+} .container-menu-workspace .content-menu .limit-storage h1 .icon * {
     cursor: var(--mouseLink);
     user-select: none;
-} .container-menu .content-menu .limit-storage h1 .icon:hover,
-.container-menu .content-menu .limit-storage h1 .icon:focus {
+} .container-menu-workspace .content-menu .limit-storage h1 .icon:hover,
+.container-menu-workspace .content-menu .limit-storage h1 .icon:focus {
     color: var(--secondary);
 }
 
 
-.container-menu .content-menu .limit-storage p {
+.container-menu-workspace .content-menu .limit-storage p {
     width: 100%;
     font-size: 14px;
     font-weight: 400;
     line-height: 21.5px;
 }
 
-.container-menu .content-menu .limit-storage .progress-bar {
+.container-menu-workspace .content-menu .limit-storage .progress-bar {
     width: 100%;
     height: 6px;
     border-radius: 8px;
     background: var(--stoneFive);
     margin: 17.5px 0px;
-} .container-menu .content-menu .limit-storage .progress-bar .progress {
+} .container-menu-workspace .content-menu .limit-storage .progress-bar .progress {
     width: max-content;
     height: 100%;
     border-radius: 8px;
 } 
 
-.container-menu .content-menu .limit-storage .progress-bar .progress.green {
+.container-menu-workspace .content-menu .limit-storage .progress-bar .progress.green {
     background: var(--greenLight);
-} .container-menu .content-menu .limit-storage .progress-bar .progress.orange {
+} .container-menu-workspace .content-menu .limit-storage .progress-bar .progress.orange {
     background: var(--orange);
-} .container-menu .content-menu .limit-storage .progress-bar .progress.red {
+} .container-menu-workspace .content-menu .limit-storage .progress-bar .progress.red {
     background: var(--red);
 }
 
-.container-menu .content-menu .limit-storage button {
+.container-menu-workspace .content-menu .limit-storage button {
     width: max-content;
     height: auto;
     padding: 10px 12px;
@@ -163,11 +176,11 @@
     cursor: var(--mouseLink);
     margin: 5px 0px 0px 0px;
     transition: all .05s ease-in-out;
-} .container-menu .content-menu .limit-storage button * {
+} .container-menu-workspace .content-menu .limit-storage button * {
     user-select: none;
     cursor: var(--mouseLink);
-} .container-menu .content-menu .limit-storage button:hover,
-.container-menu .content-menu .limit-storage button:focus {
+} .container-menu-workspace .content-menu .limit-storage button:hover,
+.container-menu-workspace .content-menu .limit-storage button:focus {
     background: var(--stoneFive);
     box-shadow: 0px 0px 2px var(--stoneFive);
 }
@@ -177,7 +190,7 @@
 
 
 /* Perfil */
-.container-menu .content-menu .list li.profile {
+.container-menu-workspace .content-menu .list li.profile {
     width: calc(100% - 30px);
     position: absolute;
     bottom: 10px;
@@ -186,7 +199,7 @@
     letter-spacing: 0px;
 }
 
-.container-menu .content-menu .list .md-perfil {
+.container-menu-workspace .content-menu .list .md-perfil {
     width: calc(100% - 30px);
     position: absolute;
     bottom: 80px;
@@ -197,18 +210,18 @@
     border: 1px solid var(--stoneFour);
 }
 
-.container-menu .content-menu .list .md-perfil li {
+.container-menu-workspace .content-menu .list .md-perfil li {
     margin: 0px;
     padding: 13.5px 12.5px;
     border-radius: 0px;
-} .container-menu .content-menu .list .md-perfil li:first-child {
+} .container-menu-workspace .content-menu .list .md-perfil li:first-child {
     border-radius: 12px 12px 0px 0px;
-} .container-menu .content-menu .list .md-perfil li:last-child {
+} .container-menu-workspace .content-menu .list .md-perfil li:last-child {
     border-radius: 0px 0px 12px 12px;
 }
 
 
-.container-menu .content-menu .list .md-perfil .linha {
+.container-menu-workspace .content-menu .list .md-perfil .linha {
     width: 100%;
     height: auto;
     border-top: 1px solid var(--stoneFour);

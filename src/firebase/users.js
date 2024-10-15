@@ -45,33 +45,7 @@ const validateUserNick = async (nick) => {
   }
 };
 
-const checkVIP = async () => {
-  try {
-    auth.onAuthStateChanged( async function(user) {
-      if (!user) {
-          await clearCookies();
-          localStorage.clear();
-          window.location.href = "/entrar";
-      } else {
-          if (emailCookie !== user.email || uidCookie !== user.uid || nickCookie !== user.displayName) {
-              await clearCookies();
-              localStorage.clear();
-              window.location.href = "/entrar";
-          }
-          if (user.vip) {
-            return true;
-          } else {
-            return false;
-          }
-      }
-    });
-  } catch (error) {
-    console.log(error);
-    return false;
-  }
-}
-
-const addUserWorkspace = async (dados, uid, nick, email, cargo) => {
+const addUserWorkspace = async (dados, uid, nick, email, cargo, limit) => {
   if (!uid || !uidCookie || !nick || !cargo || !dados) {
     notifyError('Houve um erro');
     setTimeout(() => {
@@ -80,20 +54,14 @@ const addUserWorkspace = async (dados, uid, nick, email, cargo) => {
     return;
   }
   
-  let vip = await checkVIP();
-
   try {
-    const workspaceDoc = await firestore.collection('private-users')
-      .doc(uidCookie).collection('workspaces').doc(uid).get();
+    const workspaceDoc = await firestore.collection('workspaces').doc(uid).get();
 
     if (workspaceDoc.exists) {
         const data = workspaceDoc.data();
         let usersList = data.users;
 
-        if (usersList.length >= 4 && !vip) {
-          notifyError('Você já atingiu o limite de usuários nesse workspace');
-          return false;
-        } else if (usersList.length >= 10 && vip) {
+        if (usersList.length >= limit) {
           notifyError('Você já atingiu o limite de usuários nesse workspace');
           return false;
         }

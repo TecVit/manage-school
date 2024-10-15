@@ -1,0 +1,269 @@
+.container-workspace {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0px 0px 0px 0px;
+}
+
+.content-workspace {
+    width: 100%;
+    height: auto;
+    min-height: 100vh;
+    max-height: 100vh;
+    background: var(--stoneTwo);
+    border-radius: 10px 0px 0px 10px;
+    border: 1px solid var(--stoneFour);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 12.5px 0px !important;
+}
+
+/* Tabela */
+.content-workspace .tabela {
+    width: 97.5%;
+    max-width: 97.5%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    overflow-x: auto;
+}
+
+.content-workspace .tabela .linha {
+    width: max-content;
+    min-width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-top: none;
+    align-self: stretch;
+    position: relative;
+    margin: 0px;
+    padding: 5px 15px;
+    transition: all .05s ease-in-out;
+    border-bottom: 1px solid var(--stoneFour);
+}.content-workspace .tabela .linha:hover {
+    background: var(--grayMicrosoft);
+}
+.content-workspace .tabela .linha.primeira {
+    border-radius: 8px;
+    background: var(--stoneFour);
+    border-bottom: none;
+}
+.content-workspace .tabela .linha.primeira .coluna {
+    padding: 0px 10px;
+}.content-workspace .tabela .linha.primeira .coluna .paragrafo {
+    font-size: 15px;
+}
+.content-workspace .tabela .linha .coluna {
+    flex: 1;
+    min-width: 230px;
+    display: flex;
+    flex-direction: column;
+    padding: 0px 10px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin: 0px;
+}
+
+/* New */
+.content-workspace .tabela .linha .coluna input {
+    width: max-content;
+    height: 50px;
+    color: var(--stoneEleven);
+    background: transparent;
+    font-size: 14px;
+} .content-workspace .tabela .linha.primeira .coluna input {
+    font-size: 14px;
+}
+
+.content-workspace .tabela .linha .coluna .paragrafo {
+    width: 95%;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0px;
+    margin: 0px;
+    padding: 0px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.content-workspace .tabela .linha .coluna .icon {
+    font-size: 30px;
+    padding: 4px 0px;
+    border-radius: 6px;
+    margin: 0px 0px 0px auto;
+    cursor: var(--mouseLink);
+    user-select: none;
+}.content-workspace .tabela .linha .coluna .icon:hover,
+ .content-workspace .tabela .linha .coluna .icon:focus {
+    background: var(--stoneFour);
+} .content-workspace .tabela .linha .coluna .icon * {
+    cursor: var(--mouseLink);
+    user-select: none;
+}
+.content-workspace .tabela .linha .coluna .excluir {
+    font-size: 36.5px;
+    padding: 8px;
+    border-radius: 8px;
+    margin: 10px 0px;
+    color: var(--red);
+    cursor: var(--mouseLink);
+    user-select: none;
+}.content-workspace .tabela .linha .coluna .excluir:hover,
+ .content-workspace .tabela .linha .coluna .excluir:focus {
+    background: var(--stoneFour);
+} .content-workspace .tabela .linha .coluna .excluir * {
+    cursor: var(--mouseLink);
+    user-select: none;
+}
+
+.content-workspace .tabela .linha .coluna .paragrafo img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid var(--stoneFive);
+}
+
+/* Informações do User */
+.content-workspace .tabela .linha .md-user {
+    width: max-content;
+    height: auto;
+    background: var(--stoneFour);
+    border: 1px solid var(--stoneSix);
+    border-radius: 12px;
+    position: absolute;
+    bottom: -90px;
+    right: 0px;
+    padding: 0px;
+    z-index: 200;
+}
+.content-workspace .tabela .linha .md-user .list {
+    height: max-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2px;
+    color: var(--stoneEleven);
+}
+
+.content-workspace .tabela .linha .md-user .list button {
+    width: 100%;
+    height: 40px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background: transparent;
+    font-size: 14.75px;
+    padding: 0px 12.5px 0px 7px;
+    color: var(--stoneEleven);
+    cursor: var(--mouseLink);
+    border-radius: 10px;
+    border: 1px solid transparent;
+    transition: all .1s ease-in-out;
+}.content-workspace .tabela .linha .md-user .list button:hover,.content-workspace
+.tabela .linha .md-user .list button:focus {
+    background: var(--stoneFive);
+    border: 1px solid var(--stoneSeven);
+}.content-workspace .tabela .linha .md-user .list button * {
+    cursor: var(--mouseLink);
+}
+
+/* Md User - Button Deletar */.content-workspace
+.tabela .linha .md-user .list button.deletar {
+    color: var(--red);
+}
+.content-workspace
+.tabela .linha .md-user .list button .icon {
+    width: 18px;
+    height: 18px;
+    padding: 0px;
+    margin: 0px 8px 0px 0px;
+    cursor: unset;
+}.content-workspace .tabela .linha .md-user .list button .icon:hover {
+    background: transparent;
+}
+
+/* Btns Tabela */
+.content-workspace .btns-tabela {
+    width: 97.5%;
+    height: auto;
+    padding: 0px 10px;
+    margin: 20px auto;
+}
+
+.content-workspace .btns-tabela button {
+    width: max-content;
+    height: auto;
+    border-radius: 12px;
+    padding: 12.5px 15px;
+    background: var(--greenLight);
+    cursor: var(--mouseLink);
+    transition: all .1s ease-in-out;
+} .content-workspace .btns-tabela button:hover,
+.content-workspace .btns-tabela button:focus {
+    box-shadow: 0px 0px 10px var(--greenLight);
+}
+
+
+
+.modal-mouse {
+    background: var(--stoneThree);
+    border: 1px solid var(--stoneFive);
+    border-radius: 8px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.modal-mouse button {
+    width: 100%;
+    height: auto;
+    margin: 8px 0px;
+    padding: 13px 15px;
+    border-radius: 10px;
+    background: var(--stoneEleven);
+    border: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    cursor: var(--mouseLink);
+    transition: all .1s ease-in-out;
+} .modal-mouse button.excluir {
+    background: var(--red);
+} .modal-mouse button * {
+    cursor: var(--mouseLink);
+} .modal-mouse button:hover,
+.modal-mouse button:focus {
+    box-shadow: 0px 0px 10px var(--stoneFive);
+}
+
+.modal-mouse button .icon {
+    margin: 0px 6px 0px 0px;
+}
+
+.modal-mouse button p {
+    font-size: 15px;
+    letter-spacing: -0.1px;
+}
+
+
+.loader-tabela {
+    width: 90px;
+    height: 90px;
+    margin: auto;
+    padding: 20px;
+}
+
+

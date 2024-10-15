@@ -15,6 +15,12 @@ import { FiTrash } from 'react-icons/fi';
 
 export default function Landing() {
 
+    // Links
+    let linkGithub = 'tecvit';
+    let linkInstagram = 'tecvit_';
+    let linkWhatsapp = '5516997569308';
+    let linkTwitter = 'tecvit_';
+
     // Animações
     function getTopPositionRelativeToPage(element) {
         var rect = element.getBoundingClientRect();
@@ -337,6 +343,8 @@ export default function Landing() {
             <section id='planos' className='container-plans'>
                 <div className='content-plans'>
                     <h1>Comece a gerenciar sua <strong>empresa</strong> de forma mais <strong>inteligente</strong> ainda hoje</h1>
+                    
+                    {/* Basic */}
                     <div className='plan'>
                         <div className='price'>
                             <h1>Plano Grátis</h1>
@@ -346,14 +354,16 @@ export default function Landing() {
                         </div>
                         <div className='description'>
                             <div className='list'>
-                                <p><strong>✓</strong> Acesso a 3 Workspaces</p>
-                                <p><strong>✓</strong> Acesso a 3 Times</p>
-                                <p><strong>✓</strong> Disponível 2 Usuários por Workspace</p>
-                                <p><strong>✓</strong> Inclui o Suporte Básico</p>
+                                <p><strong>✓</strong> Acesso a 2 workspaces</p>
+                                <p><strong>✓</strong> Acesso a 2 times</p>
+                                <p><strong>✓</strong> Disponível 2 usuários por workspace</p>
+                                <p><strong>✓</strong> Inclui o suporte básico</p>
                             </div>
                             <p>A equipe pode adicionar, editar e excluir membros conforme necessário.</p>
                         </div>
                     </div>
+                    
+                    {/* Premium */}
                     <div className='plan'>
                         <div className='price'>
                             <h1>Plano Premium</h1>
@@ -363,9 +373,28 @@ export default function Landing() {
                         </div>
                         <div className='description'>
                             <div className='list'>
-                                <p><strong>✓</strong> Acesso a 10 Workspaces</p>
-                                <p><strong>✓</strong> Acesso a 10 Times</p>
-                                <p><strong>✓</strong> Disponível 8 Usuários por Workspace</p>
+                                <p><strong>✓</strong> Acesso a 10 workspaces</p>
+                                <p><strong>✓</strong> Acesso a 10 times</p>
+                                <p><strong>✓</strong> Disponível 10 usuários por workspace</p>
+                                <p><strong>✓</strong> Inclui o suporte customizado</p>
+                            </div>
+                            <p>Com uma solução completa, sua equipe tem controle total sobre a gestão de membros e dos projetos.</p>
+                        </div>
+                    </div>
+                    
+                    {/* Custom */}
+                    <div className='plan'>
+                        <div className='price'>
+                            <h1>Plano Customizado</h1>
+                            <p>Para <strong>todas</strong> as empresas de todos os portes</p>
+                            <h2>R$****</h2>
+                            <button onClick={() => window.open("https://wa.me/5516997569308")}>Garantir Agora</button>
+                        </div>
+                        <div className='description'>
+                            <div className='list'>
+                                <p><strong>✓</strong> Acesso a workspaces ilimitados</p>
+                                <p><strong>✓</strong> Acesso a times ilimitados </p>
+                                <p><strong>✓</strong> Usuários ilimitados por workspace</p>
                                 <p><strong>✓</strong> Inclui o Suporte Customizado</p>
                             </div>
                             <p>Com uma solução completa, sua equipe tem controle total sobre a gestão de membros e dos projetos.</p>
@@ -414,10 +443,10 @@ export default function Landing() {
                         </li>
                         <li>
                             <h1>Redes Sociais</h1>
-                            <a href='https://github.com'>GitHub</a>
-                            <a href='https://instagram.com'>Instagram</a>
-                            <a href='https://whatsapp.com'>Whatsapp</a>
-                            <a href='https://x.com'>X / Twitter</a>
+                            <a href={`https://github.com/${linkGithub}`}>GitHub</a>
+                            <a href={`https://instagram.com/${linkInstagram}`}>Instagram</a>
+                            <a href={`https://wa.me/${linkWhatsapp}`}>Whatsapp</a>
+                            <a href={`https://x.com/${linkTwitter}`}>X / Twitter</a>
                         </li>
                     </div>
                     <p className='made'>Criado por <strong onClick={() => window.open("https://instagram.com/tecvit_")}>TecVit Inc</strong></p>
