@@ -199,21 +199,55 @@
     height: auto;
     padding: 0px 10px;
     margin: 20px auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 
 .content-workspace .btns-tabela button {
     width: max-content;
     height: auto;
-    border-radius: 12px;
-    padding: 12.5px 15px;
+    border-radius: 25px;
+    padding: 13px 16px;
+    font-size: 14px;
+    margin: 0px 12.5px 0px 0px;
     background: var(--greenLight);
     cursor: var(--mouseLink);
     transition: all .1s ease-in-out;
 } .content-workspace .btns-tabela button:hover,
-.content-workspace .btns-tabela button:focus {
+  .content-workspace .btns-tabela button:focus {
     box-shadow: 0px 0px 10px var(--greenLight);
 }
 
+.content-workspace .btns-tabela button.excluir {
+    background: var(--red);
+} .content-workspace .btns-tabela button.excluir:hover,
+  .content-workspace .btns-tabela button.excluir:focus {
+  box-shadow: 0px 0px 10px var(--red);
+} 
+
+
+.content-workspace .btns-tabela .navigation {
+    width: max-content;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 0px 0px 0px auto;
+}
+
+.content-workspace .btns-tabela .navigation .icon {
+    font-size: 18px;
+    margin: 0px 11px;
+    cursor: var(--mouseLink);
+} .content-workspace .btns-tabela .navigation .icon:hover {
+    color: var(--secondary);
+}
+
+.content-workspace .btns-tabela .navigation p {
+    font-size: 16px;
+    margin: 0px 4px 0px 0px;
+}
 
 
 .modal-mouse {

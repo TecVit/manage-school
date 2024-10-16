@@ -42,33 +42,32 @@ export default function Painel() {
     };
 
     useEffect(() => {
-        if (uidCookie && emailCookie && nickCookie) {
-            const unsubscribe = auth.onAuthStateChanged(async function(user) {
-                if (!user) {
+        const unsubscribe = auth.onAuthStateChanged(async function(user) {
+            if (!user) {
+                await clearCookies();
+                localStorage.clear();
+                window.location.href = "/entrar";
+            } else {
+                if (emailCookie !== user.email || uidCookie !== user.uid || nickCookie !== user.displayName) {
                     await clearCookies();
                     localStorage.clear();
                     window.location.href = "/entrar";
                 } else {
-                    if (emailCookie !== user.email || uidCookie !== user.uid || nickCookie !== user.displayName) {
+                    const limit = await checkLimitUser(user);
+                    
+                    if (!limit) {
                         await clearCookies();
                         localStorage.clear();
                         window.location.href = "/entrar";
-                    } else {
-                        const limit = await checkLimitUser(user);
-                        
-                        if (!limit) {
-                            await clearCookies();
-                            localStorage.clear();
-                            window.location.href = "/entrar";
-                        }
-                        setNumMaxWorkspaces(limit);
-                        setNumMaxTimes(limit);
                     }
+                    
+                    setNumMaxWorkspaces(limit);
+                    setNumMaxTimes(limit);
                 }
-            });
+            }
+        });
 
-            return () => unsubscribe();
-        }
+        return () => unsubscribe();
     }, [uidCookie, emailCookie, nickCookie]);
 
     

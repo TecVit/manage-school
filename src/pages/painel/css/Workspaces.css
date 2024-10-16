@@ -76,8 +76,8 @@
 .content-workspaces .top button {
     width: max-content;
     height: 42.5px;
-    padding: 0px 12.5px;
-    border-radius: 10px;
+    padding: 0px 16px;
+    border-radius: 24px;
     background: var(--primary);
     border: 1px solid var(--primary);
     color: var(--stoneEleven);
@@ -327,8 +327,8 @@
 .content-workspaces .start-workspace .btns button {
     width: max-content;
     height: auto;
-    padding: 12.5px 17.5px;
-    border-radius: 8px;
+    padding: 14px 18px;
+    border-radius: 24px;
     background: var(--primary);
     color: var(--stoneEleven);
     margin: 0px;

@@ -9,7 +9,7 @@ import { NotificationContainer, notifyError, notifySuccess } from '../../../toas
 import { auth, firestore } from '../../../firebase/login/login.js';
 import { LuExpand } from 'react-icons/lu';
 import { BiExitFullscreen, BiFullscreen } from 'react-icons/bi';
-import { FaEllipsisVertical } from 'react-icons/fa6';
+import { FaArrowLeft, FaArrowRight, FaEllipsisVertical } from 'react-icons/fa6';
 import { FiTrash } from 'react-icons/fi';
 import { addUserWorkspace, deleteUserWorkspace, validateUserNick } from '../../../firebase/users.js';
 
@@ -17,6 +17,7 @@ import { addUserWorkspace, deleteUserWorkspace, validateUserNick } from '../../.
 import Modal from '@mui/material/Modal';
 import MenuWorkspace from './components/Menu.js';
 import { FaRegTrashAlt, FaTrashAlt } from 'react-icons/fa';
+import { updateDoc } from 'firebase/firestore';
 
 export default function Workspaces() {
 
@@ -63,7 +64,7 @@ export default function Workspaces() {
     }
 
     useEffect(() => {
-        document.title = 'Workspace | Manage School';
+        document.title = 'Workspace Privado | Manage School';
         animacoes();
         window.addEventListener('scroll', animacoes);
         return () => {
@@ -96,8 +97,14 @@ export default function Workspaces() {
                     const workspaceData = workspaceDoc.data();
                     setInfoWorkspace(workspaceData);
 
-                    if (workspaceData.dados && workspaceData.dados.length > 0 && Object.keys(workspaceData.dados[0]).length > 0) {
-                        setDataWorkspace(workspaceData.dados);
+                    if (workspaceData.dados && Object.keys(workspaceData.dados).length > 0 && Object.keys(workspaceData.dados[Object.keys(workspaceData.dados)[0]][0]).length > 0) {
+                        const sortedData = {};
+                        Object.keys(workspaceData.dados).sort().forEach(key => {
+                            sortedData[key] = workspaceData.dados[key];
+                        });
+
+                        setDataWorkspace(sortedData);
+                        setCurrentTableIndex(Object.keys(sortedData)[0]);
                     }
                 }
                 setCarregando(false);
@@ -117,27 +124,31 @@ export default function Workspaces() {
         }
     };
 
-    const [dataWorkspace, setDataWorkspace] = useState([
-        {
-            "0": "Tarefa",
-            "1": "Responsável",
-            "2": "Data de Entrega",
-            "3": "Status",
-            "4": "Progresso (%)",
-        },
-        {
-            "0": "Limpar a casa",
-            "1": "Joãozinho",
-            "2": "08/03/2009",
-            "3": "Pendente",
-            "4": "40%",
-        }
-    ]);
+    const [dataWorkspace, setDataWorkspace] = useState({});
+    
+    const [currentTableIndex, setCurrentTableIndex] = useState(Object.keys(dataWorkspace)[0]);
+
+    const changeTable = (direction) => {
+        setCurrentTableIndex((prevKey) => {
+            const keys = Object.keys(dataWorkspace);
+            const currentIndex = keys.indexOf(prevKey);
+    
+            let newIndex;
+            
+            if (direction === 'next') {
+                newIndex = currentIndex < keys.length - 1 ? currentIndex + 1 : currentIndex;
+            } else if (direction === 'prev') {
+                newIndex = currentIndex > 0 ? currentIndex - 1 : currentIndex;
+            }
+    
+            return keys[newIndex];
+        });
+    };
 
     const handleChange = (e, index, key) => {
-        let updateData = [...dataWorkspace];
+        let updateData = [...dataWorkspace[currentTableIndex]];
         updateData[index][key] = e.target.value;
-        setDataWorkspace(updateData);
+        setDataWorkspace({ ...dataWorkspace, [currentTableIndex]: updateData });
     };
 
     // Modal Btn Right
@@ -148,30 +159,36 @@ export default function Workspaces() {
     
     const handleAddColumn = async () => {
         try {
-        // Determina o índice da nova coluna como o comprimento das chaves do primeiro objeto
-        const nextKey = Object.keys(dataWorkspace[0]).length.toString();
-    
-        const updatedData = dataWorkspace.map((obj, index) => {
-            return { ...obj, [nextKey]: index === 0 ? `Nova Coluna ${Number(nextKey) + 1}` : "" }; // Adiciona a nova coluna
-        });
-    
-        setDataWorkspace(updatedData);
+            const currentTable = dataWorkspace[currentTableIndex];
+            const nextKey = Object.keys(currentTable[0]).length.toString();
+            const updatedTable = currentTable.map((row, rowIndex) => {
+                return { 
+                    ...row, 
+                    [nextKey]: rowIndex === 0 ? `Nova Coluna ${Number(nextKey) + 1}` : ""
+                };
+            });
+            setDataWorkspace({ 
+                ...dataWorkspace, 
+                [currentTableIndex]: updatedTable 
+            });
         } catch (error) {
-        console.error('Erro ao adicionar coluna:', error);
+            console.error('Erro ao adicionar coluna:', error);
         }
     };
 
     const handleAddRow = async () => {
         try {
-            const numCols = Object.keys(dataWorkspace[0]).length;
-
+            const currentTable = dataWorkspace[currentTableIndex];
+            const numCols = Object.keys(currentTable[0]).length;
             const newRow = {};
             for (let i = 0; i < numCols; i++) {
-                newRow[i] = "";
+                newRow[i] = ""; 
             }
-
-            const updatedData = [...dataWorkspace, newRow];
-            setDataWorkspace(updatedData);
+            const updatedTable = [...currentTable, newRow];
+            setDataWorkspace({
+                ...dataWorkspace,
+                [currentTableIndex]: updatedTable
+            });
         } catch (error) {
             console.error('Erro ao adicionar linha:', error);
         }
@@ -179,34 +196,59 @@ export default function Workspaces() {
 
     const deleteColumn = (columnIndex) => {
         try {
-          const updatedData = dataWorkspace.map((obj) => {
-            const newObj = { ...obj };
-            delete newObj[columnIndex];
-            return newObj;
-          });
+            if (!dataWorkspace[currentTableIndex]) {
+                console.error("Tabela não encontrada.");
+                return;
+            }
     
-          // Reorganiza as chaves
-          const reorganizedData = updatedData.map((obj) => {
-            const newObj = {};
-            Object.keys(obj).forEach((key, index) => {
-              newObj[index.toString()] = obj[key];
+            const rearrangeColumns = (data) => {
+                return data.map((row) => {
+                    const rearrangedRow = {};
+                    let index = 0;
+    
+                    Object.keys(row).forEach((key) => {
+                        rearrangedRow[index] = row[key];
+                        index++;
+                    });
+    
+                    return rearrangedRow;
+                });
+            };
+    
+            let organizedData = rearrangeColumns(dataWorkspace[currentTableIndex]);
+    
+            const updatedData = organizedData.map((row) => {
+                const newRow = { ...row };
+                delete newRow[columnIndex];
+                return newRow;
             });
-            return newObj;
-          });
     
-          setDataWorkspace(reorganizedData);
+            const rearrangedData = rearrangeColumns(updatedData);
+    
+            setDataWorkspace((prevData) => ({
+                ...prevData,
+                [currentTableIndex]: rearrangedData
+            }));
+    
+            setDataWorkspace({ ...dataWorkspace, [currentTableIndex]: updatedData });
+    
+            console.log(`Coluna ${columnIndex} removida com sucesso`);
         } catch (error) {
-          console.error('Erro ao deletar coluna:', error);
+            console.error("Erro ao deletar coluna:", error);
         }
     };
 
     const deleteRow = () => {
         try {
-          const updatedData = dataWorkspace.filter((_, index) => index !== rowToDelete);
-          setDataWorkspace(updatedData);
-          setModalOpen(false);
+            const currentTable = dataWorkspace[currentTableIndex];
+            const updatedTable = currentTable.filter((_, index) => index !== rowToDelete);
+            setDataWorkspace({
+                ...dataWorkspace,
+                [currentTableIndex]: updatedTable
+            });
+            setModalOpen(false);
         } catch (error) {
-          console.error('Erro ao deletar linha:', error);
+            console.error('Erro ao deletar linha:', error);
         }
     };
 
@@ -237,7 +279,18 @@ export default function Workspaces() {
     const handleUpdateData = (list) => {
         setCarregando(true);
         try {
-            setDataWorkspace(prevData => [...prevData, ...list]);
+            setDataWorkspace(prevData => {
+                const updatedData = { ...prevData };
+            
+                if (updatedData[currentTableIndex]) {
+                    updatedData[currentTableIndex] = [...updatedData[currentTableIndex], ...list];
+                } else {
+                    console.error(`Tabela no índice ${currentTableIndex} não encontrada.`);
+                }
+            
+                return updatedData;
+            });
+
             notifySuccess('Dados adicionados com sucesso');
             return true;
         } catch (error) {
@@ -248,65 +301,139 @@ export default function Workspaces() {
         }
     }
 
+    const getTableNameByIndex = (dataWorkspace, index) => {
+        const keys = Object.keys(dataWorkspace);
+        if (index >= 0 && index < keys.length) {
+            return keys[index];
+        } else {
+            console.error('Índice fora do intervalo.');
+            return null;
+        }
+    };
+
+    const handleAddTable = async (name, type) => {
+        setCarregando(true);
+        try {
+            setDataWorkspace((prevData) => {
+                const updateWorkspace = { ...prevData };
+                updateWorkspace[name] = type;
+                return updateWorkspace;
+            })
+            setCurrentTableIndex(name);
+        } catch (error) {
+            console.log(error);
+            return false;
+        } finally {
+            setCarregando(false);
+        }
+    }
+
+    const handleDeleteTable = async () => {
+        setCarregando(true);
+        try {
+            const tableKeys = Object.keys(dataWorkspace);
+            
+            if (tableKeys.length === 0 || currentTableIndex === null) return;
+    
+            let lastIndex = currentTableIndex;
+    
+            let updatedDataWorkspace = { ...dataWorkspace };
+            
+            delete updatedDataWorkspace[lastIndex];
+    
+            const newTableKeys = Object.keys(updatedDataWorkspace);
+    
+            if (newTableKeys.length === 0) {
+                setCurrentTableIndex(null);
+            } else {
+                let nextIndex = tableKeys.findIndex(key => key === lastIndex);
+    
+                if (nextIndex >= newTableKeys.length - 1) {
+                    setCurrentTableIndex(newTableKeys[nextIndex - 1]);
+                } else {
+                    setCurrentTableIndex(newTableKeys[nextIndex]);
+                }
+            }
+    
+            const res = await saveDataWorkspacePrivate(uidCookie, idWorkspace, updatedDataWorkspace);
+            
+            if (res) {
+                notifySuccess(`${lastIndex} excluída com sucesso`);
+                setDataWorkspace(updatedDataWorkspace);
+                return true;
+            }
+    
+            return false;
+        } catch (error) {
+            console.log('Erro ao excluir a tabela:', error);
+            return false;
+        } finally {
+            setCarregando(false);
+        }
+    };
+    
+
     return (
         <>
-            <MenuWorkspace handleAddColumn={handleAddColumn} handleAddRow={handleAddRow} handleUpdateData={handleUpdateData} />
+            <NotificationContainer />
+
+            <MenuWorkspace handleAddColumn={handleAddColumn} handleAddRow={handleAddRow} handleUpdateData={handleUpdateData} handleAddTable={handleAddTable} />
 
             <main className="container-workspace">
-                <NotificationContainer />
-                
                 <section className='content-workspace'>
-                        
-                    {carregando ? (
-                        <div className='loader loader-tabela'></div>
-                    ) : (
-                        <>        
-                            <div className='tabela'>
-                                {dataWorkspace && dataWorkspace.length > 0 ? (
-                                    dataWorkspace.map((obj, i) => (
-                                        <div 
-                                            className={`linha ${i === 0 && 'primeira'}`} 
-                                            key={i}
-                                            onContextMenu={(event) => handleContextMenu(event, i)}
-                                        >
-                                            {Object.keys(obj).map((key, j) => (
-                                                <div className='coluna' key={j}>
-                                                    <input
-                                                        type="text"
-                                                        value={obj[key]}
-                                                        onChange={(e) => handleChange(e, i, key)}
-                                                    />
-                                                </div>
-                                            ))}
-                                        </div>
-                                    ))
-                                ) : (
-                                    <h1>Nenhum dado encontrado</h1>
-                                )}
 
-                                {dataWorkspace && dataWorkspace.length > 0 && (
-                                    <div className='linha'>
-                                        {Object.keys(dataWorkspace[0]).map((_, index) => (
-                                            <div className='coluna' key={index}>
-                                                <FaTrashAlt
-                                                    className='excluir'
-                                                    onClick={() => deleteColumn(index)}
-                                                    style={{ cursor: 'pointer' }}
+                    {dataWorkspace && dataWorkspace[currentTableIndex] ? (
+                        <>
+                            <div className='tabela'>
+                                {dataWorkspace[currentTableIndex].map((obj, i) => (
+                                    <div
+                                        className={`linha ${i === 0 && 'primeira'}`} 
+                                        key={i} 
+                                        onContextMenu={(event) => handleContextMenu(event, i)}
+                                    >
+                                        {Object.keys(obj).map((key, j) => (
+                                            <div className='coluna' key={j}>
+                                                <input
+                                                    type="text"
+                                                    value={obj[key]}
+                                                    onChange={(e) => handleChange(e, i, key)}
                                                 />
                                             </div>
                                         ))}
                                     </div>
-                                )}
-                                
+                                ))}
+
+                                <div className='linha'>
+                                    {Object.keys(dataWorkspace[currentTableIndex][0]).map((_, index) => (
+                                        <div className='coluna' key={index}>
+                                            <FaTrashAlt
+                                                className='excluir'
+                                                onClick={() => deleteColumn(index)}
+                                                style={{ cursor: 'pointer' }}
+                                            />
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
 
                             <div className='btns-tabela'>
                                 <button onClick={handleSaveDataWorkspace}>Salvar Alterações</button>
+                                <button className='excluir' onClick={handleDeleteTable}>Excluir Tabela Atual</button>
+                                <div className='navigation'>
+                                    <p>{currentTableIndex}</p>
+                                    {currentTableIndex !== Object.keys(dataWorkspace)[0] && (
+                                        <FaArrowLeft onClick={() => changeTable('prev')} className='icon' />
+                                    )}
+                                    {currentTableIndex !== Object.keys(dataWorkspace)[Object.keys(dataWorkspace).length - 1] && (
+                                        <FaArrowRight onClick={() => changeTable('next')} className='icon' />
+                                    )}
+                                </div>
                             </div>
-                        
                         </>
+                    ) : (
+                        <h1>Nenhuma tabela disponível</h1>
                     )}
-                    
+
                 </section>
 
                 {/* Modal de confirmação para deletar linha */}

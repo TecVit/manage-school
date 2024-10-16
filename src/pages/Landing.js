@@ -12,6 +12,7 @@ import { SiInstagram } from 'react-icons/si';
 import { FaEllipsisVertical, FaXTwitter } from 'react-icons/fa6';
 import { MdOutlineEdit, MdTipsAndUpdates } from 'react-icons/md';
 import { FiTrash } from 'react-icons/fi';
+import { NotificationContainer, notifyError } from '../toastifyServer';
 
 export default function Landing() {
 
@@ -125,6 +126,7 @@ export default function Landing() {
 
   return (
     <main className='container-landing'>
+        <NotificationContainer />
         <section className='content-landing'>
             
             {/* Navbar */}
@@ -152,7 +154,10 @@ export default function Landing() {
                     </div>
                     <h1 data-animation="top" data-duration-animation="0.7s">Transforme Seus Dados em Resultados</h1>
                     <p data-animation="top" data-duration-animation="0.8s">Simplifique a gestão de informações, <strong>Edite</strong>, visualize e compartilhe seus dados com <strong>rapidez</strong> e eficiência, tudo em um <strong>só lugar</strong></p>
-                    <button data-animation="top" data-duration-animation="0.9s" onClick={() => navigate('/painel')} className='btn-started'>Começar Agora</button>
+                    <div data-animation="top" data-duration-animation="0.9s" className='btns'>
+                        <button onClick={() => navigate('/painel')} className='btn-started'>Começar Agora</button>
+                        <button onClick={() => notifyError('Adiquirir VIP ainda está indisponível')} className='btn-started vip'>Adiquirir VIP Antecipado</button>
+                    </div>
                 </div>
             </div>
 
@@ -367,9 +372,9 @@ export default function Landing() {
                     <div className='plan'>
                         <div className='price'>
                             <h1>Plano Premium</h1>
-                            <p>Para empresas de <strong>grande</strong> porte</p>
-                            <h2>R$19,99</h2>
-                            <button onClick={() => window.open("https://buy.stripe.com/bIY3gbbJc7yzfsY289")}>Garantir Agora</button>
+                            <p>Para empresas de <strong>grande</strong> porte, possui 7 dias grátis</p>
+                            <h2>R$24,99</h2>
+                            <button onClick={() => window.open("https://buy.stripe.com/bIYbMHaF8bOPeoU5km")}>Garantir Agora</button>
                         </div>
                         <div className='description'>
                             <div className='list'>
@@ -388,7 +393,7 @@ export default function Landing() {
                             <h1>Plano Customizado</h1>
                             <p>Para <strong>todas</strong> as empresas de todos os portes</p>
                             <h2>R$****</h2>
-                            <button onClick={() => window.open("https://wa.me/5516997569308")}>Garantir Agora</button>
+                            <button onClick={() => window.open("https://wa.me/5516997569308")}>Adiquirir VIP</button>
                         </div>
                         <div className='description'>
                             <div className='list'>

@@ -62,6 +62,7 @@ export default function Workspaces() {
                 } else {
                     return 3;
                 }
+                
             } catch (error) {
                 return false;
             }
@@ -69,33 +70,32 @@ export default function Workspaces() {
     };
 
     useEffect(() => {
-        if (uidCookie && emailCookie && nickCookie) {
-            const unsubscribe = auth.onAuthStateChanged(async function(user) {
-                if (!user) {
+        const unsubscribe = auth.onAuthStateChanged(async function(user) {
+            if (!user) {
+                await clearCookies();
+                localStorage.clear();
+                window.location.href = "/entrar";
+            } else {
+                if (emailCookie !== user.email || uidCookie !== user.uid || nickCookie !== user.displayName) {
                     await clearCookies();
                     localStorage.clear();
                     window.location.href = "/entrar";
                 } else {
-                    if (emailCookie !== user.email || uidCookie !== user.uid || nickCookie !== user.displayName) {
+                    const limit = await checkLimitUser(user);
+                    
+                    if (!limit) {
                         await clearCookies();
                         localStorage.clear();
                         window.location.href = "/entrar";
-                    } else {
-                        const limit = await checkLimitUser(user);
-                        
-                        if (!limit) {
-                            await clearCookies();
-                            localStorage.clear();
-                            window.location.href = "/entrar";
-                        }
-                        setNumMaxWorkspaces(limit);
-                        setNumMaxTimes(limit);
                     }
-                }
-            });
 
-            return () => unsubscribe();
-        }
+                    setNumMaxWorkspaces(limit);
+                    setNumMaxTimes(limit);
+                }
+            }
+        });
+
+        return () => unsubscribe();
     }, [uidCookie, emailCookie, nickCookie]);
     
     // Animações
@@ -147,7 +147,7 @@ export default function Workspaces() {
 
 
     // Form - Checkboxs
-    const [createWorkspaceCheckbox, setCreateWorkspaceCheckbox] = useState([true, false]);
+    const [createWorkspaceCheckbox, setCreateWorkspaceCheckbox] = useState([false, true]);
     const handleCreateWorkspaceCheckbox = (i) => {
         setCreateWorkspaceCheckbox((prev) => {
             const list = prev.map((val, index) => {
@@ -505,14 +505,14 @@ export default function Workspaces() {
                                 <input onChange={(e) => setInputNomeWorkspace(e.target.value)} placeholder='ex: Biblioteca Escolar 2024' type='text' />
                             </div>
                             <div className='checkbox'>
-                                <div tabIndex={0} onKeyDown={(event) => {event.key === "Enter" && handleCreateWorkspaceCheckbox(0); setInputAccessWorkspace(0)}} onClick={() => {handleCreateWorkspaceCheckbox(0); setInputAccessWorkspace(0)}} className={`input-checkbox ${createWorkspaceCheckbox[0] && 'selecionado'}`}></div>
+                                <div tabIndex={0} onKeyDown={(event) => {event.key === "Enter" && handleCreateWorkspaceCheckbox(0); setInputAccessWorkspace(1)}} onClick={() => {handleCreateWorkspaceCheckbox(0); setInputAccessWorkspace(1)}} className={`input-checkbox ${createWorkspaceCheckbox[1] && 'selecionado'}`}></div>
                                 <div className='text'>
                                     <h1>Privado</h1>
                                     <p>Por ser um espaço de trabalho privado, somente administradores podem edita-lo</p>
                                 </div>
                             </div>
                             <div className='checkbox'>
-                                <div tabIndex={0} onKeyDown={(event) => {event.key === "Enter" && handleCreateWorkspaceCheckbox(1); setInputAccessWorkspace(1)}} onClick={() => {handleCreateWorkspaceCheckbox(1); setInputAccessWorkspace(1)}} className={`input-checkbox ${createWorkspaceCheckbox[1] && 'selecionado'}`}></div>
+                                <div tabIndex={0} onKeyDown={(event) => {event.key === "Enter" && handleCreateWorkspaceCheckbox(0); setInputAccessWorkspace(0)}} onClick={() => {handleCreateWorkspaceCheckbox(0); setInputAccessWorkspace(0)}} className={`input-checkbox ${createWorkspaceCheckbox[0] && 'selecionado'}`}></div>
                                 <div className='text'>
                                     <h1>Público</h1>
                                     <p>Por ser um espaço de trabalho público, todos podem ter acesso</p>

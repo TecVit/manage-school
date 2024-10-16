@@ -4,7 +4,7 @@ import './css/Menu.css';
 
 import Logo from '../../../icons/manage.png';
 import { GoCheck, GoHome, GoPeople, GoPerson, GoQuestion, GoSignOut } from 'react-icons/go';
-import { IoPricetagsOutline, IoSettingsOutline } from 'react-icons/io5';
+import { IoNotificationsOutline, IoPricetagsOutline, IoSettingsOutline } from 'react-icons/io5';
 import { IoIosArrowDown, IoIosArrowUp, IoMdClose } from 'react-icons/io';
 import { MdMonitor, MdWorkspacePremium } from 'react-icons/md';
 import { clearCookies, deleteCookie, getCookie, setCookie } from '../../../firebase/cookies';
@@ -40,7 +40,6 @@ export default function App() {
             try {
                 const token = await user.getIdToken(true);
                 const decodedToken = await auth.currentUser.getIdTokenResult();
-                console.log(decodedToken.claims);
                 
                 if (decodedToken.claims.plan === 'premium') {
                     return 10;
@@ -49,6 +48,7 @@ export default function App() {
                 } else {
                     return 3;
                 }
+                
             } catch (error) {
                 return false;
             }
@@ -137,6 +137,10 @@ export default function App() {
                         <MdWorkspacePremium className='icon' />
                         <p>Workspaces</p>
                     </li>
+                    <li tabIndex={0} onKeyDown={(event) => event.key === "Enter" && navigate('/painel/configuracoes')} onClick={() => navigate('/painel/configuracoes')}>
+                        <IoNotificationsOutline className='icon' />
+                        <p>Notificações</p>
+                    </li>
                     <li tabIndex={0} onKeyDown={(event) => event.key === "Enter" && navigate('/painel/times')} onClick={() => navigate('/painel/times')} className={router === '/painel/times' && 'selecionado'}>
                         <GoPeople className='icon' />
                         <p>Times</p>
@@ -145,6 +149,7 @@ export default function App() {
                         <IoSettingsOutline className='icon' />
                         <p>Configurações</p>
                     </li>
+                    
 
                     {!mdLimitStorage && (
                         <div className='limit-storage'>

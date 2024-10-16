@@ -63,7 +63,7 @@ export default function Workspaces() {
     }
 
     useEffect(() => {
-        document.title = 'Workspace | Manage School';
+        document.title = 'Workspace Público | Manage School';
         animacoes();
         window.addEventListener('scroll', animacoes);
         return () => {

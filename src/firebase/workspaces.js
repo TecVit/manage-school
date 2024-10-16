@@ -111,10 +111,10 @@ const getDataWorkspacePrivate = async (uid, id) => {
 const saveDataWorkspacePrivate = async (uid, id, dados) => {
   try {
     await firestore.collection('private-users')
-      .doc(uid)
-      .collection('workspaces')
-      .doc(id)
-      .set({ dados: dados }, { merge: true });
+    .doc(uid)
+    .collection('workspaces')
+    .doc(id)
+    .update({ dados: dados });
       
     return true;
   } catch (error) {
@@ -220,6 +220,33 @@ const createWorkspace = async (dados, limit) => {
                 3: 1,
               }
             ],
+            dados: {
+              "Agenda de Reuniões": [
+                  { "0": "Data", "1": "Hora", "2": "Participantes", "3": "Assunto", "4": "Status" },
+                  { "0": "12/10/2024", "1": "10:00", "2": "Equipe de Marketing", "3": "Planejamento de Campanhas", "4": "Confirmada" },
+                  { "0": "15/10/2024", "1": "14:00", "2": "Diretoria", "3": "Revisão de Orçamento", "4": "Agendada" }
+              ], 
+              "Atividades de Vendas 2024": [
+                  { "0": "Cliente", "1": "Produto", "2": "Valor da Venda", "3": "Data da Venda", "4": "Status" },
+                  { "0": "Cliente A", "1": "Serviço de Consultoria", "2": "$2,000", "3": "05/01/2024", "4": "Concluído" },
+                  { "0": "Cliente B", "1": "Treinamento de Vendas", "2": "$1,500", "3": "10/02/2024", "4": "Pendente" }
+              ],
+              "Campanhas de Marketing 2024": [
+                  { "0": "Campanha", "1": "Responsável", "2": "Data de Início", "3": "Data de Término", "4": "Status" },
+                  { "0": "Promoção de Verão", "1": "Carlos Silva", "2": "01/12/2024", "3": "31/12/2024", "4": "Ativa" },
+                  { "0": "Lançamento de Produto", "1": "Ana Costa", "2": "15/01/2024", "3": "15/02/2024", "4": "Planejada" }
+              ],
+              "Projetos de Desenvolvimento de Software": [
+                  { "0": "Projeto", "1": "Responsável", "2": "Data de Início", "3": "Data de Término", "4": "Status" },
+                  { "0": "App de Gestão Financeira", "1": "Fernanda Lima", "2": "01/03/2024", "3": "30/06/2024", "4": "Em Andamento" },
+                  { "0": "Plataforma de E-commerce", "1": "Lucas Martins", "2": "15/01/2024", "3": "30/04/2024", "4": "Planejada" }
+              ],
+              "Relatórios Financeiros Q1 2024": [
+                  { "0": "Descrição", "1": "Valor", "2": "Data", "3": "Categoria", "4": "Status" },
+                  { "0": "Vendas Totais", "1": "$50,000", "2": "31/03/2024", "3": "Receita", "4": "Finalizado" },
+                  { "0": "Despesas Operacionais", "1": "$20,000", "2": "31/03/2024", "3": "Custo", "4": "Pendente" }
+              ],
+            },
         });
         return true;
     } catch (error) {

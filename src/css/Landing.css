@@ -106,6 +106,10 @@
     box-shadow: 0px 2.5px 12.5px var(--primary);
 }
 
+.btn-started.vip {
+    background: var(--secondary);
+}
+
 /* Inicio */
 .container-initial {
     width: 100%;
@@ -205,7 +209,7 @@
     height: auto;
     display: flex;
     justify-content: center;
-    padding: 50px 0px 100px;
+    padding: 50px 0px 50px;
 }
 
 .content-products {
