@@ -347,10 +347,10 @@ export default function Landing() {
             {/* Plans */}
             <section id='planos' className='container-plans'>
                 <div className='content-plans'>
-                    <h1>Comece a gerenciar sua <strong>empresa</strong> de forma mais <strong>inteligente</strong> ainda hoje</h1>
+                    <h1 data-animation="top" data-duration-animation="0.7s">Comece a gerenciar sua <strong>empresa</strong> de forma mais <strong>inteligente</strong> ainda hoje</h1>
                     
                     {/* Basic */}
-                    <div className='plan'>
+                    <div data-animation="top" data-duration-animation="0.8s" className='plan'>
                         <div className='price'>
                             <h1>Plano Grátis</h1>
                             <p>Para qualquer empresa de <strong>pequeno</strong> porte</p>
@@ -369,7 +369,7 @@ export default function Landing() {
                     </div>
                     
                     {/* Premium */}
-                    <div className='plan'>
+                    <div data-animation="top" data-duration-animation="0.9s" className='plan'>
                         <div className='price'>
                             <h1>Plano Premium</h1>
                             <p>Para empresas de <strong>grande</strong> porte, possui 7 dias grátis</p>
@@ -388,7 +388,7 @@ export default function Landing() {
                     </div>
                     
                     {/* Custom */}
-                    <div className='plan'>
+                    <div data-animation="top" data-duration-animation="1.0s" className='plan'>
                         <div className='price'>
                             <h1>Plano Customizado</h1>
                             <p>Para <strong>todas</strong> as empresas de todos os portes</p>
@@ -405,6 +405,7 @@ export default function Landing() {
                             <p>Com uma solução completa, sua equipe tem controle total sobre a gestão de membros e dos projetos.</p>
                         </div>
                     </div>
+                    
                 </div>
             </section>
 

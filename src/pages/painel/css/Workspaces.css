@@ -38,7 +38,7 @@
     background: var(--stoneTwo);
     border: 1px solid var(--stoneFour);
     border-radius: 10px 0px 0px 0px;
-    z-index: 900;
+    z-index: 800;
     margin: 0px;
 }
 
