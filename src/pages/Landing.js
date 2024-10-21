@@ -13,8 +13,29 @@ import { FaEllipsisVertical, FaXTwitter } from 'react-icons/fa6';
 import { MdOutlineEdit, MdTipsAndUpdates } from 'react-icons/md';
 import { FiTrash } from 'react-icons/fi';
 import { NotificationContainer, notifyError } from '../toastifyServer';
+import { getCookie, setCookie } from '../firebase/cookies';
+import { auth, firestore } from '../firebase/login/login';
 
 export default function Landing() {
+
+    // Dados
+    const uidCookie = getCookie('uid') || '';
+    const nickCookie = getCookie('nick') || '';
+    const emailCookie = getCookie('email') || '';
+    const [logado, setLogado] = useState(false);
+
+    useEffect(() => {
+        if (uidCookie && emailCookie && nickCookie) {
+            const unsubscribe = auth.onAuthStateChanged(async function(user) {
+                if (user) {
+                    if (emailCookie === user.email && uidCookie === user.uid && nickCookie === user.displayName) {
+                        setLogado(true);
+                    }
+                }
+            });
+            return () => unsubscribe();
+        }
+    }, [uidCookie, emailCookie, nickCookie]);
 
     // Links
     let linkGithub = 'tecvit';
@@ -76,6 +97,7 @@ export default function Landing() {
     'Contribuidor',
     'Leitor',
   ];
+
   const [statusSelected, setStatusSelected] = useState(status[0]);
   const handleStatusTeam = (i) => {
     setMdStatusTeam((status) => {
@@ -139,8 +161,14 @@ export default function Landing() {
                         <a href='/#atualizacoes'>Atualizações</a>
                         <a href='/#planos'>Planos</a>
                     </div>
-                    <button onClick={() => navigate('/entrar')} className='btn-signin'>Entrar</button>
-                    <button onClick={() => navigate('/cadastrar')} className='btn-started'>Começar</button>
+                    {logado ? (
+                        <button onClick={() => navigate('/painel')} className='btn-started'>Dashboard</button>
+                    ) : (
+                        <>
+                            <button onClick={() => navigate('/entrar')} className='btn-signin'>Entrar</button>
+                            <button onClick={() => navigate('/cadastrar')} className='btn-started'>Começar</button>
+                        </>
+                    )}
                 </div>
             </header>
 
@@ -224,6 +252,10 @@ export default function Landing() {
                                     <label>Nome do espaço de trabalho</label>
                                     <input placeholder='ex: Biblioteca Escolar 2024' type='text' />
                                 </div>
+                                <div className='textarea'>
+                                    <label>Descrição</label>
+                                    <textarea placeholder='Adicione sua descrição para o espaço de trabalho'></textarea>
+                                </div>
                                 <div className='checkbox'>
                                     <div tabIndex={0} onKeyDown={(event) => event.key === "Enter" && handleCreateWorkspaceCheckbox(0)} onClick={() => handleCreateWorkspaceCheckbox(0)} className={`input-checkbox ${createWorkspaceCheckbox[0] && 'selecionado'}`}></div>
                                     <div className='text'>
@@ -237,10 +269,6 @@ export default function Landing() {
                                         <h1>Público</h1>
                                         <p>Por ser um espaço de trabalho público, todos podem ter acesso</p>
                                     </div>
-                                </div>
-                                <div className='textarea'>
-                                    <label>Descrição</label>
-                                    <textarea placeholder='Adicione sua descrição para o espaço de trabalho'></textarea>
                                 </div>
                             </div>
                             
@@ -392,7 +420,7 @@ export default function Landing() {
                         <div className='price'>
                             <h1>Plano Customizado</h1>
                             <p>Para <strong>todas</strong> as empresas de todos os portes</p>
-                            <h2>R$****</h2>
+                            <h2>R$59,99+</h2>
                             <button onClick={() => window.open("https://wa.me/5516997569308")}>Adiquirir VIP</button>
                         </div>
                         <div className='description'>
@@ -434,18 +462,11 @@ export default function Landing() {
                             <a href='/cadastrar'>Cadastrar</a>
                         </li>
                         <li>
-                            <h1>UI Kits</h1>
-                            <a>React</a>
-                            <a>HTML</a>
-                            <a>Astro</a>
-                            <a>Symfony</a>
-                        </li>
-                        <li>
-                            <h1>Templates</h1>
-                            <a>Ampire</a>
-                            <a>Radiant</a>
-                            <a>Astrolus</a>
-                            <a>All templates</a>
+                            <h1>Links</h1>
+                            <a href='/#'>Começar</a>
+                            <a href='/#atualizacoes'>Atualizações</a>
+                            <a href='/#planos'>Planos</a>
+                            <a href='/#faq'>FAQ</a>
                         </li>
                         <li>
                             <h1>Redes Sociais</h1>

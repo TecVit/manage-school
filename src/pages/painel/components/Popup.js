@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import './css/Popup.css';
 import { IoMdClose } from 'react-icons/io';
 
-export default function Popup({ children, title, handleClose, handleSave, handleAdd, handleDelete }) {
+export default function Popup({ children, title, handleClose, handleSave, handleAdd, handleSend, handleDelete }) {
 
     function getTopPositionRelativeToPage(element) {
         var rect = element.getBoundingClientRect();
@@ -52,6 +52,9 @@ export default function Popup({ children, title, handleClose, handleSave, handle
                         )}
                         {handleAdd && (
                             <button className='save' onClick={handleAdd}>Adicionar</button>
+                        )}
+                        {handleSend && (
+                            <button className='save' onClick={handleSend}>Enviar</button>
                         )}
                     </div>
                 </div>

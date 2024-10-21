@@ -41,8 +41,8 @@ export default function Workspaces() {
     const emailCookie = getCookie('email') || '';
 
     // Limites do usuário
-    const [numMaxWorkspaces, setNumMaxWorkspaces] = useState(3);
-    const [numMaxTimes, setNumMaxTimes] = useState(3);
+    const [numMaxWorkspaces, setNumMaxWorkspaces] = useState(2);
+    const [numMaxTimes, setNumMaxTimes] = useState(2);
     let qtdWorkspaces = Number(getCookie('qtdWorkspaces')) || 0;
     let qtdTimes = Number(getCookie('qtdTimes')) || 0;
 
@@ -60,7 +60,7 @@ export default function Workspaces() {
                 } else if (decodedToken.claims.plan === 'custom') {
                     return decodedToken.claims.planLimit;
                 } else {
-                    return 3;
+                    return 2;
                 }
                 
             } catch (error) {
@@ -378,11 +378,12 @@ export default function Workspaces() {
     }
 
     const handleEditKeyWorkspace = (key, value) => {
-        setEditInfoWorkspace({
-            ...editInfoWorkspace,
-            [key]: value,
-        });
-    }
+        if (!editInfoWorkspace) return;
+        setEditInfoWorkspace(prevState => ({
+          ...prevState,
+          [key]: value,
+        }));
+    };
 
     const handleSaveWorkspace = async () => {
         try {
@@ -505,7 +506,7 @@ export default function Workspaces() {
                                 <input onChange={(e) => setInputNomeWorkspace(e.target.value)} placeholder='ex: Biblioteca Escolar 2024' type='text' />
                             </div>
                             <div className='checkbox'>
-                                <div tabIndex={0} onKeyDown={(event) => {event.key === "Enter" && handleCreateWorkspaceCheckbox(0); setInputAccessWorkspace(1)}} onClick={() => {handleCreateWorkspaceCheckbox(0); setInputAccessWorkspace(1)}} className={`input-checkbox ${createWorkspaceCheckbox[1] && 'selecionado'}`}></div>
+                                <div tabIndex={0} onKeyDown={(event) => {event.key === "Enter" && handleCreateWorkspaceCheckbox(1); setInputAccessWorkspace(1)}} onClick={() => {handleCreateWorkspaceCheckbox(1); setInputAccessWorkspace(1)}} className={`input-checkbox ${createWorkspaceCheckbox[1] && 'selecionado'}`}></div>
                                 <div className='text'>
                                     <h1>Privado</h1>
                                     <p>Por ser um espaço de trabalho privado, somente administradores podem edita-lo</p>
@@ -701,7 +702,7 @@ export default function Workspaces() {
                         </div>
                                
                         <div className='checkbox'>
-                            <div tabIndex={0} onKeyDown={(event) => {event.key === "Enter" && handleEditKeyWorkspace('status', 1)}} onClick={() => {handleEditKeyWorkspace('status', 1)}} className={`input-checkbox ${editInfoWorkspace['status'] === 1 && 'selecionado'}`}></div>
+                            <div tabIndex={0} onKeyDown={(event) => {event.key === "Enter" && handleEditKeyWorkspace('status', 1)}} onClick={() => { handleEditKeyWorkspace('status', 1); }} className={`input-checkbox ${editInfoWorkspace['status'] === 1 && 'selecionado'}`}></div>
                             <div className='text'>
                                 <h1>Privado</h1>
                                 <p>Por ser um espaço de trabalho privado, somente administradores podem edita-lo</p>
@@ -709,7 +710,7 @@ export default function Workspaces() {
                         </div>
 
                         <div className='checkbox'>
-                            <div tabIndex={0} onKeyDown={(event) => {event.key === "Enter" && handleEditKeyWorkspace('status', 0)}} onClick={() => {handleEditKeyWorkspace('status', 0)}} className={`input-checkbox ${editInfoWorkspace['status'] === 0 && 'selecionado'}`}></div>
+                            <div tabIndex={0} onKeyDown={(event) => {event.key === "Enter" && handleEditKeyWorkspace('status', 0)}} onClick={() => { handleEditKeyWorkspace('status', 0); }} className={`input-checkbox ${editInfoWorkspace['status'] === 0 && 'selecionado'}`}></div>
                             <div className='text'>
                                 <h1>Público</h1>
                                 <p>Por ser um espaço de trabalho público, todos podem ter acesso</p>

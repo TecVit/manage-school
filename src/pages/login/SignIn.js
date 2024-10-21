@@ -130,6 +130,9 @@ export default function SignIn() {
       } else if (entrando === 'email-em-uso') {
         notifyError('Email já está em uso');
         return;
+      } else if (entrando === 'usuario-nao-existe') {
+        notifyError('Usuário não existe ou conta não cadastrada em nosso servidor');
+        return;
       } else if (entrando === 'nome-de-usuario-em-uso') {
         notifyError('Nome de usuário já está em uso');
         return;

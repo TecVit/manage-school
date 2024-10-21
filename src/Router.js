@@ -28,6 +28,7 @@ import './css/customToastify.css';
 import { useNavigate } from 'react-router-dom';
 import { auth, firestore } from './firebase/login/login';
 import { clearCookies, deleteCookie, getCookie, setCookie } from './firebase/cookies';
+import Notifications from './pages/painel/Notifications';
 
 
 const RouterApp = () => {
@@ -84,6 +85,7 @@ const RouterApp = () => {
               <Routes>
                 <Route path="/" element={<Painel />} />
                 <Route path="/workspaces" element={<Workspaces />} />
+                <Route path="/notificacoes" element={<Notifications />} />
                 <Route path="/*" element={<Error404 painel={true} />} />
               </Routes>
             </div>

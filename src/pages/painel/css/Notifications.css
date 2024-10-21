@@ -1,0 +1,173 @@
+.container-notifications {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.content-notifications {
+    width: 100%;
+    height: auto;
+    min-height: 100vh;
+    max-height: 100vh;
+    background: var(--stoneTwo);
+    border-radius: 10px 0px 0px 10px;
+    border: 1px solid var(--stoneFour);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    padding: 70px 0px 0px 0px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.content-notifications .top {
+    width: calc(100% - 280px);
+    height: 65px;
+    padding: 0px 20px;
+    position: fixed;
+    top: 0px;
+    left: 280px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background: var(--stoneTwo);
+    border: 1px solid var(--stoneFour);
+    border-radius: 10px 0px 0px 0px;
+    z-index: 900;
+}
+
+.content-notifications .top h1 {
+    width: max-content;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.content-notifications .linha {
+    width: 100%;
+    height: auto;
+    border-top: 1px solid var(--stoneFour);
+    margin: 0px;
+}
+
+
+/* Overview */
+.content-notifications .overview {
+    width: 95%;
+    height: auto;
+    border-radius: 10px;
+    border: 1px solid var(--stoneFour);
+    background: var(--stoneThree);
+    margin: 20px 0px;
+    padding: 25px;
+}
+
+.content-notifications .overview h1 {
+    width: 100%;
+    font-size: 18px;
+    font-weight: 500;
+    padding: 0px;
+    margin: 0px 0px 5px 0px;
+}
+
+.content-notifications .overview p {
+    width: 100%;
+    font-size: 15px;
+    font-weight: 400;
+    padding: 0px;
+    margin: 0px;
+    color: var(--stoneEight);
+}
+
+.content-notifications .overview .statistics {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px 20px;
+    justify-content: space-between;
+    margin: 25px 0px 5px 0px;
+}
+
+.content-notifications .overview .statistics li {
+    width: max-content;
+    flex: 1;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 5px 10px 5px 0px;
+    border-right: 1px solid var(--stoneFour);
+} .content-notifications .overview .statistics li:last-child {
+    border: none;
+} .content-notifications .overview .statistics li:first-child {
+    padding: 5px 10px 5px 0px;
+}
+
+.content-notifications .overview .statistics li .text {
+    width: auto;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    margin: 0px 20px 0px 0px;
+}
+
+.content-notifications .overview .statistics li .text h2 {
+    width: max-content;
+    font-size: 15px;
+    font-weight: 400;
+    padding: 0px;
+    margin: 0px 0px 8px 0px;
+    color: var(--stoneSeven);
+}
+
+.content-notifications .overview .statistics li .text h1 {
+    width: max-content;
+    font-size: 19px;
+    font-weight: 500;
+    letter-spacing: 0.4px;
+    padding: 0px;
+    margin: 0px;
+}
+
+
+.content-notifications .overview .statistics li .percentage {
+    width: auto;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: auto 0px 0px 0px;
+    padding: 0px;
+}
+
+.content-notifications .overview .statistics li .percentage .icon {
+    width: max-content;
+    height: auto;
+    font-size: 30px;
+    margin: 0px 8px 0px 0px;
+    padding: 0px;
+} .content-notifications .overview .statistics li .percentage.green .icon {
+    color: var(--greenLight);
+} .content-notifications .overview .statistics li .percentage.red .icon {
+    color: var(--red);
+} .content-notifications .overview .statistics li .percentage.orange .icon {
+    color: var(--firebase);
+}
+
+.content-notifications .overview .statistics li .percentage p {
+    font-size: 15px;
+    margin: 0px;
+    padding: 0px;
+} .content-notifications .overview .statistics li .percentage.green p {
+    color: var(--greenLight);
+} .content-notifications .overview .statistics li .percentage.red p {
+    color: var(--red);
+} .content-notifications .overview .statistics li .percentage.orange p {
+    color: var(--firebase);
+}

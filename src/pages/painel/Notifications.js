@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './css/Painel.css';
+import './css/Notifications.css';
 import { IoMdTrendingDown, IoMdTrendingUp } from 'react-icons/io';
 import { auth, firestore } from '../../firebase/login/login';
 import { clearCookies, getCookie, setCookie } from '../../firebase/cookies';
 
-export default function Painel() {
+export default function Notifications() {
 
     // Dados
     const uidCookie = getCookie('uid') || '';
@@ -91,7 +91,7 @@ export default function Painel() {
     }
 
     useEffect(() => {
-        document.title = 'Painel | Manage School';
+        document.title = 'Notificações | Manage School';
         animacoes();
         window.addEventListener('scroll', animacoes);
         return () => {
@@ -168,74 +168,14 @@ export default function Painel() {
     
 
     return (
-        <main className="container-painel">
-            <section className='content-painel'>
+        <main className="container-notifications">
+            <section className='content-notifications'>
                 <div className='top'>
-                    <h1>Painel de Controle</h1>
+                    <h1>Notificações</h1>
                 </div>
-                <div className='overview'>
-                    <h1>Visão Geral</h1>
-                    <p>Visualize os dados das suas principais atividades</p>
-                    <div className='statistics'>
-                        <li>
-                            <div className='text'>
-                                <h2>Workspaces</h2>
-                                <h1>{qtdWorkspaces}/{numMaxWorkspaces}</h1>
-                            </div>
-                            <div className={`percentage ${percentageWorkspaces >= 80 ? 'red' : percentageWorkspaces >= 60 ? 'orange' : 'green'}`}>
-                                {percentageWorkspaces >= 80 ? (
-                                    <IoMdTrendingDown className="icon" />
-                                ) : (
-                                    <IoMdTrendingUp className="icon" />
-                                )}
-                                <p>{percentageWorkspaces}%</p>
-                            </div>
-                        </li>
-                        <li>
-                            <div className='text'>
-                                <h2>Times</h2>
-                                <h1>{qtdTimes}/{numMaxTimes}</h1>
-                            </div>
-                            <div className={`percentage ${percentageTimes >= 80 ? 'red' : percentageTimes >= 60 ? 'orange' : 'green'}`}>
-                                {percentageTimes >= 80 ? (
-                                    <IoMdTrendingDown className="icon" />
-                                ) : (
-                                    <IoMdTrendingUp className="icon" />
-                                )}
-                                <p>{percentageTimes}%</p>
-                            </div>
-                        </li>
-                        <li>
-                            <div className='text'>
-                                <h2>Compartilhamento</h2>
-                                <h1>Em Breve</h1>
-                            </div>
-                            <div className='percentage orange'>
-                                <IoMdTrendingDown className="icon" />
-                                <p>0%</p>
-                            </div>
-                        </li>
-                    </div>
+                <div className='notificacoes'>
+
                 </div>
-                <input type="file" accept=".ms" onChange={handleFileChange} />
-                {items.length > 0 && (
-                    <div>
-                    <h2>Itens do Arquivo</h2>
-                        <ul>
-                            {items.map((item, itemIndex) => (
-                                <li key={itemIndex}>
-                                    <ul>
-                                        {Object.keys(item).map((key) => (
-                                            <li key={key}>
-                                                <strong>{key}:</strong> {item[key]}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                )}
             </section>
         </main>
     )

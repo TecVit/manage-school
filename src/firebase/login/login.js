@@ -48,7 +48,7 @@ export const entrarComRedeSocial = async (provedor) => {
             })
             .catch((error) => {
                 console.log(error);
-                return 'erro';
+                return 'conta-nao-existe';
             });
         })
         .catch((error) => {
@@ -273,4 +273,4 @@ export const sair = () => {
   return auth.signOut();
 };
 
-export { firestore, auth };
+export { firebase, firestore, auth };

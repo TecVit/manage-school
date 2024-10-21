@@ -180,7 +180,6 @@ const upadteDataWorkspacePublic = async (uid, id) => {
   }
 };
 
-
 const createWorkspace = async (dados, limit) => {
     if (!nickCookie || !emailCookie || !uidCookie) {
       await reloadCookies();
@@ -263,12 +262,16 @@ const deleteWorkspace = async (dados) => {
     return;
   }
   try {
-      const workspaceDoc = firestore.collection('private-users')
-      .doc(uid).collection('workspaces').doc(uuid);
-      const workspaceDocGet = await workspaceDoc.get();
-      if (workspaceDocGet.exists) {
-        const res = await workspaceDoc.delete();
-        console.log(res);
+    const workspaceDocPrivate = firestore.collection('private-users')
+    .doc(uid).collection('workspaces').doc(uuid);
+    const workspaceDocPublic = firestore.collection('workspaces')
+    .doc(uuid);
+
+    const workspaceDocGetPrivate = await workspaceDocPrivate.get();
+    const workspaceDocGetPublic = await workspaceDocPublic.get();
+      if (workspaceDocGetPrivate.exists || workspaceDocGetPublic.exists) {
+        const res1 = await workspaceDocPrivate.delete();
+        const res2 = await workspaceDocPublic.delete();
       }
       return true;
   } catch (error) {
