@@ -385,13 +385,13 @@
     flex-direction: row;
     align-items: center;
     margin: 0px 0px 12.5px 0px;
-    font-size: 18px;
+    font-size: 17.5px;
     font-weight: 600;
 }
 
 .container-popup .faq li h1 .number {
-    min-width: 29px;
-    min-height: 28.5px;
+    min-width: 25px;
+    min-height: 25px;
     border-radius: 50%;
     background: var(--stoneEleven);
     color: var(--stoneOne);
@@ -402,7 +402,7 @@
 }
 
 .container-popup .faq li h1 .number p {
-    font-size: 15.85px;
+    font-size: 15px;
     font-weight: 600;
 }
 

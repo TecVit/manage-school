@@ -94,6 +94,7 @@ const addUserWorkspace = async (dados, uid, nick, email, cargo, limit) => {
             1: nick,
             2: email,
             3: cargo,
+            4: 'pendente'
           });
         }
 

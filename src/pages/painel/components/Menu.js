@@ -145,6 +145,7 @@ export default function App() {
                 date: firebase.firestore.FieldValue.serverTimestamp(),
             });
             
+            setMdSuporte(false);
             setDataSuporte({});
             notifySuccess('Mensagem enviada com sucesso');
             return true;
@@ -366,7 +367,9 @@ export default function App() {
             )}
 
             {mdEditarPerfil && (
-                <Popup handleClose={() => setMdEditarPerfil(false)} handleSave={() => notifySuccess('Em Breve...')} title="Editar Perfil">
+                <Popup handleClose={() => setMdEditarPerfil(false)} handleSave={() => {
+                    notifyError('Em construção');
+                }} title="Editar Perfil">
                     <div className='form'>
                         <div className='file'>
                             <div className='input-file'>
@@ -410,7 +413,6 @@ export default function App() {
             {mdSuporte && (
                 <Popup handleClose={() => setMdSuporte(false)} handleSend={() => {
                     handleSendSupporte(); 
-                    setMdSuporte();
                 }} title="Entre em contato com o suporte">
                     <div className='form'>
                         <div className='input'>

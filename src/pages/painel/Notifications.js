@@ -4,6 +4,7 @@ import './css/Notifications.css';
 import { IoMdTrendingDown, IoMdTrendingUp } from 'react-icons/io';
 import { auth, firestore } from '../../firebase/login/login';
 import { clearCookies, getCookie, setCookie } from '../../firebase/cookies';
+import { MdOutlineDashboard, MdErrorOutline, MdNotificationAdd, MdNotifications } from 'react-icons/md';
 
 export default function Notifications() {
 
@@ -90,6 +91,14 @@ export default function Notifications() {
         });
     }
 
+    const truncateText = (text, maxLength) => {
+        if (text && maxLength) {
+            return text.length > maxLength ? text.slice(0, maxLength) + '...' : text;
+        } else {
+            return 'Inválido';
+        }
+    };
+
     useEffect(() => {
         document.title = 'Notificações | Manage School';
         animacoes();
@@ -101,81 +110,76 @@ export default function Notifications() {
     
     const navigate = useNavigate();
 
-    const [items, setItems] = useState([]);
-    const handleFileChange = async (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            
-            reader.readAsText(file);
-            
-            reader.onload = async (e) => {
-                const text = e.target.result;
-                const parsedItems = await parseMsFile(text);
-                console.log(parsedItems);
-                setItems(parsedItems);
-            };
+    // Modais
+    const [carregando, setCarregando] = useState(false);
 
-            reader.onerror = () => {
-                console.error('Erro ao ler o arquivo.');
-            };
+    // Datas Workspaces
+    const [notificationsData, setNotificationsData] = useState([
+        {
+            tipo: 'workspace',
+            foto: 'https://firebasestorage.googleapis.com/v0/b/web-manage-school.appspot.com/o/workspaces%2Ff8f449fc-a246-4730-ab92-d3810996254b%2FTECVIT%20LOGO%20512px.png?alt=media&token=5af8bf2d-faa4-4dad-805b-45aaa587f1c0',
+            titulo: `Convite para entrar no workspace "Biblioteca Escolar" de "EscolaLeticia"`,
+            descricao: `Olá VitorFreelancer, o usuário "EscolaLeticia" te enviou um convite para fazer parte do workspace chamado "Biblioteca Escolar"`,
         }
-    };
+    ]);
 
-    const parseMsFile = async (text) => {
-        const lines = text.split(';').map(line => line.trim()).filter(line => line);
-        
-        const result = lines.map(line => {
-          const values = line.split('|').map(value => value.trim());
-          return values;
-        });
-        
-        const json = await transformDataInJson(result);
+    const [infoNotification, setInfoNotification] = useState({});
 
-        return json;
-    };
-
-    const transformDataInJson = async (data) => {
-        var json = [];
-        const formatando = await Promise.all(data.map((arr, i) => {
-            if (i !== 0) {
-                var obj = {};
-                arr.map((value, j) => {
-                    var key = String(data[0][j])
-                    .normalize('NFD')
-                    .replace(/[\u0300-\u036f]/g, '')
-                    .toLowerCase();
-                    obj[key] = value;
-                });
-                json.push(obj);
-            } else {
-                var obj = {};
-                arr.map((value, j) => {
-                    obj[j] = value;
-                });
-                
-                // Adicionar essa linha apenas para olhar os Primeiros Index
-                json.push(obj);
-            }
-        }));
-        if (formatando) {
-            return json;
-        }
-    };
-    
-
-
-    
 
     return (
         <main className="container-notifications">
             <section className='content-notifications'>
+
                 <div className='top'>
                     <h1>Notificações</h1>
                 </div>
+
                 <div className='notificacoes'>
+                    
+                    {carregando ? (
+                        Array.from({ length: qtdWorkspaces }, (_, i) => i).map((val, index) => (
+                            <div key={index} className='workspace loading'>
+                            </div>
+                        ))
+                    ) : (
+                        <>
+                            {notificationsData.length > 0 ? (
+                                notificationsData.map((val, index) => (
+                                    <div tabIndex={0} onClick={() => {
+                                        
+                                    }}
+                                    onKeyDown={(event) => {
+                                        if (event.key === "Enter") {
+                                            
+                                        }
+                                    }}
+                                    key={index} className='card'>
+                                        {val.foto ? (
+                                            <img src={val.foto} />
+                                        ) : (
+                                            <MdOutlineDashboard className='icon' />
+                                        )}
+                                        <div className='text'>
+                                            <h1>{truncateText(val.titulo, 500)}</h1>
+                                            <p>{truncateText(val.descricao, 500)}</p>
+                                            <div className='btns'>
+                                                <button className='accept'>Aceitar Convite</button>
+                                                <button className='reject'>Rejeitar Convite</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))
+                            ) : (
+                                <h1>
+                                    <MdNotifications className='icon' />
+                                    Nenhum workspace encontrado
+                                </h1>
+                            )}
+                        </>
+                    )}
 
                 </div>
+
             </section>
         </main>
     )

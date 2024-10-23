@@ -210,13 +210,15 @@ const createWorkspace = async (dados, limit) => {
                 1: "Nick",
                 2: "Email",
                 3: "Cargo",
-                4: "",
+                4: "Status",
+                5: "",
               },
               {
                 0: `<img src="${photoCookie}" />`,
                 1: nickCookie,
                 2: emailCookie,
                 3: 1,
+                4: 'aceito',
               }
             ],
             dados: {

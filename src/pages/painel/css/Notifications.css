@@ -53,121 +53,130 @@
 }
 
 
-/* Overview */
-.content-notifications .overview {
+/* Notifications */
+.content-notifications .notificacoes {
     width: 95%;
-    height: auto;
-    border-radius: 10px;
-    border: 1px solid var(--stoneFour);
-    background: var(--stoneThree);
-    margin: 20px 0px;
-    padding: 25px;
-}
-
-.content-notifications .overview h1 {
-    width: 100%;
-    font-size: 18px;
-    font-weight: 500;
-    padding: 0px;
-    margin: 0px 0px 5px 0px;
-}
-
-.content-notifications .overview p {
-    width: 100%;
-    font-size: 15px;
-    font-weight: 400;
-    padding: 0px;
-    margin: 0px;
-    color: var(--stoneEight);
-}
-
-.content-notifications .overview .statistics {
-    width: 100%;
     height: auto;
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: flex-start;
     flex-wrap: wrap;
-    gap: 15px 20px;
-    justify-content: space-between;
-    margin: 25px 0px 5px 0px;
+    gap: 20px;
+    margin: 10px 0px 27.5px 0px;
 }
 
-.content-notifications .overview .statistics li {
+.content-notifications .notificacoes .card {
     width: max-content;
-    flex: 1;
     height: auto;
+    flex: 1;
+    align-self: stretch;
+    padding: 20px 15px;
+    border-radius: 10px;
+    border: 1px solid var(--stoneFour);
+    background: var(--stoneThree);    
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    align-items: flex-end;
-    padding: 5px 10px 5px 0px;
-    border-right: 1px solid var(--stoneFour);
-} .content-notifications .overview .statistics li:last-child {
-    border: none;
-} .content-notifications .overview .statistics li:first-child {
-    padding: 5px 10px 5px 0px;
+    transition: all .05s ease-in-out;
+} .content-notifications .notificacoes .card:hover,
+  .content-notifications .notificacoes .card:focus {
+    background: var(--stoneFour);
+    border: 1px solid var(--stoneFive);
+    box-shadow: 0px 0px 2px var(--stoneFive);
 }
 
-.content-notifications .overview .statistics li .text {
-    width: auto;
+.content-notifications .notificacoes .card.loading {
+    height: 114px;
+    border-radius: 8px;
+    background: radial-gradient(circle at 30% 30%, var(--stoneFive), var(--stoneSix), var(--stoneSeven) 75%);
+    background-size: 200% 200%;
+    animation: loading 2.25s infinite;
+    margin: 0px;
+    user-select: none;
+    cursor: var(--mouseAuto);
+}
+
+.content-notifications .notificacoes .card img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin: 0px 15px 0px 0px;
+}
+
+.content-notifications .notificacoes .card .icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin: 0px 15px 0px 0px;
+}
+
+.content-notifications .notificacoes .card .text {
+    width: calc(100% - 40px);
     height: auto;
     display: flex;
     flex-direction: column;
-    margin: 0px 20px 0px 0px;
+    padding: 2px 0px;
 }
 
-.content-notifications .overview .statistics li .text h2 {
-    width: max-content;
-    font-size: 15px;
-    font-weight: 400;
+.content-notifications .notificacoes .card .text h1 {
+    width: 96.5%;
+    font-size: 17px;
+    font-weight: 500;
+    letter-spacing: 0px;
+    line-height: 23px;
     padding: 0px;
-    margin: 0px 0px 8px 0px;
+    margin: 0px 0px 6px 0px;
+}
+
+.content-notifications .notificacoes .card .text p {
+    width: 96.5%;
+    font-size: 14.5px;
+    font-weight: 400;
+    line-height: 21px;
+    letter-spacing: 0.2px;
+    padding: 0px;
+    margin: 0px 0px 6px 0px;
     color: var(--stoneSeven);
 }
 
-.content-notifications .overview .statistics li .text h1 {
-    width: max-content;
-    font-size: 19px;
-    font-weight: 500;
-    letter-spacing: 0.4px;
+.content-notifications .notificacoes .card .text a {
+    font-size: 14.5px;
+    font-weight: 400;
+    line-height: 19px;
+    letter-spacing: 0.2px;
     padding: 0px;
     margin: 0px;
+    color: var(--secondary);
 }
 
-
-.content-notifications .overview .statistics li .percentage {
-    width: auto;
+.content-notifications .notificacoes .card .text .btns {
+    width: 100%;
     height: auto;
     display: flex;
     flex-direction: row;
     align-items: center;
-    margin: auto 0px 0px 0px;
-    padding: 0px;
+    margin: 6px 0px 0px 0px;
 }
 
-.content-notifications .overview .statistics li .percentage .icon {
-    width: max-content;
+.content-notifications .notificacoes .card .text .btns button.accept {
+    background: var(--greenLight);
+}
+
+.content-notifications .notificacoes .card .text .btns button.reject {
+    background: var(--red);
+}
+
+.content-notifications .notificacoes .card .text .btns button {
+    width: auto;
     height: auto;
-    font-size: 30px;
-    margin: 0px 8px 0px 0px;
-    padding: 0px;
-} .content-notifications .overview .statistics li .percentage.green .icon {
-    color: var(--greenLight);
-} .content-notifications .overview .statistics li .percentage.red .icon {
-    color: var(--red);
-} .content-notifications .overview .statistics li .percentage.orange .icon {
-    color: var(--firebase);
-}
-
-.content-notifications .overview .statistics li .percentage p {
-    font-size: 15px;
-    margin: 0px;
-    padding: 0px;
-} .content-notifications .overview .statistics li .percentage.green p {
-    color: var(--greenLight);
-} .content-notifications .overview .statistics li .percentage.red p {
-    color: var(--red);
-} .content-notifications .overview .statistics li .percentage.orange p {
-    color: var(--firebase);
+    padding: 12px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    margin: 0px 15px 0px 0px;
+    cursor: var(--mouseLink);
+    transition: all .1s ease-in-out;
+} .content-notifications .notificacoes .card .text .btns button:hover,
+.content-notifications .notificacoes .card .text .btns button:focus {
+    background: var(--stoneEleven);
+    color: var(--stoneOne);
 }
