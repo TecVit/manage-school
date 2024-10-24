@@ -61,7 +61,7 @@ const addUserWorkspace = async (dados, uid, nick, email, cargo, limit) => {
         const data = workspaceDoc.data();
         let usersList = data.users;
 
-        if (usersList.length >= limit) {
+        if (usersList.length >= limit + 1) {
           notifyError('Você já atingiu o limite de usuários nesse workspace');
           return false;
         }
@@ -94,22 +94,29 @@ const addUserWorkspace = async (dados, uid, nick, email, cargo, limit) => {
             1: nick,
             2: email,
             3: cargo,
-            4: 'pendente'
+            4: 'Pendente'
           });
         }
 
         const userDocPublic = await firestore.collection('public-users')
-        .doc(nick).collection('invites').doc(uid).set({
-          nome: dados.nome,
-          descricao: dados.descricao,
+        .doc(nick).collection('notifications').doc(uid).set({
+          titulo: `Convite para ingressar no workspace "${dados.nome}" enviado por "${nickCookie}"`,
+          descricao: `Você recebeu um convite do usuário ${nickCookie} para integrar o workspace denominado "${dados.nome}"`,
           foto: dados.foto,
+          tipo: 'workspace',
         });
 
         // Private
-        await firestore.collection('private-users')
+        /* await firestore.collection('private-users')
         .doc(uidCookie).collection('workspaces').doc(uid).update({
           users: usersList,
+        }); */
+
+        // Public
+        await firestore.collection('workspaces').doc(uid).update({
+          users: usersList,
         });
+        
 
         if (usersList && usersList.length > 0) {
           usersList = await Promise.all(usersList.map(async (obj, i) => {
@@ -162,6 +169,9 @@ const deleteUserWorkspace = async (uid, nick, email) => {
     return;
   }
   try {
+    const userDocPublic = await firestore.collection('public-users')
+    .doc(nick).collection('notifications').doc(uid).delete();
+
     const workspaceDoc = await firestore.collection('private-users')
       .doc(uidCookie).collection('workspaces').doc(uid).get();
 
@@ -175,6 +185,10 @@ const deleteUserWorkspace = async (uid, nick, email) => {
         
         await firestore.collection('private-users')
         .doc(uidCookie).collection('workspaces').doc(uid).update({
+          users: usersFilters,
+        });
+
+        await firestore.collection('workspaces').doc(uid).update({
           users: usersFilters,
         });
 

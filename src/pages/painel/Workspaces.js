@@ -187,6 +187,7 @@ export default function Workspaces() {
             setCarregando(true);
             try {
                 const listWorkspaces = await getWorkspaces(uidCookie) || [];
+                
                 if (listWorkspaces.length > 0) {
                     setCookie('qtdWorkspaces', listWorkspaces.length);
                     setWorkspacesData(listWorkspaces);
@@ -249,6 +250,8 @@ export default function Workspaces() {
                     setPageWorkspaces(true);
                     return true;
                 }
+                // Gambiarra momentanea
+                window.location.reload();
             }
         } catch (error) {
             console.log(error);
@@ -330,6 +333,8 @@ export default function Workspaces() {
                     ...prev,
                     users: adding.users,
                 }));
+                setStatusUserNick(null);
+                setInputUserNick('');
                 return true;
             }
         } catch (error) {
@@ -549,7 +554,7 @@ export default function Workspaces() {
                             <button onClick={() => setMdPopupEditar(true)}>Editar Workspace</button>
                         </div>
 
-                        <div className='start-workspace'>
+                        <div className='start-workspace enter'>
                             <h1>Entrar no Workspace - {infoWorkspace.status === 0 ? 'Público' : 'Privado'}</h1>
                             <p>Este é o lugar onde a mágica acontece, transformando seus dados em resultados, soluções, aplicações e melhorias que você precisava.</p>
                             <div className='btns'>
@@ -583,7 +588,7 @@ export default function Workspaces() {
                                 <div className='add-user'>
                                     <div className='send'>
                                         <div className={`input-with-select ${statusUserNick === true ? 'green' : statusUserNick === false ? 'red' : ''}`}>
-                                            <input onChange={(e) => setInputUserNick(e.target.value)} onBlur={() => handleValidateUserNick()} placeholder='Nick do Usuário' type='text' />
+                                            <input value={inputUserNick} onChange={(e) => setInputUserNick(e.target.value)} onBlur={() => handleValidateUserNick()} placeholder='Nick do Usuário' type='text' />
                                             <div className='select'>
                                                 <button onClick={handlePositionUser}>
                                                     {positionSelect}
@@ -615,7 +620,7 @@ export default function Workspaces() {
                                             <div className={`linha ${i === 0 && 'primeira'}`} key={i}>
                                                 {Object.keys(obj).map((key, j) => (
                                                     <div className='coluna' key={j}>
-                                                        <div className='paragrafo' dangerouslySetInnerHTML={{ __html: obj[key] }} />
+                                                        <div style={{ color: obj[key] === 'Aceito' ? 'var(--greenLight)' : obj[key] === 'Rejeitado' ? 'var(--red)' : obj[key] === 'Pendente' && 'var(--orange)' }} className='paragrafo' dangerouslySetInnerHTML={{ __html: obj[key] }} />
                                                     </div>
                                                 ))}
                                                 {i !== 0 && (

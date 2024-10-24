@@ -156,6 +156,34 @@ h1, h2, h3, h4, h5, h6, a, p, strong, span, label, input, textarea {
   cursor: var(--mouseText);
 }
 
+::-webkit-scrollbar {
+  width: 0px;
+  display: none;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}
+
+/* Para Firefox */
+* {
+  scrollbar-color: transparent transparent;
+}
+
+*::-moz-scrollbar {
+  width: 0px;
+  display: none;
+}
+
+*::-moz-scrollbar-thumb {
+  background-color: transparent;
+}
+
+#webpack-dev-server-client-overlay-div, #webpack-dev-server-client-overlay {
+  /*display: none !important;*/
+  color: #fff;
+}
+
 
 /* ALERTA MODIFICADO */
 .swal-modal {

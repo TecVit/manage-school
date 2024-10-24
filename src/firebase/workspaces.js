@@ -1,3 +1,24 @@
+/* 
+  Hierarquia dos Cargos (Position) na Sala
+  Os níveis de status são representados por números, onde um número menor
+  indica mais privilégios, e um número maior indica menos funcionalidades.
+  
+  Position
+  1 - Admin: Tem acesso total a todas as funcionalidades e configurações na Sala.
+  2 - Moderador: Pode gerenciar usuários e conteúdo, mas não tem acesso a configurações críticas.
+  3 - Editor: Pode editar e publicar conteúdo, mas não pode gerenciar usuários.
+  4 - Contribuidor: Pode criar conteúdo, mas precisa de aprovação para publicação.
+  5 - Leitor: Pode apenas visualizar o conteúdo, sem capacidades de edição ou gerenciamento.
+  6 - Membro: Tem acesso muito limitado, principalmente aos recursos básicos.
+  
+*/
+
+/*
+  Access
+  0 - Público: Todos usuários com o link tem acesso a sala.
+  1 - Privado: Somente usuários com o link e com o EMAIL adicionando pelo admin tem acesso a sala;
+*/
+
 /*
   Access
   0 - Público: Todos usuários com o link tem acesso a sala.
@@ -38,49 +59,58 @@ const reloadCookies = async () => {
 // Funções
 const getWorkspaces = async (uid) => {
   var list = [];
-  var users = [];
   try {
     const workspaceDoc = await firestore.collection('private-users')
       .doc(uid).collection('workspaces').get();
 
-      if (!workspaceDoc.empty) {
-        await Promise.all( workspaceDoc.docs.map(async (doc) => {
-          const data = doc.data();
-      
-          if (data.users && data.users.length > 0) {
-            data.users = await Promise.all(data.users.map(async (obj, i) => {
-              if (i !== 0) {
-                Object.keys(obj).forEach((key, j) => {
-                  const keyPrimary = String(data.users[0][j])
-                    .normalize('NFD')
-                    .replace(/[\u0300-\u036f]/g, '')
-                    .toLowerCase();
-        
-                  if (keyPrimary.includes('cargo')) {
-                    if (obj[key] === 1) {
-                      obj[key] = 'Administrador';
-                    } else if (obj[key] === 2) {
-                      obj[key] = 'Moderador';
-                    } else if (obj[key] === 3) {
-                      obj[key] = 'Editor';
-                    } else if (obj[key] === 4) {
-                      obj[key] = 'Contribuidor';
-                    } else if (obj[key] === 5) {
-                      obj[key] = 'Leitor';
-                    } else if (obj[key] === 6) {
-                      obj[key] = 'Membro';
-                    }
-                  }
-                });
-              }
-              return obj;
-            }));
+    if (!workspaceDoc.empty) {
+      await Promise.all( workspaceDoc.docs.map(async (doc) => {
+        let data = doc.data();
+
+        if (data.status === 0) {
+          const workspaceData = await firestore.collection('workspaces')
+          .doc(doc.id).get();
+
+          if (workspaceData.exists) {
+            data = workspaceData.data();
+          } else {
+            
           }
-          
-          list.push({ ...data, uid: doc.id });
-        }));
-      }
-      
+        }
+
+        if (data.users && data.users.length > 0) {
+          data.users = await Promise.all(data.users.map(async (obj, i) => {
+            if (i !== 0) {
+              Object.keys(obj).forEach((key, j) => {
+                const keyPrimary = String(data.users[0][j])
+                  .normalize('NFD')
+                  .replace(/[\u0300-\u036f]/g, '')
+                  .toLowerCase();
+
+                if (keyPrimary.includes('cargo')) {
+                  if (obj[key] === 1) {
+                    obj[key] = 'Administrador';
+                  } else if (obj[key] === 2) {
+                    obj[key] = 'Moderador';
+                  } else if (obj[key] === 3) {
+                    obj[key] = 'Editor';
+                  } else if (obj[key] === 4) {
+                    obj[key] = 'Contribuidor';
+                  } else if (obj[key] === 5) {
+                    obj[key] = 'Leitor';
+                  } else if (obj[key] === 6) {
+                    obj[key] = 'Membro';
+                  }
+                }
+              });
+            }
+            return obj;
+          }));
+        }
+
+        list.push({ ...data, uid: doc.id });
+      }));
+    }
 
     return list;
   } catch (error) {
@@ -88,6 +118,7 @@ const getWorkspaces = async (uid) => {
     return false;
   }
 };
+
 
 // Workspace Private
 const getDataWorkspacePrivate = async (uid, id) => {
@@ -218,7 +249,7 @@ const createWorkspace = async (dados, limit) => {
                 1: nickCookie,
                 2: emailCookie,
                 3: 1,
-                4: 'aceito',
+                4: 'Aceito',
               }
             ],
             dados: {
@@ -290,7 +321,6 @@ const saveWorkspace = async (obj, file) => {
   
   try {
     let workspaceDoc;
-    
 
     if (obj['status'] === 0) {
       workspaceDoc = await firestore
@@ -310,21 +340,37 @@ const saveWorkspace = async (obj, file) => {
     .get();
 
     if (!workspacesRef.empty) {
+
       if (file) {
         const storageRef = firebase.storage().ref();
+        const folderRef = storageRef.child(`workspaces/${obj.uid}/`);
+      
+        const listResult = await folderRef.listAll();
+      
+        const deletePromises = listResult.items.map(item => item.delete());
+        await Promise.all(deletePromises);
+      
         const fileRef = storageRef.child(`workspaces/${obj.uid}/${file.name}`);
-        
         const snapshot = await fileRef.put(file);
+      
         const url = await snapshot.ref.getDownloadURL();
         obj.foto = url;
       }
 
-      workspaceDoc = await firestore
+      if (obj['status'] === 0) {
+        workspaceDoc = await firestore
+        .collection('workspaces')
+        .doc(obj.uid)
+        .update(obj);
+      } else if (obj['status'] === 1) {
+        workspaceDoc = await firestore
         .collection('private-users')
         .doc(uidCookie)
         .collection('workspaces')
         .doc(obj.uid)
         .update(obj);
+      }
+      
     } else {
       return false;
     }

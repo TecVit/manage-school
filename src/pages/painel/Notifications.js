@@ -5,6 +5,7 @@ import { IoMdTrendingDown, IoMdTrendingUp } from 'react-icons/io';
 import { auth, firestore } from '../../firebase/login/login';
 import { clearCookies, getCookie, setCookie } from '../../firebase/cookies';
 import { MdOutlineDashboard, MdErrorOutline, MdNotificationAdd, MdNotifications } from 'react-icons/md';
+import { acceptInviteWorkspace, getNotifications, rejectInviteWorkspace } from '../../firebase/notifications';
 
 export default function Notifications() {
 
@@ -18,6 +19,7 @@ export default function Notifications() {
     const [numMaxWorkspaces, setNumMaxWorkspaces] = useState(2);
     const [numMaxTimes, setNumMaxTimes] = useState(2);
     let qtdWorkspaces = Number(getCookie('qtdWorkspaces')) || 0;
+    let qtdNotifications = Number(getCookie('qtdNotifications')) || 0;
     let qtdTimes = Number(getCookie('qtdTimes')) || 0;
 
     var percentageWorkspaces = parseInt(parseFloat(qtdWorkspaces / numMaxWorkspaces) * 100);
@@ -114,17 +116,30 @@ export default function Notifications() {
     const [carregando, setCarregando] = useState(false);
 
     // Datas Workspaces
-    const [notificationsData, setNotificationsData] = useState([
-        {
-            tipo: 'workspace',
-            foto: 'https://firebasestorage.googleapis.com/v0/b/web-manage-school.appspot.com/o/workspaces%2Ff8f449fc-a246-4730-ab92-d3810996254b%2FTECVIT%20LOGO%20512px.png?alt=media&token=5af8bf2d-faa4-4dad-805b-45aaa587f1c0',
-            titulo: `Convite para entrar no workspace "Biblioteca Escolar" de "EscolaLeticia"`,
-            descricao: `Olá VitorFreelancer, o usuário "EscolaLeticia" te enviou um convite para fazer parte do workspace chamado "Biblioteca Escolar"`,
-        }
-    ]);
+    const [notificationsData, setNotificationsData] = useState([]);
 
     const [infoNotification, setInfoNotification] = useState({});
 
+    // Coletar notificações
+    useEffect(() => {
+        const consultarNotifications = async () => {
+            setCarregando(true);
+            try {
+                const listNotifications = await getNotifications(nickCookie) || [];
+                if (listNotifications.length > 0) {
+                    setCookie('qtdNotifications', listNotifications.length);
+                    setNotificationsData(listNotifications);
+                    return true;
+                }
+            } catch (error) {
+                console.log(error);
+                return;
+            } finally {
+                setCarregando(false);
+            }
+        }
+        consultarNotifications();
+    }, []);
 
     return (
         <main className="container-notifications">
@@ -137,7 +152,7 @@ export default function Notifications() {
                 <div className='notificacoes'>
                     
                     {carregando ? (
-                        Array.from({ length: qtdWorkspaces }, (_, i) => i).map((val, index) => (
+                        Array.from({ length: qtdNotifications }, (_, i) => i).map((val, index) => (
                             <div key={index} className='workspace loading'>
                             </div>
                         ))
@@ -162,17 +177,19 @@ export default function Notifications() {
                                         <div className='text'>
                                             <h1>{truncateText(val.titulo, 500)}</h1>
                                             <p>{truncateText(val.descricao, 500)}</p>
-                                            <div className='btns'>
-                                                <button className='accept'>Aceitar Convite</button>
-                                                <button className='reject'>Rejeitar Convite</button>
-                                            </div>
+                                            {val.tipo === "workspace" && (
+                                                <div className='btns'>
+                                                    <button onClick={() => acceptInviteWorkspace(val.uid)} className='accept'>Aceitar Convite</button>
+                                                    <button onClick={() => rejectInviteWorkspace(val.uid)} className='reject'>Rejeitar Convite</button>
+                                                </div>     
+                                            )}
                                         </div>
                                     </div>
                                 ))
                             ) : (
                                 <h1>
                                     <MdNotifications className='icon' />
-                                    Nenhum workspace encontrado
+                                    Nenhuma notificação encontrada
                                 </h1>
                             )}
                         </>

@@ -402,7 +402,7 @@ export default function Landing() {
                             <h1>Plano Premium</h1>
                             <p>Para empresas de <strong>grande</strong> porte, possui 7 dias grátis</p>
                             <h2>R$24,99</h2>
-                            <button onClick={() => window.open("https://buy.stripe.com/bIYbMHaF8bOPeoU5km")}>Garantir Agora</button>
+                            <button onClick={() => window.open("https://pay.kirvano.com/c47eb1ba-a2f7-4938-81a8-5f818e478e76")}>Garantir Agora</button>
                         </div>
                         <div className='description'>
                             <div className='list'>

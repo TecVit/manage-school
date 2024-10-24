@@ -66,6 +66,19 @@
     margin: 10px 0px 27.5px 0px;
 }
 
+.content-notifications .notificacoes h1 {
+    width: 100%;
+    font-size: 18px;
+    font-weight: 500;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px 5px;
+} .content-notifications .notificacoes h1 .icon {
+    font-size: 24px;
+    margin: 0px 8px 0px 0px;
+}
+
 .content-notifications .notificacoes .card {
     width: max-content;
     height: auto;
